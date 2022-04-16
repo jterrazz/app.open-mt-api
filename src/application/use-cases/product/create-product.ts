@@ -6,7 +6,12 @@ export const createNewProductFactory = (
     productRepository: IProductRepository,
     tracker: ITrackerRepository,
 ) => {
-    return async (product: ProductEntity) => {
+    return async (
+        product: Pick<
+            ProductEntity,
+            'priceCentsAmount' | 'priceCurrency' | 'name'
+        >,
+    ) => {
         tracker.requestedCreateNewProduct();
 
         return productRepository.persist(product);

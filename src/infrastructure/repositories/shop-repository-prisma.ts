@@ -23,13 +23,36 @@ export const shopRepositoryPrismaFactory = (
             creationDate: persistedShop.createdAt,
             description: persistedShop.description,
             handle: persistedShop.handle,
+            id: persistedShop.id,
+            name: persistedShop.name,
+        };
+    },
+    findByOwnerId: async (ownerId) => {
+        const persistedShop = await prismaClient.shop.findFirst({
+            include: {
+                bannerImage: true,
+            },
+            where: {
+                userId: ownerId,
+            },
+        });
+
+        if (!persistedShop) return null;
+
+        return {
+            bannerImageUrl: persistedShop.bannerImage?.filename || null, // TODO replace by URL
+            countFollowers: persistedShop.countOfFollowers,
+            creationDate: persistedShop.createdAt,
+            description: persistedShop.description,
+            handle: persistedShop.handle,
+            id: persistedShop.id,
             name: persistedShop.name,
         };
     },
     merge: async (entity) => {
         return entity;
     },
-    persist: async (entity) => {
+    persist: async (entity, ownerUserId) => {
         const persistedShop = await prismaClient.shop
             .create({
                 data: {
@@ -37,6 +60,11 @@ export const shopRepositoryPrismaFactory = (
                     description: entity.description,
                     handle: entity.handle,
                     name: entity.name,
+                    user: {
+                        connect: {
+                            id: ownerUserId,
+                        },
+                    },
                 },
             })
             .catch((error) => {
@@ -60,11 +88,12 @@ export const shopRepositoryPrismaFactory = (
             });
 
         return {
-            bannerImageUrl: null,
+            bannerImageUrl: null, // TODO Come back
             countFollowers: 0,
             creationDate: new Date(),
-            description: null,
+            description: persistedShop.description,
             handle: persistedShop.handle,
+            id: persistedShop.id,
             name: persistedShop.name,
         };
     },

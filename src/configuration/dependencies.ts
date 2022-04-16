@@ -1,21 +1,22 @@
 import { IConfiguration, ILogger, IWebServer } from '@application/contracts';
-import { IControllers } from '@adapters/contracts/controllers';
-import { IMiddlewares } from '@adapters/contracts/middlewares';
+import { IControllers } from '@adapters/controllers';
+import { IMiddlewares } from '@adapters/middlewares';
 import {
     IPrismaDatabase,
     prismaDatabaseFactory,
 } from '@infrastructure/orm/prisma/prisma-database';
 import { ITrackerRepository } from '@domain/tracker/tracker-repository';
 import { apiControllerFactory } from '@adapters/controllers/api-controller';
-import { authenticateUserMiddlewareFactory } from '@adapters/middlewares/authenticate-user';
 import { configurationFactory } from '@configuration/configuration';
+import { handleAuthenticatedUserMiddlewareFactory } from '@adapters/middlewares/handle-authenticated-user';
 import { handleRequestErrorsMiddlewareFactory } from '@adapters/middlewares/handle-request-errors';
-import { initRequestTrackerMiddlewareFactory } from '@adapters/middlewares/init-request-tracker';
+import { handleRequestTrackerMiddlewareFactory } from '@adapters/middlewares/handle-request-tracker';
 import { initTrackerForRequestFactory } from '@domain/tracker/init-tracker-for-request';
 import { koaServerFactory } from '@infrastructure/webserver/koa-server';
 import { paymentRepositoryPrismaFactory } from '@infrastructure/repositories/payment-repository-prisma';
 import { productControllerFactory } from '@adapters/controllers/product-controller';
 import { productRepositoryPrismaFactory } from '@infrastructure/repositories/product-repository-prisma';
+import { setResponseHeadersMiddlewareFactory } from '@adapters/middlewares/set-response-headers-middleware';
 import { shopControllerFactory } from '@adapters/controllers/shop-controller';
 import { shopRepositoryPrismaFactory } from '@infrastructure/repositories/shop-repository-prisma';
 import { trackerRepositoryInMemoryFactory } from '@infrastructure/repositories/tracker-repository-in-memory';
@@ -62,17 +63,20 @@ export const initDependencies = (): {
 
     const controllers: IControllers = {
         api: apiControllerFactory(configuration),
-        products: productControllerFactory(productRepository),
+        products: productControllerFactory(productRepository, shopRepository),
         shops: shopControllerFactory(shopRepository),
         users: userControllerFactory(logger, userRepository),
     };
 
     const middlewares: IMiddlewares = {
-        authenticateUserMiddleware: authenticateUserMiddlewareFactory(logger),
+        handleAuthenticatedUserMiddleware:
+            handleAuthenticatedUserMiddlewareFactory(logger),
         handleRequestErrorsMiddleware:
             handleRequestErrorsMiddlewareFactory(logger),
-        initRequestTrackerMiddleware:
-            initRequestTrackerMiddlewareFactory(initTracker),
+        handleRequestTrackerMiddleware:
+            handleRequestTrackerMiddlewareFactory(initTracker),
+        setResponseHeadersMiddleware:
+            setResponseHeadersMiddlewareFactory(configuration),
     };
 
     // Web server

@@ -1,9 +1,7 @@
-import { GetApiStateKoaSerializer } from '@adapters/serializers/api/get-api-state-koa-serializer';
 import { IConfiguration } from '@application/contracts';
-import { IInitiatedKoaController } from '@adapters/contracts/controllers';
+import { IInitiatedKoaController } from '@adapters/controllers';
 import { getApiStateFactory } from '@application/use-cases/api/get-api-state';
-
-const getApiStateKoaSerializer = new GetApiStateKoaSerializer();
+import { serializeGetApiStateResponse } from '@adapters/serializers/api/get-api-state-koa-serializer';
 
 export const apiControllerFactory = (configuration: IConfiguration) => {
     const getState: IInitiatedKoaController = async (ctx) => {
@@ -12,7 +10,7 @@ export const apiControllerFactory = (configuration: IConfiguration) => {
             ctx.requestTracker,
         );
 
-        getApiStateKoaSerializer.serializeResponse(ctx, getApiState());
+        serializeGetApiStateResponse(ctx, getApiState());
     };
 
     return { getState };

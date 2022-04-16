@@ -1,4 +1,4 @@
-import { createEndToEndApplication } from '@tests/e2e/create-end-to-end-application';
+import { createEndToEndApplication } from '@tests/end-to-end/create-end-to-end-application';
 import { seedDatabaseWithUser } from '@tests/seeds/user';
 import request from 'supertest';
 

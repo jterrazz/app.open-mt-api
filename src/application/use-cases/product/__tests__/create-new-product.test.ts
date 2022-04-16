@@ -1,4 +1,3 @@
-import { ProductEntity } from '@domain/product/product-entity';
 import { createMockOfProductRepository } from '@domain/product/__tests__/product-repository.mock';
 import { createMockOfTrackerRepository } from '@application/contracts/__tests__/tracker.mock';
 import { createNewProductFactory } from '@application/use-cases/product/create-product';
@@ -6,7 +5,7 @@ import { createNewProductFactory } from '@application/use-cases/product/create-p
 describe('use-case - create new product', function () {
     it('create a new product for the authenticated user', async function () {
         // Given
-        const product: ProductEntity = {
+        const product = {
             name: 'the-product-name',
             priceCentsAmount: 4200,
             priceCurrency: 'EUR',

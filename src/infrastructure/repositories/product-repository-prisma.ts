@@ -1,5 +1,6 @@
 import { IProductRepository } from '@domain/product/product-repository';
 import { PrismaClient } from '@prisma/client';
+import { createMockOfProductEntity } from '@domain/product/__tests__/product-entity.mock';
 
 export const productRepositoryPrismaFactory = (
     prismaClient: PrismaClient,
@@ -20,12 +21,13 @@ export const productRepositoryPrismaFactory = (
             name: persistedProduct.name,
             priceCentsAmount: persistedProduct.priceCentsAmount,
             priceCurrency: persistedProduct.priceCurrency,
+            shopId: persistedProduct.shopId,
         };
     },
     merge: async (product) => {
-        return product;
+        return product; // TODO Implement
     },
     persist: async (product) => {
-        return product;
+        return createMockOfProductEntity(); // TODO Implement
     },
 });

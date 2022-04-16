@@ -1,36 +1,39 @@
 import { DuplicatedFieldError } from '@domain/error/technical/duplicated-field-error';
-import { IShopEntity } from '@domain/shop/shop-entity';
 import { IShopRepository } from '@domain/shop/shop-repository';
+import { ShopEntity } from '@domain/shop/shop-entity';
 import { UnprocessableEntityError } from '@domain/error/client/unprocessable-entity-error';
+import { UserEntity } from '@domain/user/user-entity';
 
-type CreateShopParams = {
-    name: string;
-    handle: string;
-    description?: string;
-    bannerImageUrl?: string;
-};
-
+export type CreateShopParams = Pick<
+    ShopEntity,
+    'name' | 'handle' | 'description' | 'bannerImageUrl'
+>;
 export type CreateShopResult = {
+    // TODO Remove export
     handle: string;
     name: string;
 };
 
 export const createShopFactory = (shopRepository: IShopRepository) => {
     return async (
-        createShopParams: CreateShopParams,
+        newShopParams: CreateShopParams,
+        authenticatedUser: UserEntity,
     ): Promise<CreateShopResult> => {
-        const newShop: IShopEntity = {
-            bannerImageUrl: createShopParams.bannerImageUrl || null,
+        const newShop: ShopEntity = {
+            bannerImageUrl: newShopParams.bannerImageUrl || null,
             countFollowers: 0,
             creationDate: new Date(),
-            description: createShopParams.description || null,
-            handle: createShopParams.handle,
-            name: createShopParams.name,
+            description: newShopParams.description || null,
+            handle: newShopParams.handle,
+            id: 0, // TODO REMOVE !!!!!!!!!!!!!!!!
+            name: newShopParams.name,
         };
 
+        // TODO Test can't create a shop 2 times
         const persistedShop = await shopRepository
-            .persist(newShop)
+            .persist(newShop, authenticatedUser.id)
             .catch((error) => {
+                // TODO Wrap in method
                 if (
                     error instanceof DuplicatedFieldError &&
                     error.field === 'handle'

@@ -1,5 +1,5 @@
-import { GetApiStateKoaSerializer } from '@adapters/serializers/api/get-api-state-koa-serializer';
-import { createMockOfInitiatedKoaContext } from '@adapters/contracts/__tests__/initiated-koa-context.mock';
+import { createMockOfInitiatedKoaContext } from '@adapters/__tests__/initiated-koa-context.mock';
+import { serializeGetApiStateResponse } from '@adapters/serializers/api/get-api-state-koa-serializer';
 import { useFakeTimers, useRealTimers } from '@application/utils/node/timer';
 
 beforeAll(() => {
@@ -11,8 +11,6 @@ afterAll(() => {
 });
 
 describe('GetApiStateKoaSerializer', () => {
-    const getApiStateKoaSerializer = new GetApiStateKoaSerializer();
-
     describe('serializeResponse()', () => {
         test('with basic response', async () => {
             // Given
@@ -25,7 +23,7 @@ describe('GetApiStateKoaSerializer', () => {
             };
 
             // When
-            getApiStateKoaSerializer.serializeResponse(ctx, props);
+            serializeGetApiStateResponse(ctx, props);
 
             // Then
             expect(ctx.body).toEqual({

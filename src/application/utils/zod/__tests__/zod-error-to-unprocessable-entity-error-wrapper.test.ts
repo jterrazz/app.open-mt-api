@@ -1,8 +1,8 @@
 import { UnprocessableEntityError } from '@domain/error/client/unprocessable-entity-error';
 import { ZodError } from 'zod';
-import { mapZodErrorToUnprocessableEntityError } from '@application/utils/zod/map-unprocessable-entity-error';
+import { zodErrorToUnprocessableEntityErrorWrapper } from '@application/utils/zod/zod-error-to-unprocessable-entity-error-wrapper';
 
-describe('mapZodErrorToUnprocessableEntityError()', () => {
+describe('zodErrorToUnprocessableEntityErrorWrapper()', () => {
     test('map a missing property error to an UnprocessableEntityError', async () => {
         // Given
         const zodError = new ZodError([
@@ -18,7 +18,7 @@ describe('mapZodErrorToUnprocessableEntityError()', () => {
         // When
         let resultError;
         try {
-            mapZodErrorToUnprocessableEntityError(() => {
+            zodErrorToUnprocessableEntityErrorWrapper(() => {
                 throw zodError;
             });
         } catch (error) {

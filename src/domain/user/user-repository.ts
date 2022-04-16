@@ -2,7 +2,7 @@ import {
     IRepositoryFindByEmail,
     IRepositoryFindByHandle,
     IRepositoryPersist,
-} from '@application/contracts';
+} from '../repository';
 import { UserEntity } from './user-entity';
 
 export interface IUserRepository {

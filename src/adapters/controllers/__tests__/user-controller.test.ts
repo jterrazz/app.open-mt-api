@@ -8,23 +8,23 @@ jest.mock(
     }),
 );
 
-import { createMockOfInitiatedKoaContext } from '@adapters/contracts/__tests__/initiated-koa-context.mock';
+import { createMockOfInitiatedKoaContext } from '@adapters/__tests__/initiated-koa-context.mock';
 import { createMockOfLogger } from '@application/contracts/__tests__/logger.mock';
 import { createMockOfUserRepository } from '@domain/user/__tests__/user-repository.mock';
 import { userControllerFactory } from '@adapters/controllers/user-controller';
 
 describe('user-controller', () => {
-    describe('getPublicProfile()', () => {
-        const mockOfCtx = createMockOfInitiatedKoaContext({
-            params: { userHandle: '' },
-        });
+    const userController = userControllerFactory(
+        createMockOfLogger(),
+        createMockOfUserRepository(),
+    );
+    const mockOfCtx = createMockOfInitiatedKoaContext({
+        params: { userHandle: '' },
+    });
 
+    describe('getPublicProfile()', () => {
         test('fails if no user is found', async () => {
             // Given
-            const userController = userControllerFactory(
-                createMockOfLogger(),
-                createMockOfUserRepository(),
-            );
             mockOfGetUserPublicProfileFactory.mockReturnValue(async () => null);
 
             // When

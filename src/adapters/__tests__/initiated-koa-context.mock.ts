@@ -1,4 +1,4 @@
-import { IInitiatedKoaContext } from '@adapters/contracts/controllers';
+import { IInitiatedKoaContext } from '@adapters/controllers';
 import { createMockContext } from '@shopify/jest-koa-mocks';
 import { createMockOfTrackerRepository } from '@application/contracts/__tests__/tracker.mock';
 

@@ -1,4 +1,4 @@
-import { createEndToEndApplication } from '@tests/e2e/create-end-to-end-application';
+import { createEndToEndApplication } from '@tests/end-to-end/create-end-to-end-application';
 import { seedDatabaseWithShop } from '@tests/seeds/shop';
 import { useFakeTimers, useRealTimers } from '@application/utils/node/timer';
 import request from 'supertest';

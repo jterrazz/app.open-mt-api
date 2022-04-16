@@ -1,7 +1,9 @@
 import { UnprocessableEntityError } from '@domain/error/client/unprocessable-entity-error';
 import { ZodError } from 'zod';
 
-export const mapZodErrorToUnprocessableEntityError = (callback) => {
+export const zodErrorToUnprocessableEntityErrorWrapper = <T>(
+    callback: () => T,
+): T => {
     try {
         return callback();
     } catch (error) {
@@ -12,6 +14,7 @@ export const mapZodErrorToUnprocessableEntityError = (callback) => {
                 (error.issues.pop()?.path || []).map(String),
             );
         }
+
         throw error;
     }
 };

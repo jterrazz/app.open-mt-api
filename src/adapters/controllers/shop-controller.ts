@@ -1,39 +1,57 @@
-import { CreateShopKoaSerializer } from '@adapters/serializers/shop/create-shop-koa-serializer';
-import { GetShopKoaSerializer } from '@adapters/serializers/shop/get-shop-koa-serializer';
-import { IInitiatedKoaController } from '@adapters/contracts/controllers';
+import { AuthenticationRequiredError } from '@domain/error/client/authentication-required-error';
+import { IInitiatedKoaController } from '@adapters/controllers';
 import { IShopRepository } from '@domain/shop/shop-repository';
+import { NotFoundError } from '@domain/error/client/not-found-error';
 import { createShopFactory } from '@application/use-cases/shop/create-shop';
+import {
+    deserializeCreateShopKoaRequest,
+    serializeCreateShopKoaResponse,
+} from '@adapters/serializers/shop/create-shop-koa-serializer';
+import {
+    deserializeGetShopKoaRequest,
+    serializeGetShopKoaResponse,
+} from '@adapters/serializers/shop/get-shop-koa-serializer';
 import { getShopFactory } from '@application/use-cases/shop/get-shop';
-
-const createShopKoaSerializer = new CreateShopKoaSerializer();
-const getShopKoaSerializer = new GetShopKoaSerializer();
 
 export const shopControllerFactory = (shopRepository: IShopRepository) => {
     const createShop: IInitiatedKoaController = async (ctx) => {
-        const { handle, name } =
-            createShopKoaSerializer.deserializeRequest(ctx);
-        const createNewShop = createShopFactory(shopRepository);
+        const { handle, name } = deserializeCreateShopKoaRequest(ctx);
+        const description = ''; // TODO To get from request
+        const createNewShop = createShopFactory(shopRepository); // TODO Move up
 
-        const savedShop = await createNewShop({
-            handle,
-            name,
-        });
+        if (!ctx.authenticatedUser) {
+            throw new AuthenticationRequiredError(); // TODO To test
+        }
 
-        createShopKoaSerializer.serializeResponse(ctx, {
+        const savedShop = await createNewShop(
+            {
+                bannerImageUrl: null,
+                // TODO To fix with uploaded image
+                description,
+
+                handle,
+                name,
+            },
+            ctx.authenticatedUser,
+        );
+
+        serializeCreateShopKoaResponse(ctx, {
             handle: savedShop.handle,
             name: savedShop.name,
         });
     };
 
     const getShop: IInitiatedKoaController = async (ctx) => {
-        const { shopHandle } = getShopKoaSerializer.deserializeRequest(ctx);
-        const getShop = getShopFactory(shopRepository);
+        const { shopHandle } = deserializeGetShopKoaRequest(ctx);
+        const getShop = getShopFactory(shopRepository); // TODO Move up
 
         const shopEntity = await getShop(shopHandle);
 
-        // TODO 404 If not found
+        if (!shopEntity) {
+            throw new NotFoundError(`shop '${shopHandle}' does not exist`);
+        }
 
-        getShopKoaSerializer.serializeResponse(ctx, {
+        serializeGetShopKoaResponse(ctx, {
             description: shopEntity.description,
             handle: shopEntity.handle,
             name: shopEntity.name,

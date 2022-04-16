@@ -1,6 +1,4 @@
-import { IKoaContext } from '@adapters/contracts/controllers';
+import { IKoaContext } from '@adapters/controllers';
 
-export interface IKoaSerializer {
-    deserializeRequest(ctx: IKoaContext): unknown;
-    serializeResponse(ctx: IKoaContext, args: unknown): unknown;
-}
+export type IKoaSerializer<Params> = (ctx: IKoaContext, args: Params) => void;
+export type IKoaDeserializer<Result> = (ctx: IKoaContext) => Result;

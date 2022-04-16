@@ -37,6 +37,7 @@ model User {
     avatarImageId     Int?            @unique
     userSettings      UserSettings    @relation(fields: [userSettingsId], references: [id])
     userSettingsId    Int             @unique
+    shop              Shop?
 }
 
 model UserSettings {
@@ -71,6 +72,8 @@ model Shop {
     // External references
     bannerImage       Image?          @relation(fields: [bannerImageId], references: [id])
     bannerImageId     Int?
+    user              User            @relation(fields: [userId], references: [id])
+    userId            Int             @unique
 }
 
 model Image {

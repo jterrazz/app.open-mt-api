@@ -20,6 +20,7 @@ describe('productRepositoryPrisma', () => {
                 name: 'the_product_name',
                 priceCentsAmount: 4200,
                 priceCurrency: 'EUR',
+                shopId: seededProduct.shopId,
             });
         });
     });

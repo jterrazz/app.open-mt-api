@@ -29,4 +29,19 @@ describe('END TO END - GET /api', function () {
         });
         expect(response.headers['content-type']).toContain('json');
     });
+
+    test('returns global API headers', async () => {
+        // When
+        const response = await request(endToEndApplication.app.callback()).get(
+            '/',
+        );
+
+        // Then
+        expect(response.headers).toEqual(
+            expect.objectContaining({
+                // eslint-disable-next-line @typescript-eslint/no-var-requires
+                'api-version': require('../../../package.json').version,
+            }),
+        );
+    });
 });

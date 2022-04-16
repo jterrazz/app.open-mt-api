@@ -1,12 +1,17 @@
 import {
-    IRepositoryFindByString,
+    IRepositoryFindByID,
     IRepositoryMerge,
     IRepositoryPersist,
-} from '@application/contracts';
+} from '../repository';
 import { ProductEntity } from './product-entity';
 
 export interface IProductRepository {
-    persist: IRepositoryPersist<ProductEntity>;
+    persist: (
+        product: Pick<
+            ProductEntity,
+            'priceCentsAmount' | 'priceCurrency' | 'name'
+        >,
+    ) => Promise<ProductEntity>;
     merge: IRepositoryMerge<ProductEntity>;
-    findById: IRepositoryFindByString<ProductEntity>;
+    findById: IRepositoryFindByID<ProductEntity>;
 }

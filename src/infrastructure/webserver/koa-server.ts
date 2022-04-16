@@ -1,6 +1,6 @@
 import { IConfiguration, ILogger, IWebServer } from '@application/contracts';
-import { IControllers } from '@adapters/contracts/controllers';
-import { IMiddlewares } from '@adapters/contracts/middlewares';
+import { IControllers } from '@adapters/controllers';
+import { IMiddlewares } from '@adapters/middlewares';
 import { routerFactory } from '@infrastructure/webserver/routes';
 import Koa from 'koa';
 import bodyParser from 'koa-bodyparser';
@@ -16,9 +16,10 @@ export const koaServerFactory = (
     // Middlewares
 
     app.use(bodyParser());
-    app.use(middlewares.initRequestTrackerMiddleware);
     app.use(middlewares.handleRequestErrorsMiddleware);
-    app.use(middlewares.authenticateUserMiddleware);
+    app.use(middlewares.setResponseHeadersMiddleware);
+    app.use(middlewares.handleRequestTrackerMiddleware);
+    app.use(middlewares.handleAuthenticatedUserMiddleware);
 
     // Router
 

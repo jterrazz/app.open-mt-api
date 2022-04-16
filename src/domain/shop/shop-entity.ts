@@ -1,5 +1,6 @@
 import * as z from 'zod';
 
+export const Z_SHOP_ID = z.number();
 export const Z_SHOP_NAME = z.string().min(3).max(80);
 export const Z_SHOP_HANDLE = z.string().min(3).max(40);
 export const Z_SHOP_CREATION_DATE = z.date();
@@ -13,7 +14,8 @@ const shopEntitySchema = z.object({
     creationDate: Z_SHOP_CREATION_DATE,
     description: Z_SHOP_DESCRIPTION.nullable(),
     handle: Z_SHOP_HANDLE,
+    id: Z_SHOP_ID,
     name: Z_SHOP_NAME,
 });
 
-export type IShopEntity = z.infer<typeof shopEntitySchema>;
+export type ShopEntity = z.infer<typeof shopEntitySchema>;

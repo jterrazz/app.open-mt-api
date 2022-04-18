@@ -1,18 +1,19 @@
 import { IConfiguration } from '@application/contracts';
-import { ITrackerRepository } from '@domain/tracker/tracker-repository';
+
+export type GetApiState = () => {
+    env: string;
+    state: string;
+    time: Date;
+    version: string;
+};
 
 export const getApiStateFactory = (
     configuration: IConfiguration,
-    tracker: ITrackerRepository,
-) => {
-    return () => {
-        tracker.requestedGetApiState();
-
-        return {
-            env: configuration.ENVIRONMENT,
-            state: 'UP',
-            time: new Date(),
-            version: configuration.API.VERSION,
-        };
-    };
+): GetApiState => {
+    return () => ({
+        env: configuration.ENVIRONMENT,
+        state: 'UP',
+        time: new Date(),
+        version: configuration.API.VERSION,
+    });
 };

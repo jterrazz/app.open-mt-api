@@ -1,8 +1,3 @@
-import {
-    IRepositoryFindByID,
-    IRepositoryMerge,
-    IRepositoryPersist,
-} from '../repository';
 import { ProductEntity } from './product-entity';
 
 export interface IProductRepository {
@@ -11,7 +6,14 @@ export interface IProductRepository {
             ProductEntity,
             'priceCentsAmount' | 'priceCurrency' | 'name'
         >,
+        shopId: number,
     ) => Promise<ProductEntity>;
-    merge: IRepositoryMerge<ProductEntity>;
-    findById: IRepositoryFindByID<ProductEntity>;
+    merge: (
+        productId: number,
+        product: Pick<
+            ProductEntity,
+            'priceCentsAmount' | 'priceCurrency' | 'name'
+        >,
+    ) => Promise<ProductEntity>;
+    findByProductId: (productId: number) => Promise<ProductEntity | null>;
 }

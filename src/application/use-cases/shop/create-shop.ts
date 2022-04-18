@@ -4,21 +4,21 @@ import { ShopEntity } from '@domain/shop/shop-entity';
 import { UnprocessableEntityError } from '@domain/error/client/unprocessable-entity-error';
 import { UserEntity } from '@domain/user/user-entity';
 
-export type CreateShopParams = Pick<
-    ShopEntity,
-    'name' | 'handle' | 'description' | 'bannerImageUrl'
->;
-export type CreateShopResult = {
-    // TODO Remove export
+export type CreateShop = (
+    newShopParams: Pick<
+        ShopEntity,
+        'name' | 'handle' | 'description' | 'bannerImageUrl'
+    >,
+    authenticatedUser: UserEntity,
+) => Promise<{
     handle: string;
     name: string;
-};
+}>;
 
-export const createShopFactory = (shopRepository: IShopRepository) => {
-    return async (
-        newShopParams: CreateShopParams,
-        authenticatedUser: UserEntity,
-    ): Promise<CreateShopResult> => {
+export const createShopFactory = (
+    shopRepository: IShopRepository,
+): CreateShop => {
+    return async (newShopParams, authenticatedUser) => {
         const newShop: ShopEntity = {
             bannerImageUrl: newShopParams.bannerImageUrl || null,
             countFollowers: 0,
@@ -29,7 +29,6 @@ export const createShopFactory = (shopRepository: IShopRepository) => {
             name: newShopParams.name,
         };
 
-        // TODO Test can't create a shop 2 times
         const persistedShop = await shopRepository
             .persist(newShop, authenticatedUser.id)
             .catch((error) => {

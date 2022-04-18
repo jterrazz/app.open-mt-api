@@ -1,4 +1,3 @@
-import { Currency } from '@domain/currency/currency';
 import { ForbiddenError } from '@domain/error/client/forbidden-error';
 import { IProductRepository } from '@domain/product/product-repository';
 import { IShopRepository } from '@domain/shop/shop-repository';
@@ -6,24 +5,22 @@ import { NotFoundError } from '@domain/error/client/not-found-error';
 import { ProductEntity } from '@domain/product/product-entity';
 import { UserEntity } from '@domain/user/user-entity';
 
-type ModifyProductParams = {
-    name?: string;
-    priceCentsAmount?: number;
-    priceCurrency?: Currency;
-};
+export type ModifyProductById = (
+    authenticatedUser: UserEntity,
+    productId: number,
+    modifyProductParams: Partial<
+        Pick<ProductEntity, 'name' | 'priceCurrency' | 'priceCentsAmount'>
+    >,
+) => Promise<ProductEntity>;
 
 export const modifyProductByIdFactory = (
     productRepository: IProductRepository,
     shopRepository: IShopRepository,
-) => {
-    return async (
-        authenticatedUser: UserEntity,
-        productId: number,
-        modifyProductParams: ModifyProductParams,
-    ): Promise<ProductEntity> => {
+): ModifyProductById => {
+    return async (authenticatedUser, productId, modifyProductParams) => {
         const [userShop, productEntity] = await Promise.all([
             shopRepository.findByOwnerId(authenticatedUser.id),
-            productRepository.findById(productId),
+            productRepository.findByProductId(productId),
         ]);
 
         if (!productEntity) {
@@ -42,6 +39,6 @@ export const modifyProductByIdFactory = (
             productEntity.priceCentsAmount =
                 modifyProductParams.priceCentsAmount;
 
-        return productRepository.merge(productEntity);
+        return productRepository.merge(productEntity.shopId, productEntity);
     };
 };

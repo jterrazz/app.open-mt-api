@@ -1,9 +1,6 @@
-import {
-    CreateShopParams,
-    createShopFactory,
-} from '@application/use-cases/shop/create-shop';
 import { createMockOfShopRepository } from '@domain/shop/__tests__/shop-repository.mock';
 import { createMockOfUser } from '@domain/user/__tests__/user-entity.mock';
+import { createShopFactory } from '@application/use-cases/shop/create-shop';
 import { useFakeTimers, useRealTimers } from '@application/utils/node/timer';
 
 beforeAll(() => {
@@ -14,34 +11,53 @@ afterAll(() => {
     useRealTimers();
 });
 
-const mockOfCreateShopParams: CreateShopParams = {
-    bannerImageUrl: 'the_new_banner_image_url',
-    description: 'the_new_shop_description',
-    handle: 'the_new_shop_handle',
-    name: 'the_new_shop_name',
-};
-const mockOfAuthenticatedUser = createMockOfUser();
+const createMockOfArgs = () => {
+    const mockOfCreateShopParams = {
+        bannerImageUrl: 'the_new_banner_image_url',
+        description: 'the_new_shop_description',
+        handle: 'the_new_shop_handle',
+        name: 'the_new_shop_name',
+    };
+    const mockOfAuthenticatedUser = createMockOfUser({
+        id: 0,
+    });
+    const mockOfShopRepository = createMockOfShopRepository();
 
-describe('use-case - createShop()', function () {
+    return {
+        mockOfAuthenticatedUser,
+        mockOfCreateShopParams,
+        mockOfShopRepository,
+    };
+};
+
+describe('use-cases / createShop()', function () {
     test('save a shop and return its public properties', async () => {
+        // Given
+        const {
+            mockOfAuthenticatedUser,
+            mockOfCreateShopParams,
+            mockOfShopRepository,
+        } = createMockOfArgs();
+
         // When
-        const mockOfShopRepository = createMockOfShopRepository();
-        const createShop = createShopFactory(mockOfShopRepository);
-        const result = await createShop(
+        const result = await createShopFactory(mockOfShopRepository)(
             mockOfCreateShopParams,
             mockOfAuthenticatedUser,
         );
 
         // Then
-        expect(mockOfShopRepository.persist).toHaveBeenCalledWith({
-            bannerImageUrl: 'the_new_banner_image_url',
-            countFollowers: 0,
-            creationDate: new Date(),
-            description: 'the_new_shop_description',
-            handle: 'the_new_shop_handle',
-            id: 0,
-            name: 'the_new_shop_name', // TODO To remove !!!!!
-        });
+        expect(mockOfShopRepository.persist).toHaveBeenCalledWith(
+            {
+                bannerImageUrl: 'the_new_banner_image_url',
+                countFollowers: 0,
+                creationDate: new Date(),
+                description: 'the_new_shop_description',
+                handle: 'the_new_shop_handle',
+                id: 0, // TODO To remove !!!!!
+                name: 'the_new_shop_name',
+            },
+            0,
+        );
         expect(result).toEqual({
             handle: 'the_new_shop_handle',
             name: 'the_new_shop_name',
@@ -50,14 +66,18 @@ describe('use-case - createShop()', function () {
 
     test('rejects when it fails to save a shop', async () => {
         // Given
-        const shopRepository = createMockOfShopRepository({
+        const { mockOfAuthenticatedUser, mockOfCreateShopParams } =
+            createMockOfArgs();
+        const mockOfShopRepository = createMockOfShopRepository({
             persist: jest.fn().mockRejectedValue(new Error('persist-error')),
         });
 
         // When
-        const createShop = createShopFactory(shopRepository);
         const ft = () =>
-            createShop(mockOfCreateShopParams, mockOfAuthenticatedUser);
+            createShopFactory(mockOfShopRepository)(
+                mockOfCreateShopParams,
+                mockOfAuthenticatedUser,
+            );
 
         // Then
         await expect(ft).rejects.toThrow('persist-error');

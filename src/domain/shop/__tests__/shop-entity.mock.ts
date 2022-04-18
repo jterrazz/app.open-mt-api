@@ -3,12 +3,12 @@ import { ShopEntity } from '@domain/shop/shop-entity';
 export const createMockOfShopEntity = (
     partialShopEntity: Partial<ShopEntity> = {},
 ): ShopEntity => ({
-    bannerImageUrl: '',
+    bannerImageUrl: 'the_banner_image_url',
     countFollowers: 42,
     creationDate: new Date('2020-01-01'),
-    description: '',
-    handle: '',
+    description: 'the_description',
+    handle: 'the_handle',
     id: 0,
-    name: '',
+    name: 'the_name',
     ...partialShopEntity,
 });

@@ -10,7 +10,7 @@ import { modifyProductByIdFactory } from '@application/use-cases/product/modify-
 const createMockOfParams = () => {
     const mockOfAuthenticatedUser = createMockOfUser({ id: 0 });
     const mockOfProductRepository = createMockOfProductRepository({
-        findById: jest.fn().mockResolvedValue(
+        findByProductId: jest.fn().mockResolvedValue(
             createMockOfProductEntity({
                 id: 0,
                 shopId: 0,
@@ -36,7 +36,7 @@ const createMockOfParams = () => {
     };
 };
 
-describe('modifyProductByIdFactory()', () => {
+describe('use-cases / modifyProductByIdFactory()', () => {
     test('returns modified product', async () => {
         // Given
         const {
@@ -70,7 +70,7 @@ describe('modifyProductByIdFactory()', () => {
             mockOfShopRepository,
         } = createMockOfParams();
         const mockOfProductRepository = createMockOfProductRepository({
-            findById: jest.fn().mockResolvedValue(null),
+            findByProductId: jest.fn().mockResolvedValue(null),
         });
 
         // When
@@ -96,7 +96,7 @@ describe('modifyProductByIdFactory()', () => {
             shopId: 2,
         });
         const mockOfProductRepository = createMockOfProductRepository({
-            findById: jest.fn().mockResolvedValue(mockOfProductEntity),
+            findByProductId: jest.fn().mockResolvedValue(mockOfProductEntity),
         });
 
         // When

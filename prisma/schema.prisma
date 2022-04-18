@@ -55,7 +55,7 @@ model Product {
 
     // External references
     shop              Shop            @relation(fields: [shopId], references: [id])
-    shopId            Int             @unique
+    shopId            Int
 }
 
 model Shop {

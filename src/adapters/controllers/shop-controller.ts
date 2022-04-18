@@ -1,8 +1,8 @@
 import { AuthenticationRequiredError } from '@domain/error/client/authentication-required-error';
+import { CreateShop } from '@application/use-cases/shop/create-shop';
+import { GetShop, getShopFactory } from '@application/use-cases/shop/get-shop';
 import { IInitiatedKoaController } from '@adapters/controllers';
-import { IShopRepository } from '@domain/shop/shop-repository';
 import { NotFoundError } from '@domain/error/client/not-found-error';
-import { createShopFactory } from '@application/use-cases/shop/create-shop';
 import {
     deserializeCreateShopKoaRequest,
     serializeCreateShopKoaResponse,
@@ -11,24 +11,24 @@ import {
     deserializeGetShopKoaRequest,
     serializeGetShopKoaResponse,
 } from '@adapters/serializers/shop/get-shop-koa-serializer';
-import { getShopFactory } from '@application/use-cases/shop/get-shop';
 
-export const shopControllerFactory = (shopRepository: IShopRepository) => {
-    const createShop: IInitiatedKoaController = async (ctx) => {
+export const shopControllerFactory = (
+    createShop: CreateShop,
+    getShop: GetShop,
+) => {
+    const createShopController: IInitiatedKoaController = async (ctx) => {
         const { handle, name } = deserializeCreateShopKoaRequest(ctx);
         const description = ''; // TODO To get from request
-        const createNewShop = createShopFactory(shopRepository); // TODO Move up
 
         if (!ctx.authenticatedUser) {
-            throw new AuthenticationRequiredError(); // TODO To test
+            throw new AuthenticationRequiredError();
         }
 
-        const savedShop = await createNewShop(
+        const savedShop = await createShop(
             {
                 bannerImageUrl: null,
                 // TODO To fix with uploaded image
                 description,
-
                 handle,
                 name,
             },
@@ -41,9 +41,8 @@ export const shopControllerFactory = (shopRepository: IShopRepository) => {
         });
     };
 
-    const getShop: IInitiatedKoaController = async (ctx) => {
+    const getShopController: IInitiatedKoaController = async (ctx) => {
         const { shopHandle } = deserializeGetShopKoaRequest(ctx);
-        const getShop = getShopFactory(shopRepository); // TODO Move up
 
         const shopEntity = await getShop(shopHandle);
 
@@ -58,5 +57,5 @@ export const shopControllerFactory = (shopRepository: IShopRepository) => {
         });
     };
 
-    return { createShop, getShop };
+    return { createShop: createShopController, getShop: getShopController };
 };

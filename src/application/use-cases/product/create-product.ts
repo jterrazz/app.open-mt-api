@@ -1,19 +1,15 @@
 import { IProductRepository } from '@domain/product/product-repository';
-import { ITrackerRepository } from '@domain/tracker/tracker-repository';
 import { ProductEntity } from '@domain/product/product-entity';
 
-export const createNewProductFactory = (
-    productRepository: IProductRepository,
-    tracker: ITrackerRepository,
-) => {
-    return async (
-        product: Pick<
-            ProductEntity,
-            'priceCentsAmount' | 'priceCurrency' | 'name'
-        >,
-    ) => {
-        tracker.requestedCreateNewProduct();
+export type CreateProduct = (
+    product: Pick<ProductEntity, 'priceCentsAmount' | 'priceCurrency' | 'name'>,
+    shopId: number,
+) => Promise<ProductEntity>;
 
-        return productRepository.persist(product);
+export const createProductFactory = (
+    productRepository: IProductRepository,
+): CreateProduct => {
+    return async (product, shopId) => {
+        return productRepository.persist(product, shopId);
     };
 };

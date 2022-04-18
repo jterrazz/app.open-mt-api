@@ -95,3 +95,5 @@ describe('END TO END - POST /shop', function () {
     //     });
     // });
 });
+
+// TODO Test a user can't create 2 shops

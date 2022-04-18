@@ -2,7 +2,7 @@ import { Currency } from '@domain/currency/currency';
 import { ShopEntity } from '@domain/shop/shop-entity';
 
 export interface ProductEntity {
-    id?: number;
+    id?: number; // TODO Make mandatory
     name: string;
     priceCentsAmount: number;
     priceCurrency: Currency;

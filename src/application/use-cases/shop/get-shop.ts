@@ -1,13 +1,12 @@
 import { IShopRepository } from '@domain/shop/shop-repository';
+import { ShopEntity } from '@domain/shop/shop-entity';
 
-export type GetShopResult = {
-    handle: string;
-    description: string | null;
-    name: string;
-};
+export type GetShop = (
+    shopHandle: string,
+) => Promise<Pick<ShopEntity, 'description' | 'handle' | 'name'> | null>;
 
-export const getShopFactory = (shopRepository: IShopRepository) => {
-    return async (shopHandle: string): Promise<GetShopResult | null> => {
+export const getShopFactory = (shopRepository: IShopRepository): GetShop => {
+    return async (shopHandle) => {
         const shop = await shopRepository.findByHandle(shopHandle);
 
         return (

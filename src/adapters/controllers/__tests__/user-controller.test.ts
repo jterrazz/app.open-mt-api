@@ -1,34 +1,39 @@
 import { NotFoundError } from '@domain/error/client/not-found-error';
-
-const mockOfGetUserPublicProfileFactory = jest.fn();
-jest.mock(
-    '../../../application/use-cases/user/get-user-public-profile',
-    () => ({
-        getUserPublicProfileFactory: mockOfGetUserPublicProfileFactory,
-    }),
-);
-
 import { createMockOfInitiatedKoaContext } from '@adapters/__tests__/initiated-koa-context.mock';
 import { createMockOfLogger } from '@application/contracts/__tests__/logger.mock';
 import { createMockOfUserRepository } from '@domain/user/__tests__/user-repository.mock';
 import { userControllerFactory } from '@adapters/controllers/user-controller';
 
-describe('user-controller', () => {
-    const userController = userControllerFactory(
-        createMockOfLogger(),
-        createMockOfUserRepository(),
-    );
-    const mockOfCtx = createMockOfInitiatedKoaContext({
-        params: { userHandle: '' },
-    });
+jest.mock('../../serializers/user/get-user-koa-serializer', () => ({
+    deserializeGetUserKoaRequest: jest.fn().mockReturnValue({}),
+    serializeGetUserKoaResponse: jest.fn(),
+}));
 
+const createMockOfArgs = () => {
+    const mockOfGetUserPublicProfile = jest.fn();
+    const mockOfCtx = createMockOfInitiatedKoaContext();
+
+    return {
+        mockOfCtx,
+        mockOfGetUserPublicProfile,
+    };
+};
+
+describe('controllers / users', () => {
     describe('getPublicProfile()', () => {
+        // TODO Test for tracker too
+
         test('fails if no user is found', async () => {
             // Given
-            mockOfGetUserPublicProfileFactory.mockReturnValue(async () => null);
+            const { mockOfCtx, mockOfGetUserPublicProfile } =
+                createMockOfArgs();
+            mockOfGetUserPublicProfile.mockReturnValue(null);
 
             // When
-            const ft = () => userController.getPublicProfile(mockOfCtx);
+            const ft = () =>
+                userControllerFactory(
+                    mockOfGetUserPublicProfile,
+                ).getPublicProfile(mockOfCtx);
 
             // Then
             await expect(ft).rejects.toThrow(NotFoundError);

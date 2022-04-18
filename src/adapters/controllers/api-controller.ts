@@ -1,17 +1,15 @@
-import { IConfiguration } from '@application/contracts';
+import { GetApiState } from '@application/use-cases/api/get-api-state';
 import { IInitiatedKoaController } from '@adapters/controllers';
-import { getApiStateFactory } from '@application/use-cases/api/get-api-state';
 import { serializeGetApiStateResponse } from '@adapters/serializers/api/get-api-state-koa-serializer';
 
-export const apiControllerFactory = (configuration: IConfiguration) => {
-    const getState: IInitiatedKoaController = async (ctx) => {
-        const getApiState = getApiStateFactory(
-            configuration,
-            ctx.requestTracker,
-        );
+export const apiControllerFactory = (getApiState: GetApiState) => {
+    const getStateController: IInitiatedKoaController = async (ctx) => {
+        ctx.requestTracker.requestedGetApiState();
 
-        serializeGetApiStateResponse(ctx, getApiState());
+        const apiState = getApiState();
+
+        serializeGetApiStateResponse(ctx, apiState);
     };
 
-    return { getState };
+    return { getState: getStateController };
 };

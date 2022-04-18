@@ -8,12 +8,16 @@ import {
 import { ITrackerRepository } from '@domain/tracker/tracker-repository';
 import { apiControllerFactory } from '@adapters/controllers/api-controller';
 import { configurationFactory } from '@configuration/configuration';
+import { createShopFactory } from '@application/use-cases/shop/create-shop';
+import { getApiStateFactory } from '@application/use-cases/api/get-api-state';
+import { getShopFactory } from '@application/use-cases/shop/get-shop';
+import { getUserPublicProfileFactory } from '@application/use-cases/user/get-user-public-profile';
 import { handleAuthenticatedUserMiddlewareFactory } from '@adapters/middlewares/handle-authenticated-user';
 import { handleRequestErrorsMiddlewareFactory } from '@adapters/middlewares/handle-request-errors';
 import { handleRequestTrackerMiddlewareFactory } from '@adapters/middlewares/handle-request-tracker';
 import { initTrackerForRequestFactory } from '@domain/tracker/init-tracker-for-request';
 import { koaServerFactory } from '@infrastructure/webserver/koa-server';
-import { paymentRepositoryPrismaFactory } from '@infrastructure/repositories/payment-repository-prisma';
+import { modifyProductByIdFactory } from '@application/use-cases/product/modify-product-by-id';
 import { productControllerFactory } from '@adapters/controllers/product-controller';
 import { productRepositoryPrismaFactory } from '@infrastructure/repositories/product-repository-prisma';
 import { setResponseHeadersMiddlewareFactory } from '@adapters/middlewares/set-response-headers-middleware';
@@ -35,7 +39,7 @@ export const initDependencies = (): {
     const logger = winstonLoggerFactory(configuration);
     const prismaDatabase = prismaDatabaseFactory(configuration, logger);
 
-    // Dependencies
+    // Domain
 
     const trackerRepository: ITrackerRepository | undefined = [
         trackerRepositoryMixpanelFactory(),
@@ -50,22 +54,33 @@ export const initDependencies = (): {
 
     const initTracker = initTrackerForRequestFactory(trackerRepository);
 
-    const paymentRepository = paymentRepositoryPrismaFactory(
-        prismaDatabase.client,
-    );
     const productRepository = productRepositoryPrismaFactory(
         prismaDatabase.client,
     );
     const shopRepository = shopRepositoryPrismaFactory(prismaDatabase.client);
     const userRepository = userRepositoryPrismaFactory(prismaDatabase.client);
 
+    // Use cases
+
+    const getApiState = getApiStateFactory(configuration);
+    const modifyProductById = modifyProductByIdFactory(
+        productRepository,
+        shopRepository,
+    );
+    const createShop = createShopFactory(shopRepository);
+    const getShop = getShopFactory(shopRepository);
+    const getUserPublicProfile = getUserPublicProfileFactory(
+        logger,
+        userRepository,
+    );
+
     // Adapters - Controllers and middlewares
 
     const controllers: IControllers = {
-        api: apiControllerFactory(configuration),
-        products: productControllerFactory(productRepository, shopRepository),
-        shops: shopControllerFactory(shopRepository),
-        users: userControllerFactory(logger, userRepository),
+        api: apiControllerFactory(getApiState),
+        products: productControllerFactory(modifyProductById),
+        shops: shopControllerFactory(createShop, getShop),
+        users: userControllerFactory(getUserPublicProfile),
     };
 
     const middlewares: IMiddlewares = {

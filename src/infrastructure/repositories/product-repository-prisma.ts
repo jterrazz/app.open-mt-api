@@ -1,33 +1,55 @@
 import { IProductRepository } from '@domain/product/product-repository';
-import { PrismaClient } from '@prisma/client';
-import { createMockOfProductEntity } from '@domain/product/__tests__/product-entity.mock';
+import { PrismaClient, Product } from '@prisma/client';
+import { ProductEntity } from '@domain/product/product-entity';
+
+const mapPersistedProductToProduct = (
+    persistedProduct: Product,
+): ProductEntity => ({
+    id: persistedProduct.id,
+    name: persistedProduct.name,
+    priceCentsAmount: persistedProduct.priceCentsAmount,
+    priceCurrency: persistedProduct.priceCurrency,
+    shopId: persistedProduct.shopId,
+});
 
 export const productRepositoryPrismaFactory = (
     prismaClient: PrismaClient,
 ): IProductRepository => ({
-    findById: async (id) => {
+    findByProductId: async (id) => {
         const persistedProduct = await prismaClient.product.findFirst({
             where: {
                 id,
             },
         });
 
-        if (!persistedProduct) {
-            return null;
-        }
+        return (
+            persistedProduct && mapPersistedProductToProduct(persistedProduct)
+        );
+    },
+    merge: async (productId, productParams) => {
+        const persistedProduct = await prismaClient.product.update({
+            data: {
+                name: productParams.name,
+                priceCentsAmount: productParams.priceCentsAmount,
+                priceCurrency: productParams.priceCurrency,
+            },
+            where: {
+                id: productId,
+            },
+        });
 
-        return {
-            id: persistedProduct.id,
-            name: persistedProduct.name,
-            priceCentsAmount: persistedProduct.priceCentsAmount,
-            priceCurrency: persistedProduct.priceCurrency,
-            shopId: persistedProduct.shopId,
-        };
+        return mapPersistedProductToProduct(persistedProduct);
     },
-    merge: async (product) => {
-        return product; // TODO Implement
-    },
-    persist: async (product) => {
-        return createMockOfProductEntity(); // TODO Implement
+    persist: async (productParams, shopId) => {
+        const persistedProduct = await prismaClient.product.create({
+            data: {
+                name: productParams.name,
+                priceCentsAmount: productParams.priceCentsAmount,
+                priceCurrency: productParams.priceCurrency,
+                shopId,
+            },
+        });
+
+        return mapPersistedProductToProduct(persistedProduct);
     },
 });

@@ -1,7 +1,5 @@
 import { NotFoundError } from '@domain/error/client/not-found-error';
 import { createMockOfInitiatedKoaContext } from '@adapters/__tests__/initiated-koa-context.mock';
-import { createMockOfLogger } from '@application/contracts/__tests__/logger.mock';
-import { createMockOfUserRepository } from '@domain/user/__tests__/user-repository.mock';
 import { userControllerFactory } from '@adapters/controllers/user-controller';
 
 jest.mock('../../serializers/user/get-user-koa-serializer', () => ({
@@ -10,7 +8,7 @@ jest.mock('../../serializers/user/get-user-koa-serializer', () => ({
 }));
 
 const createMockOfArgs = () => {
-    const mockOfGetUserPublicProfile = jest.fn();
+    const mockOfGetUserPublicProfile = jest.fn().mockReturnValue({});
     const mockOfCtx = createMockOfInitiatedKoaContext();
 
     return {
@@ -21,7 +19,21 @@ const createMockOfArgs = () => {
 
 describe('controllers / users', () => {
     describe('getPublicProfile()', () => {
-        // TODO Test for tracker too
+        test('tracks request', async () => {
+            // Given
+            const { mockOfCtx, mockOfGetUserPublicProfile } =
+                createMockOfArgs();
+
+            // When
+            await userControllerFactory(
+                mockOfGetUserPublicProfile,
+            ).getPublicProfile(mockOfCtx);
+
+            // Then
+            await expect(
+                mockOfCtx.requestTracker.requestedGetUser,
+            ).toHaveBeenCalledTimes(1);
+        });
 
         test('fails if no user is found', async () => {
             // Given

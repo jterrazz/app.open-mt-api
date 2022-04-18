@@ -1,14 +1,20 @@
 import { AuthenticationRequiredError } from '@domain/error/client/authentication-required-error';
-import { ICheckPassword } from '../../contracts/encryption/check-password';
+import { CheckPassword } from '../../contracts/encryption/check-password';
 import { ILogger } from '@application/contracts';
 import { IUserRepository } from '@domain/user/user-repository';
+import { UserEntity } from '@domain/user/user-entity';
+
+export type AuthenticateUserWithEmail = (
+    email: string,
+    password: string,
+) => Promise<UserEntity>;
 
 export const authenticateUserWithEmailFactory = (
     logger: ILogger,
     userRepository: IUserRepository,
-    checkPassword: ICheckPassword,
-) => {
-    return async (email: string, password: string) => {
+    checkPassword: CheckPassword,
+): AuthenticateUserWithEmail => {
+    return async (email, password) => {
         logger.debug(`authenticating user ${email}`);
 
         const userEntity = await userRepository.findByEmail(email);

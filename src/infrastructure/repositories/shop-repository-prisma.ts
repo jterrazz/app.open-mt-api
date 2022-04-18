@@ -1,6 +1,20 @@
-import { DuplicatedFieldError } from '@domain/error/technical/duplicated-field-error';
 import { IShopRepository } from '@domain/shop/shop-repository';
-import { PrismaClient } from '@prisma/client';
+import { Image, PrismaClient, Shop } from '@prisma/client';
+import { ShopEntity } from '@domain/shop/shop-entity';
+import { createMockOfShopEntity } from '@domain/shop/__tests__/shop-entity.mock';
+import { mapPrismaErrorToDomain } from '@infrastructure/orm/prisma/map-prisma-error-to-domain';
+
+const mapPersistedShopToEntity = (
+    persistedShop: Shop & { bannerImage?: Image | null },
+): ShopEntity => ({
+    bannerImageUrl: persistedShop.bannerImage?.filename || null, // TODO replace by URL
+    countFollowers: persistedShop.countOfFollowers,
+    creationDate: persistedShop.createdAt,
+    description: persistedShop.description,
+    handle: persistedShop.handle,
+    id: persistedShop.id,
+    name: persistedShop.name,
+});
 
 export const shopRepositoryPrismaFactory = (
     prismaClient: PrismaClient,
@@ -15,17 +29,7 @@ export const shopRepositoryPrismaFactory = (
             },
         });
 
-        if (!persistedShop) return null;
-
-        return {
-            bannerImageUrl: persistedShop.bannerImage?.filename || null, // TODO replace by URL
-            countFollowers: persistedShop.countOfFollowers,
-            creationDate: persistedShop.createdAt,
-            description: persistedShop.description,
-            handle: persistedShop.handle,
-            id: persistedShop.id,
-            name: persistedShop.name,
-        };
+        return persistedShop && mapPersistedShopToEntity(persistedShop);
     },
     findByOwnerId: async (ownerId) => {
         const persistedShop = await prismaClient.shop.findFirst({
@@ -37,26 +41,30 @@ export const shopRepositoryPrismaFactory = (
             },
         });
 
-        if (!persistedShop) return null;
-
-        return {
-            bannerImageUrl: persistedShop.bannerImage?.filename || null, // TODO replace by URL
-            countFollowers: persistedShop.countOfFollowers,
-            creationDate: persistedShop.createdAt,
-            description: persistedShop.description,
-            handle: persistedShop.handle,
-            id: persistedShop.id,
-            name: persistedShop.name,
-        };
+        return persistedShop && mapPersistedShopToEntity(persistedShop);
     },
-    merge: async (entity) => {
-        return entity;
+    merge: async (entity, shopId) => {
+        const persistedShop = await prismaClient.shop
+            .update({
+                data: {
+                    description: entity.description,
+                    name: entity.name,
+                },
+                where: {
+                    id: shopId,
+                },
+            })
+            .catch((error) => {
+                throw mapPrismaErrorToDomain(error);
+            });
+
+        return mapPersistedShopToEntity(persistedShop);
     },
     persist: async (entity, ownerUserId) => {
         const persistedShop = await prismaClient.shop
             .create({
                 data: {
-                    countOfFollowers: entity.countFollowers,
+                    countOfFollowers: 0,
                     description: entity.description,
                     handle: entity.handle,
                     name: entity.name,
@@ -68,33 +76,9 @@ export const shopRepositoryPrismaFactory = (
                 },
             })
             .catch((error) => {
-                if (
-                    (error.code =
-                        'code' &&
-                        error.meta?.target?.some(
-                            (target) => target === 'handle',
-                        ))
-                ) {
-                    // TODO Test
-                    // {
-                    //     code: 'P2002',
-                    //         clientVersion: '3.10.0',
-                    //     meta: { target: [ 'handle' ] }
-                    // }
-                    throw new DuplicatedFieldError('handle');
-                }
-
-                throw error;
+                throw mapPrismaErrorToDomain(error);
             });
 
-        return {
-            bannerImageUrl: null, // TODO Come back
-            countFollowers: 0,
-            creationDate: new Date(),
-            description: persistedShop.description,
-            handle: persistedShop.handle,
-            id: persistedShop.id,
-            name: persistedShop.name,
-        };
+        return mapPersistedShopToEntity(persistedShop);
     },
 });

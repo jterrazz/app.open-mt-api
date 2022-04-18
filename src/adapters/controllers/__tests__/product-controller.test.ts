@@ -11,7 +11,20 @@ const mockOfModifyProductById = jest.fn();
 
 describe('controllers / product', () => {
     describe('modifyProduct()', () => {
-        // TODO Test tracker called
+        test('track request', async () => {
+            // Given
+            const mockOfCtx = createMockOfInitiatedKoaContext();
+
+            // When
+            await productControllerFactory(mockOfModifyProductById)
+                .modifyProduct(mockOfCtx)
+                .catch(() => {});
+
+            // Then
+            expect(
+                mockOfCtx.requestTracker.requestedModifyProduct,
+            ).toHaveBeenCalledTimes(1);
+        });
 
         test('fails if user is not authenticated', async () => {
             // Given

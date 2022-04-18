@@ -10,6 +10,8 @@ export const productControllerFactory = (
     modifyProductById: ModifyProductById,
 ) => {
     const modifyProductController: IInitiatedKoaController = async (ctx) => {
+        ctx.requestTracker.requestedModifyProduct();
+
         const { authenticatedUser, productId, productParams } =
             deserializeModifyProductKoaRequest(ctx);
 
@@ -26,7 +28,7 @@ export const productControllerFactory = (
         serializeModifyProductKoaResponse(ctx, modifiedProduct);
     };
 
-    // TODO create product
+    // TODO create product + tracker
 
     return { modifyProduct: modifyProductController };
 };

@@ -28,7 +28,7 @@ describe('productRepositoryPrisma', () => {
     });
 
     describe('merge()', () => {
-        test('adds data to a product', async () => {
+        test('updates the data of a product', async () => {
             // Given
             const seededProduct = await seedDatabaseWithProduct(databaseClient);
             const newProductData = {
@@ -55,8 +55,10 @@ describe('productRepositoryPrisma', () => {
     });
 
     describe('persist()', () => {
-        test('saves a product in database', async () => {
-            const seededShop = await seedDatabaseWithShop(databaseClient);
+        test('persists a product to database', async () => {
+            const { shop: seededShop } = await seedDatabaseWithShop(
+                databaseClient,
+            );
             const newProductData = {
                 name: 'the_new_product_name',
                 priceCentsAmount: 2,

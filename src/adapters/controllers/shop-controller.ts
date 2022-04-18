@@ -1,6 +1,6 @@
 import { AuthenticationRequiredError } from '@domain/error/client/authentication-required-error';
 import { CreateShop } from '@application/use-cases/shop/create-shop';
-import { GetShop, getShopFactory } from '@application/use-cases/shop/get-shop';
+import { GetShop } from '@application/use-cases/shop/get-shop';
 import { IInitiatedKoaController } from '@adapters/controllers';
 import { NotFoundError } from '@domain/error/client/not-found-error';
 import {
@@ -17,6 +17,8 @@ export const shopControllerFactory = (
     getShop: GetShop,
 ) => {
     const createShopController: IInitiatedKoaController = async (ctx) => {
+        ctx.requestTracker.requestedCreateShop();
+
         const { handle, name } = deserializeCreateShopKoaRequest(ctx);
         const description = ''; // TODO To get from request
 
@@ -42,6 +44,8 @@ export const shopControllerFactory = (
     };
 
     const getShopController: IInitiatedKoaController = async (ctx) => {
+        ctx.requestTracker.requestedGetShop();
+
         const { shopHandle } = deserializeGetShopKoaRequest(ctx);
 
         const shopEntity = await getShop(shopHandle);

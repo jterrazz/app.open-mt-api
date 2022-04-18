@@ -7,6 +7,8 @@ import {
 } from '@infrastructure/orm/prisma/prisma-database';
 import { ITrackerRepository } from '@domain/tracker/tracker-repository';
 import { apiControllerFactory } from '@adapters/controllers/api-controller';
+import { authenticateUserWithEmailFactory } from '@application/use-cases/authentication/authenticate-user-with-email';
+import { checkBcryptPassword } from '@infrastructure/encryption/check-bcrypt-password';
 import { configurationFactory } from '@configuration/configuration';
 import { createShopFactory } from '@application/use-cases/shop/create-shop';
 import { getApiStateFactory } from '@application/use-cases/api/get-api-state';
@@ -72,6 +74,11 @@ export const initDependencies = (): {
     const getUserPublicProfile = getUserPublicProfileFactory(
         logger,
         userRepository,
+    );
+    const authenticateUserWithEmail = authenticateUserWithEmailFactory(
+        logger,
+        userRepository,
+        checkBcryptPassword,
     );
 
     // Adapters - Controllers and middlewares

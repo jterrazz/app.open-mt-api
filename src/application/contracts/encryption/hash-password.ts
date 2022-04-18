@@ -1,1 +1,1 @@
-export type IHashPassword = (password: string) => Promise<string>;
+export type HashPassword = (password: string) => Promise<string>;

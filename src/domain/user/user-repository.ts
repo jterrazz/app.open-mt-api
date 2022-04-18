@@ -1,12 +1,7 @@
-import {
-    IRepositoryFindByEmail,
-    IRepositoryFindByHandle,
-    IRepositoryPersist,
-} from '../repository';
 import { UserEntity } from './user-entity';
 
 export interface IUserRepository {
-    findByHandle: IRepositoryFindByHandle<UserEntity>;
-    findByEmail: IRepositoryFindByEmail<UserEntity>;
-    persist: IRepositoryPersist<UserEntity>;
+    findByHandle: (handle: string) => Promise<UserEntity | null>;
+    findByEmail: (handle: string) => Promise<UserEntity | null>;
+    persist: (user: UserEntity) => Promise<UserEntity>;
 }

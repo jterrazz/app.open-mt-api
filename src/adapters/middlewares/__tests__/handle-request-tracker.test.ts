@@ -1,5 +1,5 @@
 import { createMockOfInitiatedKoaContext } from '@adapters/__tests__/initiated-koa-context.mock';
-import { createMockOfTrackerRepository } from '@application/contracts/__tests__/tracker.mock';
+import { createMockOfTrackerRepository } from '@domain/tracker/__tests__/tracker-repository.mock';
 import { handleRequestTrackerMiddlewareFactory } from '@adapters/middlewares/handle-request-tracker';
 import { initTrackerForRequestFactory } from '@domain/tracker/init-tracker-for-request';
 
@@ -8,7 +8,7 @@ describe('handleRequestTrackerMiddleware()', () => {
         response: { body: null, status: null },
     });
 
-    test('handles the full lifecycle of a request', async () => {
+    test('handles the lifecycle of a request', async () => {
         // Given
         const next = jest.fn();
 

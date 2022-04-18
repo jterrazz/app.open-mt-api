@@ -14,26 +14,38 @@ jest.mock('../../serializers/shop/get-shop-koa-serializer', () => ({
 }));
 
 const createMockOfArgs = () => {
-    const mockOfCreateShop = jest.fn();
-    const mockOfGetShop = jest.fn();
-    const mockOfCtx = createMockOfInitiatedKoaContext();
+    const mockOfCreateShop = jest.fn().mockResolvedValue({});
+    const mockOfGetShop = jest.fn().mockResolvedValue({});
 
     return {
         mockOfCreateShop,
-        mockOfCtx,
         mockOfGetShop,
     };
 };
 
 describe('controllers / shop', () => {
     describe('createShop()', () => {
-        // TODO Test tracker called
+        test('tracks requests', async () => {
+            // Given
+            const { mockOfCreateShop, mockOfGetShop } = createMockOfArgs();
+            const mockOfCtx = createMockOfInitiatedKoaContext({}, true);
+
+            // When
+            await shopControllerFactory(
+                mockOfCreateShop,
+                mockOfGetShop,
+            ).createShop(mockOfCtx);
+
+            // Then
+            expect(
+                mockOfCtx.requestTracker.requestedCreateShop,
+            ).toHaveBeenCalledTimes(1);
+        });
 
         test('fails if user is not authenticated', async () => {
             // Given
-            const { mockOfCreateShop, mockOfGetShop, mockOfCtx } =
-                createMockOfArgs();
-            mockOfGetShop.mockReturnValue(null);
+            const { mockOfCreateShop, mockOfGetShop } = createMockOfArgs();
+            const mockOfCtx = createMockOfInitiatedKoaContext({}, false);
 
             // When
             const ft = () =>
@@ -48,12 +60,27 @@ describe('controllers / shop', () => {
     });
 
     describe('getShop()', () => {
-        // TODO Test tracker called
+        test('tracks request', async () => {
+            // Given
+            const { mockOfCreateShop, mockOfGetShop } = createMockOfArgs();
+            const mockOfCtx = createMockOfInitiatedKoaContext();
+
+            // When
+            await shopControllerFactory(
+                mockOfCreateShop,
+                mockOfGetShop,
+            ).getShop(mockOfCtx);
+
+            // Then
+            expect(
+                mockOfCtx.requestTracker.requestedGetShop,
+            ).toHaveBeenCalledTimes(1);
+        });
 
         test('fails if no shop is found', async () => {
             // Given
-            const { mockOfCreateShop, mockOfGetShop, mockOfCtx } =
-                createMockOfArgs();
+            const { mockOfCreateShop, mockOfGetShop } = createMockOfArgs();
+            const mockOfCtx = createMockOfInitiatedKoaContext();
             mockOfGetShop.mockReturnValue(null);
 
             // When

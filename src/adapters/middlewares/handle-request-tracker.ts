@@ -1,11 +1,12 @@
-import { ITrackerRepository } from '@domain/tracker/tracker-repository';
+import { IKoaContext } from '@adapters/controllers';
+import { InitTrackerForRequest } from '@domain/tracker/init-tracker-for-request';
 import { Middleware } from 'koa';
 
 export const handleRequestTrackerMiddlewareFactory = (
-    initTrackerForRequest: (userId?: string) => ITrackerRepository,
+    initTrackerForRequest: InitTrackerForRequest,
 ): Middleware => {
-    return async (ctx, next) => {
-        ctx.requestTracker = initTrackerForRequest(); // FIXME add userId
+    return async (ctx: IKoaContext, next) => {
+        ctx.requestTracker = initTrackerForRequest(ctx.authenticatedUser?.id);
         await next();
         ctx.requestTracker.stop();
     };

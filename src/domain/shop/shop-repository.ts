@@ -1,16 +1,14 @@
-import {
-    IRepositoryFindByHandle,
-    IRepositoryFindByID,
-    IRepositoryMerge,
-} from '../repository';
 import { ShopEntity } from '@domain/shop/shop-entity';
 
 export interface IShopRepository {
     persist: (
-        persistShopParams: ShopEntity, // TODO Pick here
+        persistShopParams: Pick<ShopEntity, 'description' | 'handle' | 'name'>,
         ownerUserId: number,
-    ) => Promise<ShopEntity>; // TODO Remove those generic types and add PICK
-    findByHandle: IRepositoryFindByHandle<ShopEntity>;
-    findByOwnerId: IRepositoryFindByID<ShopEntity>;
-    merge: IRepositoryMerge<ShopEntity>;
+    ) => Promise<ShopEntity>;
+    findByHandle: (handle: string) => Promise<ShopEntity | null>;
+    findByOwnerId: (ownerId: number) => Promise<ShopEntity | null>;
+    merge: (
+        shop: Partial<Pick<ShopEntity, 'description' | 'name'>>,
+        shopId: number,
+    ) => Promise<ShopEntity>;
 }

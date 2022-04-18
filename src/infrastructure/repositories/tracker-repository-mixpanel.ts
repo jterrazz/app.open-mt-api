@@ -6,9 +6,17 @@ export const trackerRepositoryMixpanelFactory = (): ITrackerRepository &
     const repository: ITrackerRepository = {
         exportEvents: () => {},
 
-        requestedCreateNewPayment: () => {},
-        requestedCreateNewProduct: () => {},
+        requestedCreatePayment: () => {},
+        requestedCreateProduct: () => {},
+        requestedCreateShop: () => {},
+        requestedDeleteShop: () => {},
         requestedGetApiState: () => {},
+        requestedGetShop: () => {},
+        requestedGetUser: () => {},
+        requestedModifyProduct: () => {},
+        requestedModifyShop: () => {},
+        requestedRegisterByMail: () => {},
+        requestedSignInByMail: () => {},
 
         start: () => {},
         stop: () => {},

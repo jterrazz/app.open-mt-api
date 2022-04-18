@@ -31,11 +31,5 @@ export const seedDatabaseWithUser = async (
         },
     );
 
-    return {
-        email: user.email,
-        firstName: user.firstName,
-        handle: user.handle,
-        id: user.id,
-        lastName: user.lastName,
-    };
+    return user;
 };

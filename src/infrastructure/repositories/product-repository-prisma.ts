@@ -27,6 +27,7 @@ export const productRepositoryPrismaFactory = (
         );
     },
     merge: async (productId, productParams) => {
+        // TODO Reverse params
         const persistedProduct = await prismaClient.product.update({
             data: {
                 name: productParams.name,

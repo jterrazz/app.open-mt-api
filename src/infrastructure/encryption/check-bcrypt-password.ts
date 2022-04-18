@@ -1,7 +1,7 @@
 import * as bcrypt from 'bcrypt';
-import { ICheckPassword } from '@application/contracts/encryption/check-password';
+import { CheckPassword } from '@application/contracts/encryption/check-password';
 
-export const checkBcryptPassword: ICheckPassword = (
+export const checkBcryptPassword: CheckPassword = (
     password,
     hashedPassword,
 ) => {

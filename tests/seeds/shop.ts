@@ -12,7 +12,7 @@ export const seedDatabaseWithShop = async (
     const shop = await databaseClient.shop.create({
         data: {
             bannerImageId: null,
-            countOfFollowers: 42,
+            countOfFollowers: 0,
             createdAt: new Date(),
             description: 'the_shop_description',
             handle: randomUUID(),
@@ -24,8 +24,7 @@ export const seedDatabaseWithShop = async (
     });
 
     return {
-        createdAt: shop.createdAt,
-        handle: shop.handle,
-        id: shop.id,
+        shop,
+        user,
     };
 };

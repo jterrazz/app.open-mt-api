@@ -2,10 +2,10 @@ import { initDependencies } from '@configuration/dependencies';
 import { seedDatabaseWithUser } from '@tests/seeds/user';
 import { userRepositoryPrismaFactory } from '@infrastructure/repositories/user-repository-prisma';
 
-describe('userRepositoryPrisma', () => {
-    const databaseClient = initDependencies().database.client;
-    const repository = userRepositoryPrismaFactory(databaseClient);
+const databaseClient = initDependencies().database.client;
+const repository = userRepositoryPrismaFactory(databaseClient);
 
+describe('userRepositoryPrisma', () => {
     describe('findByEmail()', () => {
         test('finds an existing user', async () => {
             // Given

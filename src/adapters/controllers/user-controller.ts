@@ -10,6 +10,8 @@ export const userControllerFactory = (
     getUserPublicProfile: GetUserPublicProfile,
 ) => {
     const getPublicProfile: IInitiatedKoaController = async (ctx) => {
+        ctx.requestTracker.requestedGetUser();
+
         const { userHandle } = deserializeGetUserKoaRequest(ctx);
         const userPublicProfile = await getUserPublicProfile(userHandle);
 

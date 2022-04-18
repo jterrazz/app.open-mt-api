@@ -1,7 +1,15 @@
 export enum EventIdentifiers {
-    REQUESTED_CREATE_NEW_PAYMENT = 'requested_create_new_payment',
-    REQUESTED_CREATE_NEW_PRODUCT = 'requested_create_new_product',
+    REQUESTED_CREATE_PAYMENT = 'requested_create_payment',
+    REQUESTED_CREATE_PRODUCT = 'requested_create_product',
+    REQUESTED_MODIFY_PRODUCT = 'requested_modify_product',
     REQUESTED_GET_API_STATE = 'requested_get_api_state',
+    REQUESTED_CREATE_SHOP = 'requested_create_shop',
+    REQUESTED_MODIFY_SHOP = 'requested_modify_shop',
+    REQUESTED_DELETE_SHOP = 'requested_delete_shop',
+    REQUESTED_GET_USER = 'requested_get_user',
+    REQUESTED_GET_SHOP = 'requested_get_shop',
+    REQUESTED_SIGN_IN_BY_MAIL = 'requested_sign_in_by_mail',
+    REQUESTED_REGISTER_BY_MAIL = 'requested_register_by_mail',
     START = 'start',
     STOP = 'stop',
 }

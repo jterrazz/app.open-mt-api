@@ -26,7 +26,7 @@ export const authenticateUserWithEmailFactory = (
             throw new AuthenticationRequiredError();
         }
 
-        const passwordIsValid = checkPassword(
+        const passwordIsValid = await checkPassword(
             password,
             userEntity.hashedPassword,
         );

@@ -22,3 +22,9 @@ export const seedDatabaseWithUser = async (
         },
     });
 };
+
+export const seedExampleOfValidPassword = {
+    hashedPassword:
+        '$2b$10$oY3.OuDt.EMUz/5tN60FROv9cphD56SEU458XokZZGhmgP8FZP8eG',
+    password: 'valid_password',
+};

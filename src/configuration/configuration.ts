@@ -1,6 +1,7 @@
 import {
     IConfiguration,
     apiConfigSchema,
+    clientSessionConfigSchema,
     databaseConfigSchema,
     environmentSchema,
     logConfigSchema,
@@ -19,9 +20,13 @@ export const configurationFactory = (
     });
     const LOG = logConfigSchema.parse(config.get('LOG'));
     const DATABASE = databaseConfigSchema.parse(config.get('DATABASE'));
+    const CLIENT_SESSION = clientSessionConfigSchema.parse(
+        config.get('CLIENT_SESSION'),
+    );
 
     return {
         API,
+        CLIENT_SESSION,
         DATABASE,
         ENVIRONMENT,
         LOG,

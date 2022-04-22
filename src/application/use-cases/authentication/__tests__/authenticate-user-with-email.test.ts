@@ -7,7 +7,7 @@ import { createMockOfUserRepository } from '@domain/user/__tests__/user-reposito
 const createMockOfArgs = () => {
     const mockOfLogger = createMockOfLogger();
     const mockOfUserRepository = createMockOfUserRepository();
-    const mockOfPasswordChecker = jest.fn().mockReturnValue(true);
+    const mockOfPasswordChecker = jest.fn().mockResolvedValue(true);
 
     return {
         mockOfLogger,

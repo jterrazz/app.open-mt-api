@@ -25,9 +25,16 @@ export const databaseConfigSchema = z.object({
     URL: z.string(),
 });
 
+// CLIENT SESSION
+
+export const clientSessionConfigSchema = z.object({
+    SECRET: z.string().min(10),
+});
+
 export interface IConfiguration {
     API: z.infer<typeof apiConfigSchema>;
     ENVIRONMENT: z.infer<typeof environmentSchema>;
     LOG: z.infer<typeof logConfigSchema>;
     DATABASE: z.infer<typeof databaseConfigSchema>;
+    CLIENT_SESSION: z.infer<typeof clientSessionConfigSchema>;
 }

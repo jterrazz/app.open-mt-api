@@ -20,9 +20,13 @@ import { handleRequestTrackerMiddlewareFactory } from '@adapters/middlewares/han
 import { initTrackerForRequestFactory } from '@domain/tracker/init-tracker-for-request';
 import { koaServerFactory } from '@infrastructure/webserver/koa-server';
 import { modifyProductByIdFactory } from '@application/use-cases/product/modify-product-by-id';
+import { passportDeserializer } from '@adapters/serializers/passport-deserializer';
+import { passportSerializer } from '@adapters/serializers/passport-serializer';
+import { passportStrategyLocalFactory } from '@adapters/middlewares/passport-strategy-local';
 import { productControllerFactory } from '@adapters/controllers/product-controller';
 import { productRepositoryPrismaFactory } from '@infrastructure/repositories/product-repository-prisma';
 import { setResponseHeadersMiddlewareFactory } from '@adapters/middlewares/set-response-headers-middleware';
+import { setupPassportStrategiesFactory } from '@infrastructure/webserver/setup-passport-strategies';
 import { shopControllerFactory } from '@adapters/controllers/shop-controller';
 import { shopRepositoryPrismaFactory } from '@infrastructure/repositories/shop-repository-prisma';
 import { trackerRepositoryInMemoryFactory } from '@infrastructure/repositories/tracker-repository-in-memory';
@@ -101,6 +105,12 @@ export const initDependencies = (): {
             setResponseHeadersMiddlewareFactory(configuration),
     };
 
+    const setupPassportStrategies = setupPassportStrategiesFactory(
+        [passportStrategyLocalFactory(authenticateUserWithEmail)],
+        passportSerializer,
+        passportDeserializer,
+    );
+
     // Web server
 
     const webserver = koaServerFactory(
@@ -108,6 +118,7 @@ export const initDependencies = (): {
         middlewares,
         logger,
         configuration,
+        setupPassportStrategies,
     );
 
     return { configuration, database: prismaDatabase, logger, webserver };

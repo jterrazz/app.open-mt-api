@@ -1,8 +1,9 @@
 import { IUserRepository } from '@domain/user/user-repository';
 import { PrismaClient, User } from '@prisma/client';
 import { UserEntity } from '@domain/user/user-entity';
+import { mapPrismaErrorToDomain } from '@infrastructure/orm/prisma/map-prisma-error-to-domain';
 
-const mapPersistedUserToUser = (persistedUser: User): UserEntity => ({
+const mapPersistedUserToUserEntity = (persistedUser: User): UserEntity => ({
     email: persistedUser.email,
     firstName: persistedUser.firstName,
     handle: persistedUser.handle,
@@ -19,42 +20,36 @@ export const userRepositoryPrismaFactory = (
             where: { email },
         });
 
-        return persistedUser && mapPersistedUserToUser(persistedUser);
+        return persistedUser && mapPersistedUserToUserEntity(persistedUser);
     },
     async findByHandle(handle) {
         const persistedUser = await prismaClient.user.findFirst({
             where: { handle },
         });
 
-        return persistedUser && mapPersistedUserToUser(persistedUser);
+        return persistedUser && mapPersistedUserToUserEntity(persistedUser);
     },
     async persist(user) {
-        const { persistedUser } = await prismaClient.$transaction(
-            async (prismaTransactionClient) => {
-                const persistedSettings =
-                    await prismaTransactionClient.userSettings.create({
-                        data: {
+        const persistedUser = await prismaClient.user
+            .create({
+                data: {
+                    email: user.email,
+                    firstName: user.firstName,
+                    handle: 'todelllll',
+                    hashedPassword: user.hashedPassword,
+                    lastName: user.lastName,
+                    userSettings: {
+                        create: {
                             language: 'FR',
                         },
-                    });
-
-                const persistedUser = await prismaTransactionClient.user.create(
-                    {
-                        data: {
-                            email: user.email,
-                            firstName: user.firstName,
-                            handle: user.handle,
-                            hashedPassword: user.hashedPassword,
-                            lastName: user.lastName,
-                            userSettingsId: persistedSettings.id,
-                        },
                     },
-                );
+                    // TODO Created_at and updatedAt
+                },
+            })
+            .catch((error) => {
+                throw mapPrismaErrorToDomain(error);
+            });
 
-                return { persistedUser };
-            },
-        );
-
-        return persistedUser && mapPersistedUserToUser(persistedUser);
+        return persistedUser && mapPersistedUserToUserEntity(persistedUser);
     },
 });

@@ -58,6 +58,9 @@ It follows this structure:
 └ tests # integrations tests
 ```
 
+### App VS worker
+...
+
 ### Clean architecture
 
 The project follows **clean architecture** concepts.
@@ -83,9 +86,10 @@ src
 ##### 1. Adapters
 
 It links the abstracted application to the external world. They can be of multiple types:
-- presenter (for frontend applications)
-- controllers (links an HTTP library to its handlers for example)
-- middlewares (intermediate steps of an HTTP library)
+- presenter (for frontend applications) - App
+- controllers (links an HTTP library to its handlers for example) - App
+- middlewares (intermediate steps of an HTTP library) - App
+- consumers - Worker
 
 Its role is only to receive and validate the received data, format the output, and orchestrate the calls to use cases. That's all.
 

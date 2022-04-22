@@ -17,7 +17,7 @@ const createMockOfArgs = () => {
 };
 
 describe('use-cases / authenticateUserWithEmail()', () => {
-    test('authenticates a valid email:password credential', async () => {
+    test('authenticates a valid email:password request', async () => {
         // Given
         const { mockOfLogger, mockOfPasswordChecker, mockOfUserRepository } =
             createMockOfArgs();

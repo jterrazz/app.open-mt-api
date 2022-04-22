@@ -1,4 +1,4 @@
-import { IKoaSerializer } from '@adapters/serializers/koa-serializer';
+import { IKoaSerializer } from '@adapters/serializer';
 
 export const serializeGetApiStateResponse: IKoaSerializer<{
     env: string;

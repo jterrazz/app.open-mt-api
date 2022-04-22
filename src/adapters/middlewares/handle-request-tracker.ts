@@ -1,4 +1,4 @@
-import { IKoaContext } from '@adapters/controllers';
+import { IKoaContext } from '@adapters/controller';
 import { InitTrackerForRequest } from '@domain/tracker/init-tracker-for-request';
 import { Middleware } from 'koa';
 

@@ -1,6 +1,6 @@
 import Router from 'koa-router';
 
-import { IControllers } from '@adapters/controllers';
+import { IControllers } from '@adapters/controller';
 import { shopRouterFactory } from '@infrastructure/webserver/routes/shop';
 import { userRouterFactory } from './user';
 

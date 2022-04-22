@@ -19,7 +19,7 @@ afterAll(() => {
 describe('END TO END - GET /shop', function () {
     test('get an existing shop', async () => {
         // Given
-        const shopSeed = await seedDatabaseWithShop(databaseClient);
+        const { shop: shopSeed } = await seedDatabaseWithShop(databaseClient);
 
         // When
         const response = await request(app.callback()).get(

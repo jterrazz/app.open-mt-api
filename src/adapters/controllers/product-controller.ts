@@ -1,5 +1,5 @@
 import { AuthenticationRequiredError } from '@domain/error/client/authentication-required-error';
-import { IInitiatedKoaController } from '@adapters/controllers';
+import { IInitiatedKoaController } from '@adapters/controller';
 import { ModifyProductById } from '@application/use-cases/product/modify-product-by-id';
 import {
     deserializeModifyProductKoaRequest,

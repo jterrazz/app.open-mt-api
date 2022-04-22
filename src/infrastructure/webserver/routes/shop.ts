@@ -1,4 +1,4 @@
-import { IControllers } from '@adapters/controllers';
+import { IControllers } from '@adapters/controller';
 import Router from 'koa-router';
 
 export const shopRouterFactory = (controllers: IControllers) => {

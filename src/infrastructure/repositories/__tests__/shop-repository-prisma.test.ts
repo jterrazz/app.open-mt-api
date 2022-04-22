@@ -105,9 +105,6 @@ describe('ShopRepositoryPrisma', function () {
             ...data,
         });
 
-        // TODO Disable change of handle
-        // TODO Disable change of user
-
         test('updates the data of a shop', async () => {
             // Given
             const { shop: seededShop, user: seededUser } =
@@ -184,7 +181,7 @@ describe('ShopRepositoryPrisma', function () {
 
         test('returns null if no shop has this handle', async () => {
             // Given
-            const unknownHandle = 'the_unknown_handle';
+            const unknownHandle = 'handle_that_does_not_exist';
 
             // When
             const result = await repository.findByHandle(unknownHandle);

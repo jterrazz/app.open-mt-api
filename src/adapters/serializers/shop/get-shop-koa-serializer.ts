@@ -1,8 +1,5 @@
 import * as z from 'zod';
-import {
-    IKoaDeserializer,
-    IKoaSerializer,
-} from '@adapters/serializers/koa-serializer';
+import { IKoaDeserializer, IKoaSerializer } from '@adapters/serializer';
 import { Z_SHOP_HANDLE } from '@domain/shop/shop-entity';
 import { zodErrorToUnprocessableEntityErrorWrapper } from '@application/utils/zod/zod-error-to-unprocessable-entity-error-wrapper';
 

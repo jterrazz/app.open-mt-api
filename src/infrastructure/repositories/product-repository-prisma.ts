@@ -2,7 +2,7 @@ import { IProductRepository } from '@domain/product/product-repository';
 import { PrismaClient, Product } from '@prisma/client';
 import { ProductEntity } from '@domain/product/product-entity';
 
-const mapPersistedProductToProduct = (
+const mapPersistedProductToProductEntity = (
     persistedProduct: Product,
 ): ProductEntity => ({
     id: persistedProduct.id,
@@ -23,7 +23,8 @@ export const productRepositoryPrismaFactory = (
         });
 
         return (
-            persistedProduct && mapPersistedProductToProduct(persistedProduct)
+            persistedProduct &&
+            mapPersistedProductToProductEntity(persistedProduct)
         );
     },
     merge: async (productId, productParams) => {
@@ -39,7 +40,7 @@ export const productRepositoryPrismaFactory = (
             },
         });
 
-        return mapPersistedProductToProduct(persistedProduct);
+        return mapPersistedProductToProductEntity(persistedProduct);
     },
     persist: async (productParams, shopId) => {
         const persistedProduct = await prismaClient.product.create({
@@ -51,6 +52,6 @@ export const productRepositoryPrismaFactory = (
             },
         });
 
-        return mapPersistedProductToProduct(persistedProduct);
+        return mapPersistedProductToProductEntity(persistedProduct);
     },
 });

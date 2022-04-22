@@ -1,7 +1,7 @@
 import { AuthenticationRequiredError } from '@domain/error/client/authentication-required-error';
 import { CreateShop } from '@application/use-cases/shop/create-shop';
 import { GetShop } from '@application/use-cases/shop/get-shop';
-import { IInitiatedKoaController } from '@adapters/controllers';
+import { IInitiatedKoaController } from '@adapters/controller';
 import { NotFoundError } from '@domain/error/client/not-found-error';
 import {
     deserializeCreateShopKoaRequest,

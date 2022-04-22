@@ -1,6 +1,6 @@
 import { IConfiguration, ILogger, IWebServer } from '@application/contracts';
-import { IControllers } from '@adapters/controllers';
-import { IMiddlewares } from '@adapters/middlewares';
+import { IControllers } from '@adapters/controller';
+import { IMiddlewares } from '@adapters/middleware';
 import { routerFactory } from '@infrastructure/webserver/routes';
 import Koa from 'koa';
 import bodyParser from 'koa-bodyparser';

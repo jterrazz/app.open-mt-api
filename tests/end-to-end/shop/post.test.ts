@@ -13,6 +13,7 @@ afterAll(() => {
 });
 
 describe('END TO END - POST /shop', function () {
+    // TODO TO continue when I can log a user
     // test('creates a new shop', async () => {
     //     // Given
     //     const params = {
@@ -23,6 +24,7 @@ describe('END TO END - POST /shop', function () {
     //     // When
     //     const response = await request(app.callback())
     //         .post('/shop')
+    //         .set('Authorization', 'fake-authorization') // TODO Use with real authentication
     //         .send(params);
     //
     //     // Then
@@ -72,28 +74,28 @@ describe('END TO END - POST /shop', function () {
     //         },
     //     });
     // });
-    //
-    // test('does not create a shop that is missing required information', async () => {
-    //     // Given
-    //     const params = {
-    //         handle: 'the_shop_handle_missing_name',
-    //     };
-    //
-    //     // When
-    //     await request(app.callback()).post('/shop').send(params);
-    //     const secondResponse = await request(app.callback())
-    //         .post('/shop')
-    //         .send(params);
-    //
-    //     // Then
-    //     expect(secondResponse.status).toEqual(422);
-    //     expect(secondResponse.body).toEqual({
-    //         message: "bad fields [ 'name' ]",
-    //         meta: {
-    //             fields: ['name'],
-    //         },
-    //     });
-    // });
+
+    test('does not create a shop that is missing required information', async () => {
+        // Given
+        const params = {
+            handle: 'the_shop_handle_missing_name',
+        };
+
+        // When
+        await request(app.callback()).post('/shop').send(params);
+        const secondResponse = await request(app.callback())
+            .post('/shop')
+            .send(params);
+
+        // Then
+        expect(secondResponse.status).toEqual(422);
+        expect(secondResponse.body).toEqual({
+            message: "bad fields [ 'name' ]",
+            meta: {
+                fields: ['name'],
+            },
+        });
+    });
 });
 
-// TODO Test a user can't create 2 shops
+// TODO Test a user can't create 2 shops with valid different information

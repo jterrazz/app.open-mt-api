@@ -1,5 +1,5 @@
 import { GetUserPublicProfile } from '@application/use-cases/user/get-user-public-profile';
-import { IInitiatedKoaController } from '@adapters/controllers';
+import { IInitiatedKoaController } from '@adapters/controller';
 import { NotFoundError } from '@domain/error/client/not-found-error';
 import {
     deserializeGetUserKoaRequest,

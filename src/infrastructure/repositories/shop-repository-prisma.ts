@@ -1,15 +1,14 @@
 import { IShopRepository } from '@domain/shop/shop-repository';
 import { Image, PrismaClient, Shop } from '@prisma/client';
 import { ShopEntity } from '@domain/shop/shop-entity';
-import { createMockOfShopEntity } from '@domain/shop/__tests__/shop-entity.mock';
 import { mapPrismaErrorToDomain } from '@infrastructure/orm/prisma/map-prisma-error-to-domain';
 
-const mapPersistedShopToEntity = (
+const mapPersistedShopToShopEntity = (
     persistedShop: Shop & { bannerImage?: Image | null },
 ): ShopEntity => ({
     bannerImageUrl: persistedShop.bannerImage?.filename || null, // TODO replace by URL
     countFollowers: persistedShop.countOfFollowers,
-    creationDate: persistedShop.createdAt,
+    creationDate: persistedShop.createdAt, // TODO Created_at and updatedAt
     description: persistedShop.description,
     handle: persistedShop.handle,
     id: persistedShop.id,
@@ -29,7 +28,7 @@ export const shopRepositoryPrismaFactory = (
             },
         });
 
-        return persistedShop && mapPersistedShopToEntity(persistedShop);
+        return persistedShop && mapPersistedShopToShopEntity(persistedShop);
     },
     findByOwnerId: async (ownerId) => {
         const persistedShop = await prismaClient.shop.findFirst({
@@ -41,7 +40,7 @@ export const shopRepositoryPrismaFactory = (
             },
         });
 
-        return persistedShop && mapPersistedShopToEntity(persistedShop);
+        return persistedShop && mapPersistedShopToShopEntity(persistedShop);
     },
     merge: async (entity, shopId) => {
         const persistedShop = await prismaClient.shop
@@ -58,7 +57,7 @@ export const shopRepositoryPrismaFactory = (
                 throw mapPrismaErrorToDomain(error);
             });
 
-        return mapPersistedShopToEntity(persistedShop);
+        return mapPersistedShopToShopEntity(persistedShop);
     },
     persist: async (entity, ownerUserId) => {
         const persistedShop = await prismaClient.shop
@@ -79,6 +78,6 @@ export const shopRepositoryPrismaFactory = (
                 throw mapPrismaErrorToDomain(error);
             });
 
-        return mapPersistedShopToEntity(persistedShop);
+        return mapPersistedShopToShopEntity(persistedShop);
     },
 });

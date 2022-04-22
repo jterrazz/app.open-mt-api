@@ -29,6 +29,7 @@ export interface IControllers {
         getShop: IKoaController;
     };
     products: {
+        // createProduct: IKoaController;
         modifyProduct: IKoaController;
     };
 }

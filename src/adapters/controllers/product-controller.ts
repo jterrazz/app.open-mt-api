@@ -1,13 +1,22 @@
 import { AuthenticationRequiredError } from '@domain/error/client/authentication-required-error';
+import { CreateProduct } from '@application/use-cases/product/create-product';
+import { DeserializeCreateProductKoaRequest } from '@adapters/serializers/product/deserialize-create-product-koa-request';
+import { DeserializeModifyProductKoaRequest } from '@adapters/serializers/product/deserialize-modify-product-koa-request';
+import { ForbiddenError } from '@domain/error/client/forbidden-error';
 import { IInitiatedKoaController } from '@adapters/controller';
+import { IShopRepository } from '@domain/shop/shop-repository';
 import { ModifyProductById } from '@application/use-cases/product/modify-product-by-id';
-import {
-    deserializeModifyProductKoaRequest,
-    serializeModifyProductKoaResponse,
-} from '@adapters/serializers/product/modify-product-koa-serializer';
+import { SerializeCreateProductKoaResponse } from '@adapters/serializers/product/serialize-create-product-koa-response';
+import { SerializeModifyProductKoaResponse } from '@adapters/serializers/product/serialize-modify-product-koa-response';
 
 export const productControllerFactory = (
     modifyProductById: ModifyProductById,
+    createProduct: CreateProduct,
+    shopRepository: IShopRepository,
+    deserializeCreateProductKoaRequest: DeserializeCreateProductKoaRequest,
+    deserializeModifyProductKoaRequest: DeserializeModifyProductKoaRequest,
+    serializeCreateProductKoaResponse: SerializeCreateProductKoaResponse,
+    serializeModifyProductKoaResponse: SerializeModifyProductKoaResponse,
 ) => {
     const modifyProductController: IInitiatedKoaController = async (ctx) => {
         ctx.requestTracker.requestedModifyProduct();
@@ -28,7 +37,42 @@ export const productControllerFactory = (
         serializeModifyProductKoaResponse(ctx, modifiedProduct);
     };
 
-    // TODO create product + tracker
+    const createProductController: IInitiatedKoaController = async (ctx) => {
+        ctx.requestTracker.requestedCreateProduct();
 
-    return { modifyProduct: modifyProductController };
+        const { authenticatedUser, productParams } =
+            deserializeCreateProductKoaRequest(ctx);
+
+        // TODO Test
+        if (!authenticatedUser) {
+            throw new AuthenticationRequiredError();
+        }
+
+        const shopEntity = await shopRepository.findByOwnerId(
+            authenticatedUser.id,
+        );
+
+        // TODO Test
+        if (!shopEntity) {
+            throw new ForbiddenError(
+                "the authenticated user doesn't have any shop",
+            );
+        }
+
+        const createdProduct = await createProduct(
+            {
+                name: productParams.name,
+                priceCentsAmount: productParams.priceCentsAmount,
+                priceCurrency: productParams.priceCurrency,
+            },
+            shopEntity.id,
+        );
+
+        serializeCreateProductKoaResponse(ctx, createdProduct);
+    };
+
+    return {
+        createProduct: createProductController,
+        modifyProduct: modifyProductController,
+    };
 };

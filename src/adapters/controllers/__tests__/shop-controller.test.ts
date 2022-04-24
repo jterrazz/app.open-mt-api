@@ -3,16 +3,6 @@ import { NotFoundError } from '@domain/error/client/not-found-error';
 import { createMockOfInitiatedKoaContext } from '@adapters/__tests__/initiated-koa-context.mock';
 import { shopControllerFactory } from '@adapters/controllers/shop-controller';
 
-jest.mock('../../serializers/shop/create-shop-koa-serializer', () => ({
-    deserializeCreateShopKoaRequest: jest.fn().mockReturnValue({}),
-    serializeCreateShopKoaResponse: jest.fn(),
-}));
-
-jest.mock('../../serializers/shop/get-shop-koa-serializer', () => ({
-    deserializeGetShopKoaRequest: jest.fn().mockReturnValue({}),
-    serializeGetShopKoaResponse: jest.fn(),
-}));
-
 const createMockOfArgs = () => {
     const mockOfCreateShop = jest.fn().mockResolvedValue({});
     const mockOfGetShop = jest.fn().mockResolvedValue({});
@@ -34,6 +24,10 @@ describe('controllers / shop', () => {
             await shopControllerFactory(
                 mockOfCreateShop,
                 mockOfGetShop,
+                jest.fn().mockReturnValue({}),
+                jest.fn().mockReturnValue({}),
+                jest.fn(),
+                jest.fn(),
             ).createShop(mockOfCtx);
 
             // Then
@@ -52,6 +46,10 @@ describe('controllers / shop', () => {
                 shopControllerFactory(
                     mockOfCreateShop,
                     mockOfGetShop,
+                    jest.fn().mockReturnValue({}),
+                    jest.fn().mockReturnValue({}),
+                    jest.fn(),
+                    jest.fn(),
                 ).createShop(mockOfCtx);
 
             // Then
@@ -69,6 +67,10 @@ describe('controllers / shop', () => {
             await shopControllerFactory(
                 mockOfCreateShop,
                 mockOfGetShop,
+                jest.fn().mockReturnValue({}),
+                jest.fn().mockReturnValue({}),
+                jest.fn(),
+                jest.fn(),
             ).getShop(mockOfCtx);
 
             // Then
@@ -85,9 +87,14 @@ describe('controllers / shop', () => {
 
             // When
             const ft = () =>
-                shopControllerFactory(mockOfCreateShop, mockOfGetShop).getShop(
-                    mockOfCtx,
-                );
+                shopControllerFactory(
+                    mockOfCreateShop,
+                    mockOfGetShop,
+                    jest.fn().mockReturnValue({}),
+                    jest.fn().mockReturnValue({}),
+                    jest.fn(),
+                    jest.fn(),
+                ).getShop(mockOfCtx);
 
             // Then
             await expect(ft).rejects.toThrow(NotFoundError);

@@ -1,3 +1,4 @@
+import { Currency } from '@domain/currency/currency';
 import { createMockOfProductRepository } from '@domain/product/__tests__/product-repository.mock';
 import { createProductFactory } from '@application/use-cases/product/create-product';
 
@@ -5,7 +6,7 @@ const createMockOfArgs = () => {
     const mockOfNewProduct = {
         name: 'the_product_name',
         priceCentsAmount: 4200,
-        priceCurrency: 'EUR',
+        priceCurrency: 'EUR' as Currency,
     };
     const mockOfProductRepository = createMockOfProductRepository({
         persist: jest.fn().mockResolvedValue('persisted-product'),

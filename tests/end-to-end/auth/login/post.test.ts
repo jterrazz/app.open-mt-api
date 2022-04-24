@@ -32,6 +32,12 @@ describe('END TO END - POST /auth/login', () => {
         // Then
         expect(response.status).toEqual(200);
         expect(response.body).toEqual({});
+        expect(response.headers['set-cookie'][0]).toMatch(
+            /koa\.sess=[\w=]*; path=\/; httponly/,
+        );
+        expect(response.headers['set-cookie'][1]).toMatch(
+            /koa\.sess\.sig=[\w\-_]*; path=\/; httponly/,
+        );
     });
 
     test('rejects a bad password', async () => {

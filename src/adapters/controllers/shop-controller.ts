@@ -1,20 +1,20 @@
 import { AuthenticationRequiredError } from '@domain/error/client/authentication-required-error';
 import { CreateShop } from '@application/use-cases/shop/create-shop';
+import { DeserializeCreateShopKoaRequest } from '@adapters/serializers/shop/deserialize-create-shop-koa-request';
+import { DeserializeGetShopKoaRequest } from '@adapters/serializers/shop/deserialize-get-shop-koa-request';
 import { GetShop } from '@application/use-cases/shop/get-shop';
 import { IInitiatedKoaController } from '@adapters/controller';
 import { NotFoundError } from '@domain/error/client/not-found-error';
-import {
-    deserializeCreateShopKoaRequest,
-    serializeCreateShopKoaResponse,
-} from '@adapters/serializers/shop/create-shop-koa-serializer';
-import {
-    deserializeGetShopKoaRequest,
-    serializeGetShopKoaResponse,
-} from '@adapters/serializers/shop/get-shop-koa-serializer';
+import { SerializeCreateShopKoaResponse } from '@adapters/serializers/shop/serialize-create-shop-koa-response';
+import { SerializeGetShopKoaResponse } from '@adapters/serializers/shop/serialize-get-shop-koa-response';
 
 export const shopControllerFactory = (
     createShop: CreateShop,
     getShop: GetShop,
+    deserializeCreateShopKoaRequest: DeserializeCreateShopKoaRequest,
+    deserializeGetShopKoaRequest: DeserializeGetShopKoaRequest,
+    serializeCreateShopKoaResponse: SerializeCreateShopKoaResponse,
+    serializeGetShopKoaResponse: SerializeGetShopKoaResponse,
 ) => {
     const createShopController: IInitiatedKoaController = async (ctx) => {
         ctx.requestTracker.requestedCreateShop();

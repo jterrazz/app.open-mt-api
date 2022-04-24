@@ -112,37 +112,37 @@ describe('userRepositoryPrisma', () => {
     });
 
     // TODO Delete since handle are not here
-    describe('findByHandle()', () => {
-        test('finds an existing user', async () => {
-            // Given
-            const handle = 'existing_handle';
-            const seededUser = await seedDatabaseWithUser(databaseClient, {
-                handle,
-            });
-
-            // When
-            const result = await repository.findByHandle(handle);
-
-            // Then
-            expect(result).toEqual({
-                email: seededUser.email,
-                firstName: 'the_user_first_name',
-                handle,
-                hashedPassword: 'the_user_hashed_password',
-                id: seededUser.id,
-                lastName: 'the_user_last_name',
-            });
-        });
-
-        test('does not find a user that does not exist', async () => {
-            // Given
-            const handle = 'handle_that_does_not_exist';
-
-            // When
-            const result = await repository.findByHandle(handle);
-
-            // Then
-            expect(result).toBeNull();
-        });
-    });
+    // describe('findById()', () => {
+    //     test('finds an existing user', async () => {
+    //         // Given
+    //         const handle = 'existing_handle';
+    //         const seededUser = await seedDatabaseWithUser(databaseClient, {
+    //             handle,
+    //         });
+    //
+    //         // When
+    //         const result = await repository.findById(handle);
+    //
+    //         // Then
+    //         expect(result).toEqual({
+    //             email: seededUser.email,
+    //             firstName: 'the_user_first_name',
+    //             handle,
+    //             hashedPassword: 'the_user_hashed_password',
+    //             id: seededUser.id,
+    //             lastName: 'the_user_last_name',
+    //         });
+    //     });
+    //
+    //     test('does not find a user that does not exist', async () => {
+    //         // Given
+    //         const handle = 'handle_that_does_not_exist';
+    //
+    //         // When
+    //         const result = await repository.findById(handle);
+    //
+    //         // Then
+    //         expect(result).toBeNull();
+    //     });
+    // });
 });

@@ -4,7 +4,10 @@ import { createMockOfTrackerRepository } from '@domain/tracker/__tests__/tracker
 import { createMockOfUser } from '@domain/user/__tests__/user-entity.mock';
 
 export const createMockOfInitiatedKoaContext = (
-    overrideParams?: Partial<IInitiatedKoaContext> | { response: any },
+    overrideParams?:
+        | Partial<IInitiatedKoaContext>
+        | { response: any }
+        | { request: any },
     withAuthenticatedUser = false,
 ): IInitiatedKoaContext => {
     return {
@@ -12,6 +15,7 @@ export const createMockOfInitiatedKoaContext = (
         authenticatedUser: withAuthenticatedUser
             ? createMockOfUser()
             : undefined,
+        logout: jest.fn(),
         requestTracker: createMockOfTrackerRepository(),
         ...overrideParams,
     };

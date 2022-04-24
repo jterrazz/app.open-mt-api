@@ -23,7 +23,7 @@ export const mapPrismaErrorToDomain = (
             );
         case PrismaErrors.OPERATION_FAILED_RECORD_NOT_FOUND: // TODO Test
             return new NotFoundError(); // TODO Use an internal version of error since it's not public
-    }
+    } // TODO Modify other naming to ClientError
 
     return prismaError;
 };

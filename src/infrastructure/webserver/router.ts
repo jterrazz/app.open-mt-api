@@ -9,19 +9,22 @@ export const routerFactory = (controllers: IControllers): Router => {
     router.get('/', controllers.api.getState);
 
     // Authentication
-    router.post('/auth/login', passport.authenticate('local'), (ctx) => {
-        ctx.status = 200;
-    });
-    router.post('/auth/logout', (ctx) => {
-        ctx.logout();
-    });
+    router.post(
+        '/auth/login',
+        passport.authenticate('local'),
+        controllers.authentication.logIn,
+    );
+    router.post('/auth/logout', controllers.authentication.logOut);
 
     // Shop
-    router.post('/shop/', controllers.shops.createShop);
+    router.post('/shop', controllers.shops.createShop);
     router.get('/shop/:shopHandle', controllers.shops.getShop);
 
+    // Product
+    router.post('/product', controllers.products.createProduct);
+
     // User
-    router.get('/user/:userHandle', controllers.users.getPublicProfile);
+    router.get('/user/:userId', controllers.users.getPublicProfile);
 
     return router;
 };

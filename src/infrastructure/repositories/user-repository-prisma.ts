@@ -22,9 +22,10 @@ export const userRepositoryPrismaFactory = (
 
         return persistedUser && mapPersistedUserToUserEntity(persistedUser);
     },
-    async findByHandle(handle) {
+    async findById(id) {
+        // TODO To test
         const persistedUser = await prismaClient.user.findFirst({
-            where: { handle },
+            where: { id },
         });
 
         return persistedUser && mapPersistedUserToUserEntity(persistedUser);

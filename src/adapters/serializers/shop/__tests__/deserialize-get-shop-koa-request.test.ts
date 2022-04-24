@@ -1,31 +1,6 @@
 import { UnprocessableEntityError } from '@domain/error/client/unprocessable-entity-error';
 import { createMockOfInitiatedKoaContext } from '@adapters/__tests__/initiated-koa-context.mock';
-import {
-    deserializeGetShopKoaRequest,
-    serializeGetShopKoaResponse,
-} from '@adapters/serializers/shop/get-shop-koa-serializer';
-
-describe('serializeGetShopKoaResponse()', () => {
-    test('with basic response', async () => {
-        // Given
-        const ctx = createMockOfInitiatedKoaContext();
-        const params = {
-            description: 'the_description',
-            handle: 'the_handle',
-            name: 'the_name',
-        };
-
-        // When
-        serializeGetShopKoaResponse(ctx, params);
-
-        // Then
-        expect(ctx.body).toEqual({
-            description: 'the_description',
-            handle: 'the_handle',
-            name: 'the_name',
-        });
-    });
-});
+import { deserializeGetShopKoaRequest } from '@adapters/serializers/shop/deserialize-get-shop-koa-request';
 
 describe('deserializeGetShopKoaRequest()', () => {
     test('succeeds if all params are provided', async () => {

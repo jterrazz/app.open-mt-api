@@ -6,7 +6,7 @@ export const createMockOfUserRepository = (
     partialUserRepository: Partial<jest.Mocked<IUserRepository>> = {},
 ): jest.Mocked<IUserRepository> => ({
     findByEmail: jest.fn().mockResolvedValue(createMockOfUser()),
-    findByHandle: jest.fn().mockResolvedValue(createMockOfUser()),
+    findById: jest.fn().mockResolvedValue(createMockOfUser()),
     persist: jest.fn().mockImplementation(async (input) => input),
     ...partialUserRepository,
 });

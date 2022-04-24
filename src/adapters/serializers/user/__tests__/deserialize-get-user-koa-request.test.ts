@@ -1,42 +1,19 @@
 import { UnprocessableEntityError } from '@domain/error/client/unprocessable-entity-error';
 import { createMockOfInitiatedKoaContext } from '@adapters/__tests__/initiated-koa-context.mock';
-import {
-    deserializeGetUserKoaRequest,
-    serializeGetUserKoaResponse,
-} from '@adapters/serializers/user/get-user-koa-serializer';
-
-describe('serializeResponse()', () => {
-    test('returns basic response', async () => {
-        // Given
-        const ctx = createMockOfInitiatedKoaContext();
-        const params = {
-            firstName: 'the_first_name',
-            lastName: 'the_last_name',
-        };
-
-        // When
-        serializeGetUserKoaResponse(ctx, params);
-
-        // Then
-        expect(ctx.body).toEqual({
-            firstName: 'the_first_name',
-            lastName: 'the_last_name',
-        });
-    });
-});
+import { deserializeGetUserKoaRequest } from '@adapters/serializers/user/deserialize-get-user-koa-request';
 
 describe('deserializeRequest()', () => {
     test('succeeds if all params are provided', async () => {
         // Given
         const ctx = createMockOfInitiatedKoaContext({
-            params: { userHandle: 'user_handle' },
+            params: { userId: '42' },
         });
 
         // When
         const result = deserializeGetUserKoaRequest(ctx);
 
         // Then
-        expect(result).toEqual({ userHandle: 'user_handle' });
+        expect(result).toEqual({ userId: 42 });
     });
 
     test('fails if all params are provided', async () => {

@@ -1,15 +1,19 @@
+import { IUserRepository } from '@domain/user/user-repository';
 import { UserEntity } from '@domain/user/user-entity';
-import { createMockOfUser } from '@domain/user/__tests__/user-entity.mock';
 
-export const passportDeserializer = (
-    userId: number,
-    done: (err: Error | null, user?: UserEntity) => void,
+export const passportDeserializerFactory = (
+    userRepository: IUserRepository,
 ) => {
-    try {
-        // const user = await userRepository.findById(userId); // TODO
-        const user = createMockOfUser();
-        done(null, user);
-    } catch (err) {
-        done(err);
-    }
+    return async (
+        userId: number,
+        done: (err: Error | null, user?: UserEntity | null) => void,
+    ) => {
+        try {
+            const user = await userRepository.findById(userId);
+
+            done(null, user);
+        } catch (err) {
+            done(err);
+        }
+    };
 };

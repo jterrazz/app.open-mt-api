@@ -10,6 +10,7 @@ export interface IKoaContext extends Context {
 export interface IInitiatedKoaContext extends Context {
     requestTracker: ITrackerRepository;
     authenticatedUser?: UserEntity;
+    logout: () => Promise<void>;
 }
 
 export type IKoaController = (ctx: IKoaContext) => Promise<void>;
@@ -18,18 +19,22 @@ export type IInitiatedKoaController = (
 ) => Promise<void>;
 
 export interface IControllers {
-    users: {
-        getPublicProfile: IKoaController;
-    };
     api: {
         getState: IKoaController;
+    };
+    authentication: {
+        logIn: IKoaController;
+        logOut: IKoaController;
     };
     shops: {
         createShop: IKoaController;
         getShop: IKoaController;
     };
+    users: {
+        getPublicProfile: IKoaController;
+    };
     products: {
-        // createProduct: IKoaController;
+        createProduct: IKoaController;
         modifyProduct: IKoaController;
     };
 }

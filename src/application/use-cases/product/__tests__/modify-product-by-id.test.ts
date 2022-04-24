@@ -1,3 +1,4 @@
+import { Currency } from '@domain/currency/currency';
 import { ForbiddenError } from '@domain/error/client/forbidden-error';
 import { NotFoundError } from '@domain/error/client/not-found-error';
 import { createMockOfProductEntity } from '@domain/product/__tests__/product-entity.mock';
@@ -25,7 +26,7 @@ const createMockOfParams = () => {
     const newProductParams = {
         name: 'the_new_name',
         priceCentsAmount: 1,
-        priceCurrency: 'USD',
+        priceCurrency: 'USD' as Currency,
     };
 
     return {

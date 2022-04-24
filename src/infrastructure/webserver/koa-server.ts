@@ -23,7 +23,7 @@ export const koaServerFactory = (
     app.use(middlewares.handleRequestErrorsMiddleware);
     // Middlewares - Authentication
     app.keys = [configuration.CLIENT_SESSION.SECRET];
-    app.use(session({}, app));
+    app.use(session({}, app)); // TODO Add redis session
     app.use(passport.initialize());
     app.use(passport.session());
     app.use(middlewares.handleAuthenticatedUserMiddleware);

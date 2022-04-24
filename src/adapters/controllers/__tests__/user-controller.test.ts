@@ -2,11 +2,6 @@ import { NotFoundError } from '@domain/error/client/not-found-error';
 import { createMockOfInitiatedKoaContext } from '@adapters/__tests__/initiated-koa-context.mock';
 import { userControllerFactory } from '@adapters/controllers/user-controller';
 
-jest.mock('../../serializers/user/get-user-koa-serializer', () => ({
-    deserializeGetUserKoaRequest: jest.fn().mockReturnValue({}),
-    serializeGetUserKoaResponse: jest.fn(),
-}));
-
 const createMockOfArgs = () => {
     const mockOfGetUserPublicProfile = jest.fn().mockReturnValue({});
     const mockOfCtx = createMockOfInitiatedKoaContext();
@@ -27,6 +22,8 @@ describe('controllers / users', () => {
             // When
             await userControllerFactory(
                 mockOfGetUserPublicProfile,
+                jest.fn().mockReturnValue({}),
+                jest.fn(),
             ).getPublicProfile(mockOfCtx);
 
             // Then
@@ -45,6 +42,8 @@ describe('controllers / users', () => {
             const ft = () =>
                 userControllerFactory(
                     mockOfGetUserPublicProfile,
+                    jest.fn().mockReturnValue({}),
+                    jest.fn(),
                 ).getPublicProfile(mockOfCtx);
 
             // Then

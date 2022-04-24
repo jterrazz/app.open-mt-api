@@ -7,7 +7,7 @@ export const seedDatabaseWithProduct = async (
     databaseClient: IPrismaDatabase['client'],
     partialProduct: Partial<Product> = {},
 ) => {
-    const seededShop = await seedDatabaseWithShop(databaseClient, {
+    const { shop: seededShop } = await seedDatabaseWithShop(databaseClient, {
         name: 'the_shop_to_seed_products',
     });
 

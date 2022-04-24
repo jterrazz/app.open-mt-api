@@ -1,32 +1,9 @@
 import { UnprocessableEntityError } from '@domain/error/client/unprocessable-entity-error';
 import { createMockOfInitiatedKoaContext } from '@adapters/__tests__/initiated-koa-context.mock';
-import {
-    deserializeCreateShopKoaRequest,
-    serializeCreateShopKoaResponse,
-} from '@adapters/serializers/shop/create-shop-koa-serializer';
-
-describe('serializeCreateShopKoaResponse()', () => {
-    test('with basic response', async () => {
-        // Given
-        const ctx = createMockOfInitiatedKoaContext();
-        const params = {
-            handle: 'the_handle',
-            name: 'the_name',
-        };
-
-        // When
-        serializeCreateShopKoaResponse(ctx, params);
-
-        // Then
-        expect(ctx.body).toEqual({
-            handle: 'the_handle',
-            name: 'the_name',
-        });
-    });
-});
+import { deserializeCreateShopKoaRequest } from '@adapters/serializers/shop/deserialize-create-shop-koa-request';
 
 describe('deserializeCreateShopKoaRequest()', () => {
-    const getValidCreateShopBody = () => ({
+    const createValidCreateShopBody = () => ({
         handle: 'the_handle',
         name: 'the_name',
     });
@@ -35,7 +12,7 @@ describe('deserializeCreateShopKoaRequest()', () => {
         // Given
         const ctx = createMockOfInitiatedKoaContext({
             request: {
-                body: getValidCreateShopBody(),
+                body: createValidCreateShopBody(),
             },
         });
 
@@ -51,7 +28,7 @@ describe('deserializeCreateShopKoaRequest()', () => {
         const ctx = createMockOfInitiatedKoaContext({
             request: {
                 body: {
-                    ...getValidCreateShopBody(),
+                    ...createValidCreateShopBody(),
                     handle: undefined,
                 },
             },
@@ -69,7 +46,7 @@ describe('deserializeCreateShopKoaRequest()', () => {
         const ctx = createMockOfInitiatedKoaContext({
             request: {
                 body: {
-                    ...getValidCreateShopBody(),
+                    ...createValidCreateShopBody(),
                     name: undefined,
                 },
             },

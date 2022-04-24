@@ -1,8 +1,5 @@
+import { z } from 'zod';
+
 export type Currency = 'EUR' | 'USD';
-// {
-//     // TODO Refacto to reflect prisma
-//     EUR: 'EUR',
-//     USD: 'USD',
-// };
-//
-// export type Currency = typeof Currency[keyof typeof Currency];
+
+export const currencySchema = z.enum(['USD', 'EUR']);

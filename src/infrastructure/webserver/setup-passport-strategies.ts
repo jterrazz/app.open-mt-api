@@ -10,7 +10,7 @@ export const setupPassportStrategiesFactory = (
     ) => void,
     passportDeserializer: (
         userId: number,
-        done: (err: Error | null, user?: UserEntity) => void,
+        done: (err: Error | null, user?: UserEntity | null) => void,
     ) => void,
 ) => {
     return () => {

@@ -1,4 +1,4 @@
-import { UnprocessableEntityError } from '@domain/error/client/unprocessable-entity-error';
+import { UnprocessableEntityClientError } from '@domain/error/client/unprocessable-entity-client-error';
 import { ZodError } from 'zod';
 
 export const zodErrorToUnprocessableEntityErrorWrapper = <T>(
@@ -10,7 +10,7 @@ export const zodErrorToUnprocessableEntityErrorWrapper = <T>(
         if (error instanceof ZodError) {
             console.debug('zod error ' + error); // TODO Replace by domain logger with global context
 
-            throw new UnprocessableEntityError(
+            throw new UnprocessableEntityClientError(
                 (error.issues.pop()?.path || []).map(String),
             );
         }

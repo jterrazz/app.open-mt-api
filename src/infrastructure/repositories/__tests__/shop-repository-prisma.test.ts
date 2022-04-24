@@ -1,6 +1,6 @@
 import { BrokeOneToOneRelationError } from '@infrastructure/orm/prisma/map-prisma-error-to-domain';
-import { DuplicatedFieldError } from '@domain/error/technical/duplicated-field-error';
-import { NotFoundError } from '@domain/error/client/not-found-error';
+import { DuplicatedFieldServerError } from '@domain/error/server/duplicated-field-server-error';
+import { NotFoundClientError } from '@domain/error/client/not-found-client-error';
 import { initDependencies } from '@configuration/dependencies';
 import { seedDatabaseWithShop } from '@tests/seeds/shop';
 import { seedDatabaseWithUser } from '@tests/seeds/user';
@@ -91,7 +91,7 @@ describe('ShopRepositoryPrisma', function () {
             const ft = () => repository.persist(newShopData, seededUser.id);
 
             // Then
-            await expect(ft).rejects.toBeInstanceOf(DuplicatedFieldError);
+            await expect(ft).rejects.toBeInstanceOf(DuplicatedFieldServerError);
             await expect(ft).rejects.toEqual({
                 field: 'handle',
             });
@@ -153,7 +153,7 @@ describe('ShopRepositoryPrisma', function () {
             const ft = () => repository.merge(updatedShopData, -1);
 
             // Then
-            await expect(ft).rejects.toThrow(NotFoundError);
+            await expect(ft).rejects.toThrow(NotFoundClientError);
         });
     });
 

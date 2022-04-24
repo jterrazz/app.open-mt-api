@@ -1,6 +1,6 @@
 import { Currency } from '@domain/currency/currency';
-import { ForbiddenError } from '@domain/error/client/forbidden-error';
-import { NotFoundError } from '@domain/error/client/not-found-error';
+import { ForbiddenClientError } from '@domain/error/client/forbidden-client-error';
+import { NotFoundClientError } from '@domain/error/client/not-found-client-error';
 import { createMockOfProductEntity } from '@domain/product/__tests__/product-entity.mock';
 import { createMockOfProductRepository } from '@domain/product/__tests__/product-repository.mock';
 import { createMockOfShopEntity } from '@domain/shop/__tests__/shop-entity.mock';
@@ -82,7 +82,7 @@ describe('use-cases / modifyProductByIdFactory()', () => {
             )(mockOfAuthenticatedUser, 0, newProductParams);
 
         // Then
-        await expect(ft).rejects.toThrow(NotFoundError);
+        await expect(ft).rejects.toThrow(NotFoundClientError);
     });
 
     test('rejects non matching authenticated user to product owner with a ForbiddenError', async () => {
@@ -108,7 +108,7 @@ describe('use-cases / modifyProductByIdFactory()', () => {
             )(mockOfAuthenticatedUser, 0, newProductParams);
 
         // Then
-        await expect(ft).rejects.toThrow(ForbiddenError);
+        await expect(ft).rejects.toThrow(ForbiddenClientError);
         expect(mockOfShopRepository.merge).toHaveBeenCalledTimes(0);
     });
 });

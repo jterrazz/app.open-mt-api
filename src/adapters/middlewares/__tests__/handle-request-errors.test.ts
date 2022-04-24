@@ -1,4 +1,4 @@
-import { NotFoundError } from '@domain/error/client/not-found-error';
+import { NotFoundClientError } from '@domain/error/client/not-found-client-error';
 import { createMockOfInitiatedKoaContext } from '@adapters/__tests__/initiated-koa-context.mock';
 import { createMockOfLogger } from '@application/contracts/__tests__/logger.mock';
 import { handleRequestErrorsMiddlewareFactory } from '@adapters/middlewares/handle-request-errors';
@@ -11,7 +11,7 @@ describe('handleRequestErrorsMiddleware()', () => {
     test('respond with client errors details', async () => {
         // Given
         const next = async () => {
-            throw new NotFoundError('test-error');
+            throw new NotFoundClientError('test-error');
         };
 
         // When

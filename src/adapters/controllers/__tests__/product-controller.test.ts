@@ -1,4 +1,4 @@
-import { AuthenticationRequiredError } from '@domain/error/client/authentication-required-error';
+import { AuthenticationRequiredClientError } from '@domain/error/client/authentication-required-client-error';
 import { createMockOfInitiatedKoaContext } from '@adapters/__tests__/initiated-koa-context.mock';
 import { createMockOfShopRepository } from '@domain/shop/__tests__/shop-repository.mock';
 import { productControllerFactory } from '@adapters/controllers/product-controller';
@@ -67,7 +67,7 @@ describe('controllers / product', () => {
                 ).modifyProduct(mockOfCtx);
 
             // Then
-            await expect(ft).rejects.toThrow(AuthenticationRequiredError);
+            await expect(ft).rejects.toThrow(AuthenticationRequiredClientError);
         });
     });
 });

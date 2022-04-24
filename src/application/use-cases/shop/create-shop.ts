@@ -1,9 +1,9 @@
 import { BrokeOneToOneRelationError } from '@infrastructure/orm/prisma/map-prisma-error-to-domain';
-import { DuplicatedFieldError } from '@domain/error/technical/duplicated-field-error';
-import { ForbiddenError } from '@domain/error/client/forbidden-error';
+import { DuplicatedFieldServerError } from '@domain/error/server/duplicated-field-server-error';
+import { ForbiddenClientError } from '@domain/error/client/forbidden-client-error';
 import { IShopRepository } from '@domain/shop/shop-repository';
 import { ShopEntity } from '@domain/shop/shop-entity';
-import { UnprocessableEntityError } from '@domain/error/client/unprocessable-entity-error';
+import { UnprocessableEntityClientError } from '@domain/error/client/unprocessable-entity-client-error';
 import { UserEntity } from '@domain/user/user-entity';
 
 export type CreateShop = (
@@ -37,15 +37,17 @@ export const createShopFactory = (
                 console.log(error);
                 // TODO Wrap in method
                 if (
-                    error instanceof DuplicatedFieldError &&
+                    error instanceof DuplicatedFieldServerError &&
                     error.field === 'handle'
                 ) {
-                    throw new UnprocessableEntityError(['handle']);
+                    throw new UnprocessableEntityClientError(['handle']);
                 }
 
                 if (error instanceof BrokeOneToOneRelationError) {
                     // TODO Test unit
-                    throw new ForbiddenError('a user cannot create 2 shops');
+                    throw new ForbiddenClientError(
+                        'a user cannot create 2 shops',
+                    );
                 }
                 throw error;
             });

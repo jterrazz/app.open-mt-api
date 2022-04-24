@@ -1,5 +1,5 @@
-import { AuthenticationRequiredError } from '@domain/error/client/authentication-required-error';
-import { NotFoundError } from '@domain/error/client/not-found-error';
+import { AuthenticationRequiredClientError } from '@domain/error/client/authentication-required-client-error';
+import { NotFoundClientError } from '@domain/error/client/not-found-client-error';
 import { createMockOfInitiatedKoaContext } from '@adapters/__tests__/initiated-koa-context.mock';
 import { shopControllerFactory } from '@adapters/controllers/shop-controller';
 
@@ -53,7 +53,7 @@ describe('controllers / shop', () => {
                 ).createShop(mockOfCtx);
 
             // Then
-            await expect(ft).rejects.toThrow(AuthenticationRequiredError);
+            await expect(ft).rejects.toThrow(AuthenticationRequiredClientError);
         });
     });
 
@@ -97,7 +97,7 @@ describe('controllers / shop', () => {
                 ).getShop(mockOfCtx);
 
             // Then
-            await expect(ft).rejects.toThrow(NotFoundError);
+            await expect(ft).rejects.toThrow(NotFoundClientError);
         });
     });
 });

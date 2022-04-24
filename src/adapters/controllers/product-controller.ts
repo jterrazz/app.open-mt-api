@@ -1,8 +1,8 @@
-import { AuthenticationRequiredError } from '@domain/error/client/authentication-required-error';
+import { AuthenticationRequiredClientError } from '@domain/error/client/authentication-required-client-error';
 import { CreateProduct } from '@application/use-cases/product/create-product';
 import { DeserializeCreateProductKoaRequest } from '@adapters/serializers/product/deserialize-create-product-koa-request';
 import { DeserializeModifyProductKoaRequest } from '@adapters/serializers/product/deserialize-modify-product-koa-request';
-import { ForbiddenError } from '@domain/error/client/forbidden-error';
+import { ForbiddenClientError } from '@domain/error/client/forbidden-client-error';
 import { IInitiatedKoaController } from '@adapters/controller';
 import { IShopRepository } from '@domain/shop/shop-repository';
 import { ModifyProductById } from '@application/use-cases/product/modify-product-by-id';
@@ -25,7 +25,7 @@ export const productControllerFactory = (
             deserializeModifyProductKoaRequest(ctx);
 
         if (!authenticatedUser) {
-            throw new AuthenticationRequiredError();
+            throw new AuthenticationRequiredClientError();
         }
 
         const modifiedProduct = await modifyProductById(
@@ -45,7 +45,7 @@ export const productControllerFactory = (
 
         // TODO Test
         if (!authenticatedUser) {
-            throw new AuthenticationRequiredError();
+            throw new AuthenticationRequiredClientError();
         }
 
         const shopEntity = await shopRepository.findByOwnerId(
@@ -54,7 +54,7 @@ export const productControllerFactory = (
 
         // TODO Test
         if (!shopEntity) {
-            throw new ForbiddenError(
+            throw new ForbiddenClientError(
                 "the authenticated user doesn't have any shop",
             );
         }

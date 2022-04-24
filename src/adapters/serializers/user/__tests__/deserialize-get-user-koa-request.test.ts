@@ -1,4 +1,4 @@
-import { UnprocessableEntityError } from '@domain/error/client/unprocessable-entity-error';
+import { UnprocessableEntityClientError } from '@domain/error/client/unprocessable-entity-client-error';
 import { createMockOfInitiatedKoaContext } from '@adapters/__tests__/initiated-koa-context.mock';
 import { deserializeGetUserKoaRequest } from '@adapters/serializers/user/deserialize-get-user-koa-request';
 
@@ -26,6 +26,6 @@ describe('deserializeRequest()', () => {
         const ft = () => deserializeGetUserKoaRequest(ctx);
 
         // Then
-        expect(ft).toThrow(UnprocessableEntityError);
+        expect(ft).toThrow(UnprocessableEntityClientError);
     });
 });

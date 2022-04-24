@@ -1,10 +1,10 @@
-import { AuthenticationRequiredError } from '@domain/error/client/authentication-required-error';
+import { AuthenticationRequiredClientError } from '@domain/error/client/authentication-required-client-error';
 import { CreateShop } from '@application/use-cases/shop/create-shop';
 import { DeserializeCreateShopKoaRequest } from '@adapters/serializers/shop/deserialize-create-shop-koa-request';
 import { DeserializeGetShopKoaRequest } from '@adapters/serializers/shop/deserialize-get-shop-koa-request';
 import { GetShop } from '@application/use-cases/shop/get-shop';
 import { IInitiatedKoaController } from '@adapters/controller';
-import { NotFoundError } from '@domain/error/client/not-found-error';
+import { NotFoundClientError } from '@domain/error/client/not-found-client-error';
 import { SerializeCreateShopKoaResponse } from '@adapters/serializers/shop/serialize-create-shop-koa-response';
 import { SerializeGetShopKoaResponse } from '@adapters/serializers/shop/serialize-get-shop-koa-response';
 
@@ -23,7 +23,7 @@ export const shopControllerFactory = (
         const description = ''; // TODO To get from request
 
         if (!ctx.authenticatedUser) {
-            throw new AuthenticationRequiredError();
+            throw new AuthenticationRequiredClientError();
         }
 
         const savedShop = await createShop(
@@ -51,7 +51,9 @@ export const shopControllerFactory = (
         const shopEntity = await getShop(shopHandle);
 
         if (!shopEntity) {
-            throw new NotFoundError(`shop '${shopHandle}' does not exist`);
+            throw new NotFoundClientError(
+                `shop '${shopHandle}' does not exist`,
+            );
         }
 
         serializeGetShopKoaResponse(ctx, {

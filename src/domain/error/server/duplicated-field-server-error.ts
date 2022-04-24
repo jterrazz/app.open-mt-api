@@ -1,4 +1,4 @@
-export class DuplicatedFieldError {
+export class DuplicatedFieldServerError {
     field: string;
 
     constructor(field: string) {

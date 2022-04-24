@@ -1,4 +1,4 @@
-import { UnprocessableEntityError } from '@domain/error/client/unprocessable-entity-error';
+import { UnprocessableEntityClientError } from '@domain/error/client/unprocessable-entity-client-error';
 import { createMockOfInitiatedKoaContext } from '@adapters/__tests__/initiated-koa-context.mock';
 import { deserializeCreateShopKoaRequest } from '@adapters/serializers/shop/deserialize-create-shop-koa-request';
 
@@ -38,7 +38,7 @@ describe('deserializeCreateShopKoaRequest()', () => {
         const ft = () => deserializeCreateShopKoaRequest(ctx);
 
         // Then
-        expect(ft).toThrow(UnprocessableEntityError);
+        expect(ft).toThrow(UnprocessableEntityClientError);
     });
 
     test('fails if no shop name is provided', async () => {
@@ -56,6 +56,6 @@ describe('deserializeCreateShopKoaRequest()', () => {
         const ft = () => deserializeCreateShopKoaRequest(ctx);
 
         // Then
-        expect(ft).toThrow(UnprocessableEntityError);
+        expect(ft).toThrow(UnprocessableEntityClientError);
     });
 });

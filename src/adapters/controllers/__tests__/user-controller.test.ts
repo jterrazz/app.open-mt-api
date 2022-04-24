@@ -1,4 +1,4 @@
-import { NotFoundError } from '@domain/error/client/not-found-error';
+import { NotFoundClientError } from '@domain/error/client/not-found-client-error';
 import { createMockOfInitiatedKoaContext } from '@adapters/__tests__/initiated-koa-context.mock';
 import { userControllerFactory } from '@adapters/controllers/user-controller';
 
@@ -47,7 +47,7 @@ describe('controllers / users', () => {
                 ).getPublicProfile(mockOfCtx);
 
             // Then
-            await expect(ft).rejects.toThrow(NotFoundError);
+            await expect(ft).rejects.toThrow(NotFoundClientError);
         });
     });
 });

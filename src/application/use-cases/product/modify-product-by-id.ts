@@ -1,7 +1,7 @@
-import { ForbiddenError } from '@domain/error/client/forbidden-error';
+import { ForbiddenClientError } from '@domain/error/client/forbidden-client-error';
 import { IProductRepository } from '@domain/product/product-repository';
 import { IShopRepository } from '@domain/shop/shop-repository';
-import { NotFoundError } from '@domain/error/client/not-found-error';
+import { NotFoundClientError } from '@domain/error/client/not-found-client-error';
 import { ProductEntity } from '@domain/product/product-entity';
 import { UserEntity } from '@domain/user/user-entity';
 
@@ -24,11 +24,11 @@ export const modifyProductByIdFactory = (
         ]);
 
         if (!productEntity) {
-            throw new NotFoundError('unknown product');
+            throw new NotFoundClientError('unknown product');
         }
 
         if (productEntity.shopId !== userShop?.id) {
-            throw new ForbiddenError();
+            throw new ForbiddenClientError();
         }
 
         if (modifyProductParams.name !== undefined)

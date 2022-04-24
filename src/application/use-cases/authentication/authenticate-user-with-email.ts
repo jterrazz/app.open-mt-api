@@ -1,4 +1,4 @@
-import { AuthenticationRequiredError } from '@domain/error/client/authentication-required-error';
+import { AuthenticationRequiredClientError } from '@domain/error/client/authentication-required-client-error';
 import { CheckPassword } from '../../contracts/encryption/check-password';
 import { ILogger } from '@application/contracts';
 import { IUserRepository } from '@domain/user/user-repository';
@@ -23,7 +23,7 @@ export const authenticateUserWithEmailFactory = (
             logger.debug(
                 `failed to authenticate user ${email} because its email does not exist`,
             );
-            throw new AuthenticationRequiredError();
+            throw new AuthenticationRequiredClientError();
         }
 
         const passwordIsValid = await checkPassword(
@@ -35,7 +35,7 @@ export const authenticateUserWithEmailFactory = (
             logger.debug(
                 `failed to authenticate user ${email} because its password is wrong`,
             );
-            throw new AuthenticationRequiredError();
+            throw new AuthenticationRequiredClientError();
         }
 
         logger.debug(`successfully authenticated user ${email}`);

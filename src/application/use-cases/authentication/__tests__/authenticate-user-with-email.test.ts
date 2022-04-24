@@ -1,4 +1,4 @@
-import { AuthenticationRequiredError } from '@domain/error/client/authentication-required-error';
+import { AuthenticationRequiredClientError } from '@domain/error/client/authentication-required-client-error';
 import { authenticateUserWithEmailFactory } from '@application/use-cases/authentication/authenticate-user-with-email';
 import { createMockOfLogger } from '@application/contracts/__tests__/logger.mock';
 import { createMockOfUser } from '@domain/user/__tests__/user-entity.mock';
@@ -49,7 +49,7 @@ describe('use-cases / authenticateUserWithEmail()', () => {
             )('', '');
 
         // Then
-        await expect(ft).rejects.toThrow(AuthenticationRequiredError);
+        await expect(ft).rejects.toThrow(AuthenticationRequiredClientError);
     });
 
     test('rejects a bad password with an unauthorized error', async () => {
@@ -66,6 +66,6 @@ describe('use-cases / authenticateUserWithEmail()', () => {
             )('', '');
 
         // Then
-        await expect(ft).rejects.toThrow(AuthenticationRequiredError);
+        await expect(ft).rejects.toThrow(AuthenticationRequiredClientError);
     });
 });

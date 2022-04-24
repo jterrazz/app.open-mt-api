@@ -1,5 +1,5 @@
 import { AuthenticateUserWithEmail } from '@application/use-cases/authentication/authenticate-user-with-email';
-import { AuthenticationRequiredError } from '@domain/error/client/authentication-required-error';
+import { AuthenticationRequiredClientError } from '@domain/error/client/authentication-required-client-error';
 import { Strategy } from 'passport-local';
 
 // Call it with passport.authenticate('local');
@@ -14,7 +14,7 @@ export const passportStrategyLocalFactory = (
                 email,
                 password,
             ).catch((error) => {
-                if (error instanceof AuthenticationRequiredError) {
+                if (error instanceof AuthenticationRequiredClientError) {
                     return done(null, false);
                 }
 

@@ -1,4 +1,4 @@
-import { DuplicatedFieldError } from '@domain/error/technical/duplicated-field-error';
+import { DuplicatedFieldServerError } from '@domain/error/server/duplicated-field-server-error';
 import { mapPrismaErrorToDomain } from '@infrastructure/orm/prisma/map-prisma-error-to-domain';
 
 describe('mapPrismaErrorToDomain()', () => {
@@ -14,7 +14,7 @@ describe('mapPrismaErrorToDomain()', () => {
         const result = mapPrismaErrorToDomain(uniqueFieldConstraintError);
 
         // Then
-        expect(result).toBeInstanceOf(DuplicatedFieldError);
+        expect(result).toBeInstanceOf(DuplicatedFieldServerError);
         expect(result).toEqual({ field: 'handle' });
     });
 });

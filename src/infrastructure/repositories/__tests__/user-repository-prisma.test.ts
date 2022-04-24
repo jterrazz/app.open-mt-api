@@ -1,4 +1,4 @@
-import { DuplicatedFieldError } from '@domain/error/technical/duplicated-field-error';
+import { DuplicatedFieldServerError } from '@domain/error/server/duplicated-field-server-error';
 import { initDependencies } from '@configuration/dependencies';
 import { seedDatabaseWithUser } from '@tests/seeds/user';
 import { userRepositoryPrismaFactory } from '@infrastructure/repositories/user-repository-prisma';
@@ -73,7 +73,7 @@ describe('userRepositoryPrisma', () => {
             // await expect(ft).rejects.toThrow(DuplicatedFieldError); Not working
             let error;
             await ft().catch((err) => (error = err));
-            expect(error).toBeInstanceOf(DuplicatedFieldError);
+            expect(error).toBeInstanceOf(DuplicatedFieldServerError);
         });
     });
 

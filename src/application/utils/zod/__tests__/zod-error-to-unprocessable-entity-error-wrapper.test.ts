@@ -1,4 +1,4 @@
-import { UnprocessableEntityError } from '@domain/error/client/unprocessable-entity-error';
+import { UnprocessableEntityClientError } from '@domain/error/client/unprocessable-entity-client-error';
 import { ZodError } from 'zod';
 import { zodErrorToUnprocessableEntityErrorWrapper } from '@application/utils/zod/zod-error-to-unprocessable-entity-error-wrapper';
 
@@ -26,7 +26,9 @@ describe('zodErrorToUnprocessableEntityErrorWrapper()', () => {
         }
 
         // Then
-        await expect(resultError).toBeInstanceOf(UnprocessableEntityError);
+        await expect(resultError).toBeInstanceOf(
+            UnprocessableEntityClientError,
+        );
         await expect(resultError.publicMeta).toEqual({ fields: ['the_path'] });
     });
 });

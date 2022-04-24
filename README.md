@@ -76,11 +76,11 @@ src
 └ application
   # the abstracted use cases of the application
 └ configuration
-  # injects dependencies (technical implementations) to the abstracted application
+  # injects dependencies (server implementations) to the abstracted application
 └ domain
   # core objects of the application
 └ infrastructure
-  # technical implementations
+  # server implementations
 ```
 
 ##### 1. Adapters

@@ -1,6 +1,6 @@
 import { GetApiState } from '@application/use-cases/api/get-api-state';
-import { IInitiatedKoaController } from '@adapters/controller';
-import { SerializeGetApiStateKoaResponse } from '@adapters/serializers/api/serialize-get-api-state-koa-response';
+import { IInitiatedKoaController } from '@adapters/controllers/koa-controller';
+import { SerializeGetApiStateKoaResponse } from '@adapters/serializers/routes/api/serialize-get-api-state-koa-response';
 
 export const apiControllerFactory = (
     getApiState: GetApiState,

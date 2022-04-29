@@ -1,4 +1,4 @@
-import { Currency } from '@domain/currency/currency';
+import { CurrencyEntity } from '@domain/currency/currency-entity';
 import { initDependencies } from '@configuration/dependencies';
 import { productRepositoryPrismaFactory } from '@infrastructure/repositories/product-repository-prisma';
 import { seedDatabaseWithProduct } from '@tests/seeds/product';
@@ -34,7 +34,7 @@ describe('productRepositoryPrisma', () => {
             const newProductData = {
                 name: 'the_new_product_name',
                 priceCentsAmount: 2,
-                priceCurrency: 'USD' as Currency,
+                priceCurrency: 'USD' as CurrencyEntity,
             };
 
             // When
@@ -62,7 +62,7 @@ describe('productRepositoryPrisma', () => {
             const newProductData = {
                 name: 'the_new_product_name',
                 priceCentsAmount: 2,
-                priceCurrency: 'USD' as Currency,
+                priceCurrency: 'USD' as CurrencyEntity,
             };
 
             // When

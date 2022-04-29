@@ -1,5 +1,5 @@
 import * as bcrypt from 'bcrypt';
-import { HashPassword } from '@application/contracts/encryption/hash-password';
+import { HashPassword } from '@domain/encryption/hash-password';
 
 const SALT_ROUNDS = 10;
 

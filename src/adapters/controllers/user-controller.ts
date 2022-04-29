@@ -1,8 +1,8 @@
-import { DeserializeGetUserKoaRequest } from '@adapters/serializers/user/deserialize-get-user-koa-request';
+import { DeserializeGetUserKoaRequest } from '@adapters/serializers/routes/user/deserialize-get-user-koa-request';
 import { GetUserPublicProfile } from '@application/use-cases/user/get-user-public-profile';
-import { IInitiatedKoaController } from '@adapters/controller';
+import { IInitiatedKoaController } from '@adapters/controllers/koa-controller';
 import { NotFoundClientError } from '@domain/error/client/not-found-client-error';
-import { SerializeGetUserKoaResponse } from '@adapters/serializers/user/serialize-get-user-koa-response';
+import { SerializeGetUserKoaResponse } from '@adapters/serializers/routes/user/serialize-get-user-koa-response';
 
 export const userControllerFactory = (
     getUserPublicProfile: GetUserPublicProfile,

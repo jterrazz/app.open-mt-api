@@ -1,12 +1,12 @@
 import { AuthenticationRequiredClientError } from '@domain/error/client/authentication-required-client-error';
 import { CreateShop } from '@application/use-cases/shop/create-shop';
-import { DeserializeCreateShopKoaRequest } from '@adapters/serializers/shop/deserialize-create-shop-koa-request';
-import { DeserializeGetShopKoaRequest } from '@adapters/serializers/shop/deserialize-get-shop-koa-request';
+import { DeserializeCreateShopKoaRequest } from '@adapters/serializers/routes/shop/deserialize-create-shop-koa-request';
+import { DeserializeGetShopKoaRequest } from '@adapters/serializers/routes/shop/deserialize-get-shop-koa-request';
 import { GetShop } from '@application/use-cases/shop/get-shop';
-import { IInitiatedKoaController } from '@adapters/controller';
+import { IInitiatedKoaController } from '@adapters/controllers/koa-controller';
 import { NotFoundClientError } from '@domain/error/client/not-found-client-error';
-import { SerializeCreateShopKoaResponse } from '@adapters/serializers/shop/serialize-create-shop-koa-response';
-import { SerializeGetShopKoaResponse } from '@adapters/serializers/shop/serialize-get-shop-koa-response';
+import { SerializeCreateShopKoaResponse } from '@adapters/serializers/routes/shop/serialize-create-shop-koa-response';
+import { SerializeGetShopKoaResponse } from '@adapters/serializers/routes/shop/serialize-get-shop-koa-response';
 
 export const shopControllerFactory = (
     createShop: CreateShop,

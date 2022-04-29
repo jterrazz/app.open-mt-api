@@ -1,16 +1,23 @@
-import { IInitiatedKoaController } from '@adapters/controller';
+import { IInitiatedKoaController } from '@adapters/controllers/koa-controller';
+import { SerializeLoginKoaResponse } from '@adapters/serializers/routes/authentication/serialize-login-koa-response';
+import { SerializeLogoutKoaResponse } from '@adapters/serializers/routes/authentication/serialize-logout-koa-response';
 
-export const authenticationControllerFactory = () => {
+export const authenticationControllerFactory = (
+    serializeLoginKoaResponse: SerializeLoginKoaResponse,
+    serializeLogoutKoaResponse: SerializeLogoutKoaResponse,
+) => {
     const logInController: IInitiatedKoaController = async (ctx) => {
-        // ctx.requestTracker.requestedLogInByMail();
-        ctx.status = 200;
+        // ctx.requestTracker.requestedLoginByEmail();
+
+        serializeLoginKoaResponse(ctx);
     };
 
     const logOutController: IInitiatedKoaController = async (ctx) => {
-        // ctx.requestTracker.requestedLogOutByMail();
+        // ctx.requestTracker.requestedLogoutByEmail();
+
         await ctx.logout();
-        ctx.session = null;
-        ctx.status = 200;
+
+        serializeLogoutKoaResponse(ctx);
     };
 
     return { logIn: logInController, logOut: logOutController };

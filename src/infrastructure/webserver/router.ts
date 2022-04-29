@@ -1,8 +1,8 @@
-import { IControllers } from '@adapters/controller';
+import { IAdapterControllers } from '@adapters/types';
 import Router from 'koa-router';
 import passport from 'koa-passport';
 
-export const routerFactory = (controllers: IControllers): Router => {
+export const routerFactory = (controllers: IAdapterControllers): Router => {
     const router = new Router();
 
     // API

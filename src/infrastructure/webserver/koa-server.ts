@@ -3,14 +3,13 @@ import bodyParser from 'koa-bodyparser';
 import passport from 'koa-passport';
 import session from 'koa-session';
 
+import { IAdapterControllers, IAdapterMiddlewares } from '@adapters/types';
 import { IConfiguration, ILogger, IWebServer } from '@application/contracts';
-import { IControllers } from '@adapters/controller';
-import { IMiddlewares } from '@adapters/middleware';
 import { routerFactory } from '@infrastructure/webserver/router';
 
 export const koaServerFactory = (
-    controllers: IControllers,
-    middlewares: IMiddlewares,
+    controllers: IAdapterControllers,
+    middlewares: IAdapterMiddlewares,
     logger: ILogger,
     configuration: IConfiguration,
     setupPassportStrategies: () => void,

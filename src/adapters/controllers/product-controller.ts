@@ -1,13 +1,13 @@
 import { AuthenticationRequiredClientError } from '@domain/error/client/authentication-required-client-error';
 import { CreateProduct } from '@application/use-cases/product/create-product';
-import { DeserializeCreateProductKoaRequest } from '@adapters/serializers/product/deserialize-create-product-koa-request';
-import { DeserializeModifyProductKoaRequest } from '@adapters/serializers/product/deserialize-modify-product-koa-request';
+import { DeserializeCreateProductKoaRequest } from '@adapters/serializers/routes/product/deserialize-create-product-koa-request';
+import { DeserializeModifyProductKoaRequest } from '@adapters/serializers/routes/product/deserialize-modify-product-koa-request';
 import { ForbiddenClientError } from '@domain/error/client/forbidden-client-error';
-import { IInitiatedKoaController } from '@adapters/controller';
+import { IInitiatedKoaController } from '@adapters/controllers/koa-controller';
 import { IShopRepository } from '@domain/shop/shop-repository';
 import { ModifyProductById } from '@application/use-cases/product/modify-product-by-id';
-import { SerializeCreateProductKoaResponse } from '@adapters/serializers/product/serialize-create-product-koa-response';
-import { SerializeModifyProductKoaResponse } from '@adapters/serializers/product/serialize-modify-product-koa-response';
+import { SerializeCreateProductKoaResponse } from '@adapters/serializers/routes/product/serialize-create-product-koa-response';
+import { SerializeModifyProductKoaResponse } from '@adapters/serializers/routes/product/serialize-modify-product-koa-response';
 
 export const productControllerFactory = (
     modifyProductById: ModifyProductById,

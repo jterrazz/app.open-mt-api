@@ -1,6 +1,6 @@
 import { createMockOfInitiatedKoaContext } from '@adapters/__tests__/initiated-koa-context.mock';
 import { createMockOfTrackerRepository } from '@domain/tracker/__tests__/tracker-repository.mock';
-import { handleRequestTrackerMiddlewareFactory } from '@adapters/middlewares/handle-request-tracker';
+import { handleRequestTrackerMiddlewareFactory } from '@adapters/middlewares/handle-request-tracker-middleware';
 import { initTrackerForRequestFactory } from '@domain/tracker/init-tracker-for-request';
 
 describe('handleRequestTrackerMiddleware()', () => {

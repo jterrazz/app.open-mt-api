@@ -1,5 +1,6 @@
 import { EventIdentifiers } from '@domain/tracker/events';
-import { IConfiguration, IStrategy } from '@application/contracts';
+import { IConfiguration } from '@application/contracts';
+import { IStrategy } from '@domain/strategy';
 import { ITrackerRepository } from '@domain/tracker/tracker-repository';
 
 export type EventInMemory = {

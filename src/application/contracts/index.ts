@@ -1,6 +1,5 @@
 export * from './configuration';
 export * from './database';
 export * from './logger';
-export * from '@domain/repository';
-export * from '@domain/strategy';
+// export * from './producers';
 export * from './web-server';

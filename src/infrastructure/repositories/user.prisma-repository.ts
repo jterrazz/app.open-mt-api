@@ -1,6 +1,6 @@
-import { IUserRepository } from '@domain/user/user-repository';
+import { IUserRepository } from '@domain/user/user.repository';
 import { PrismaClient, User } from '@prisma/client';
-import { UserEntity } from '@domain/user/user-entity';
+import { UserEntity } from '@domain/user/user.entity';
 import { mapPrismaErrorToDomain } from '@infrastructure/orm/prisma/map-prisma-error-to-domain';
 
 const mapPersistedUserToUserEntity = (persistedUser: User): UserEntity => ({

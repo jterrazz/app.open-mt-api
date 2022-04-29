@@ -1,10 +1,10 @@
 import { BrokeOneToOneRelationError } from '@infrastructure/orm/prisma/map-prisma-error-to-domain';
 import { DuplicatedFieldServerError } from '@domain/error/server/duplicated-field-server-error';
 import { ForbiddenClientError } from '@domain/error/client/forbidden-client-error';
-import { IShopRepository } from '@domain/shop/shop-repository';
-import { ShopEntity } from '@domain/shop/shop-entity';
+import { IShopRepository } from '@domain/shop/shop.repository';
+import { ShopEntity } from '@domain/shop/shop.entity';
 import { UnprocessableEntityClientError } from '@domain/error/client/unprocessable-entity-client-error';
-import { UserEntity } from '@domain/user/user-entity';
+import { UserEntity } from '@domain/user/user.entity';
 
 export type CreateShop = (
     newShopParams: Pick<

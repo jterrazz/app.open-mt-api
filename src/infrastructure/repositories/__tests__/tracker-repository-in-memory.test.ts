@@ -1,4 +1,4 @@
-import { trackerRepositoryInMemoryFactory } from '@infrastructure/repositories/tracker-repository-in-memory';
+import { trackerRepositoryInMemoryFactory } from '@infrastructure/repositories/tracker.repository-in-memory';
 
 describe('trackerRepositoryInMemory', function () {
     it('should track events', function () {

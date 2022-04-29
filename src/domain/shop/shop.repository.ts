@@ -1,4 +1,4 @@
-import { ShopEntity } from '@domain/shop/shop-entity';
+import { ShopEntity } from '@domain/shop/shop.entity';
 
 export interface IShopRepository {
     persist: (

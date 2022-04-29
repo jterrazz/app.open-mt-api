@@ -1,4 +1,4 @@
-import { UserEntity } from '@domain/user/user-entity';
+import { UserEntity } from '@domain/user/user.entity';
 
 export const passportSerializer = (
     user: UserEntity,

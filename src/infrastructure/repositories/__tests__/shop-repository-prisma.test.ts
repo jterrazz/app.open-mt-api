@@ -4,7 +4,7 @@ import { NotFoundClientError } from '@domain/error/client/not-found-client-error
 import { initDependencies } from '@configuration/dependencies';
 import { seedDatabaseWithShop } from '@tests/seeds/shop';
 import { seedDatabaseWithUser } from '@tests/seeds/user';
-import { shopRepositoryPrismaFactory } from '@infrastructure/repositories/shop-repository-prisma';
+import { shopRepositoryPrismaFactory } from '@infrastructure/repositories/shop.prisma-repository';
 
 const databaseClient = initDependencies().database.client;
 const repository = shopRepositoryPrismaFactory(databaseClient);

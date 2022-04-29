@@ -1,4 +1,4 @@
-import { ProductEntity } from '@domain/product/product-entity';
+import { ProductEntity } from '@domain/product/product.entity';
 
 export const createMockOfProductEntity = (
     partialProduct: Partial<ProductEntity> = {},

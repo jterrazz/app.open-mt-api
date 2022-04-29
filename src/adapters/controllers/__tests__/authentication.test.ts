@@ -1,4 +1,4 @@
-import { authenticationControllerFactory } from '@adapters/controllers/authentication-controller';
+import { authenticationControllerFactory } from '@adapters/controllers/authentication.controller';
 import { createMockOfInitiatedKoaContext } from '@adapters/__tests__/initiated-koa-context.mock';
 
 describe('controllers / api', () => {

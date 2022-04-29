@@ -1,6 +1,6 @@
-import { IProductRepository } from '@domain/product/product-repository';
+import { IProductRepository } from '@domain/product/product.repository';
 import { PrismaClient, Product } from '@prisma/client';
-import { ProductEntity } from '@domain/product/product-entity';
+import { ProductEntity } from '@domain/product/product.entity';
 
 const mapPersistedProductToProductEntity = (
     persistedProduct: Product,

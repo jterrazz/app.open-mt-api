@@ -1,7 +1,7 @@
 import { AuthenticationRequiredClientError } from '@domain/error/client/authentication-required-client-error';
 import { NotFoundClientError } from '@domain/error/client/not-found-client-error';
 import { createMockOfInitiatedKoaContext } from '@adapters/__tests__/initiated-koa-context.mock';
-import { shopControllerFactory } from '@adapters/controllers/shop-controller';
+import { shopControllerFactory } from '@adapters/controllers/shop.controller';
 
 const createMockOfArgs = () => {
     const mockOfCreateShop = jest.fn().mockResolvedValue({});

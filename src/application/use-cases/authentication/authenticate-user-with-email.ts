@@ -1,8 +1,8 @@
 import { AuthenticationRequiredClientError } from '@domain/error/client/authentication-required-client-error';
 import { CheckPassword } from '../../../domain/encryption/check-password';
 import { ILogger } from '@application/contracts';
-import { IUserRepository } from '@domain/user/user-repository';
-import { UserEntity } from '@domain/user/user-entity';
+import { IUserRepository } from '@domain/user/user.repository';
+import { UserEntity } from '@domain/user/user.entity';
 
 export type AuthenticateUserWithEmail = (
     email: string,

@@ -1,6 +1,6 @@
-import { CurrencyEntity } from '@domain/currency/currency-entity';
+import { CurrencyEntity } from '@domain/currency/currency.entity';
 import { initDependencies } from '@configuration/dependencies';
-import { productRepositoryPrismaFactory } from '@infrastructure/repositories/product-repository-prisma';
+import { productRepositoryPrismaFactory } from '@infrastructure/repositories/product.prisma-repository';
 import { seedDatabaseWithProduct } from '@tests/seeds/product';
 import { seedDatabaseWithShop } from '@tests/seeds/shop';
 

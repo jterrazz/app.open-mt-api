@@ -1,5 +1,5 @@
-import { IProductRepository } from '@domain/product/product-repository';
-import { ProductEntity } from '@domain/product/product-entity';
+import { IProductRepository } from '@domain/product/product.repository';
+import { ProductEntity } from '@domain/product/product.entity';
 
 export type CreateProduct = (
     product: Pick<ProductEntity, 'priceCentsAmount' | 'priceCurrency' | 'name'>,

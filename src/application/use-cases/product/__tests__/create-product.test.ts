@@ -1,5 +1,5 @@
-import { CurrencyEntity } from '@domain/currency/currency-entity';
-import { createMockOfProductRepository } from '@domain/product/__tests__/product-repository.mock';
+import { CurrencyEntity } from '@domain/currency/currency.entity';
+import { createMockOfProductRepository } from '@domain/product/__tests__/product.repository.mock';
 import { createProductFactory } from '@application/use-cases/product/create-product';
 
 const createMockOfArgs = () => {

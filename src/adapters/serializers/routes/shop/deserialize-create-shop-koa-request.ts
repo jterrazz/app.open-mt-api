@@ -1,6 +1,6 @@
 import * as z from 'zod';
 import { IKoaDeserializer } from '@adapters/serializers/routes/koa-serializer';
-import { Z_SHOP_HANDLE, Z_SHOP_NAME } from '@domain/shop/shop-entity';
+import { Z_SHOP_HANDLE, Z_SHOP_NAME } from '@domain/shop/shop.entity';
 import { zodErrorToUnprocessableEntityErrorWrapper } from '@application/utils/zod/zod-error-to-unprocessable-entity-error-wrapper';
 
 export type DeserializeCreateShopKoaRequest = IKoaDeserializer<{

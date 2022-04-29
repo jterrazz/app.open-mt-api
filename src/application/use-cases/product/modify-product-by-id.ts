@@ -1,9 +1,9 @@
 import { ForbiddenClientError } from '@domain/error/client/forbidden-client-error';
-import { IProductRepository } from '@domain/product/product-repository';
-import { IShopRepository } from '@domain/shop/shop-repository';
+import { IProductRepository } from '@domain/product/product.repository';
+import { IShopRepository } from '@domain/shop/shop.repository';
 import { NotFoundClientError } from '@domain/error/client/not-found-client-error';
-import { ProductEntity } from '@domain/product/product-entity';
-import { UserEntity } from '@domain/user/user-entity';
+import { ProductEntity } from '@domain/product/product.entity';
+import { UserEntity } from '@domain/user/user.entity';
 
 export type ModifyProductById = (
     authenticatedUser: UserEntity,

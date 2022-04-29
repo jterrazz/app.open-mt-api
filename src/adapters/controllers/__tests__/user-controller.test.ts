@@ -1,6 +1,6 @@
 import { NotFoundClientError } from '@domain/error/client/not-found-client-error';
 import { createMockOfInitiatedKoaContext } from '@adapters/__tests__/initiated-koa-context.mock';
-import { userControllerFactory } from '@adapters/controllers/user-controller';
+import { userControllerFactory } from '@adapters/controllers/user.controller';
 
 const createMockOfArgs = () => {
     const mockOfGetUserPublicProfile = jest.fn().mockReturnValue({});

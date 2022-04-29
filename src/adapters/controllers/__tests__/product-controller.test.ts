@@ -1,7 +1,7 @@
 import { AuthenticationRequiredClientError } from '@domain/error/client/authentication-required-client-error';
 import { createMockOfInitiatedKoaContext } from '@adapters/__tests__/initiated-koa-context.mock';
-import { createMockOfShopRepository } from '@domain/shop/__tests__/shop-repository.mock';
-import { productControllerFactory } from '@adapters/controllers/product-controller';
+import { createMockOfShopRepository } from '@domain/shop/__tests__/shop.repository.mock';
+import { productControllerFactory } from '@adapters/controllers/product.controller';
 
 const createMockOfArguments = () => {
     const mockOfModifyProductById = jest.fn();

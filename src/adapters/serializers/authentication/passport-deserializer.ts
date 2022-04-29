@@ -1,5 +1,5 @@
-import { IUserRepository } from '@domain/user/user-repository';
-import { UserEntity } from '@domain/user/user-entity';
+import { IUserRepository } from '@domain/user/user.repository';
+import { UserEntity } from '@domain/user/user.entity';
 
 export const passportDeserializerFactory = (
     userRepository: IUserRepository,

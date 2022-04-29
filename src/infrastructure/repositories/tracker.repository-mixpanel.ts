@@ -1,6 +1,6 @@
 import { IConfiguration } from '@application/contracts';
 import { IStrategy } from '@domain/strategy';
-import { ITrackerRepository } from '@domain/tracker/tracker-repository';
+import { ITrackerRepository } from '@domain/tracker/tracker.repository';
 
 export const trackerRepositoryMixpanelFactory = (): ITrackerRepository &
     IStrategy => {

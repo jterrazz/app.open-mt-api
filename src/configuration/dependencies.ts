@@ -4,10 +4,10 @@ import {
     IPrismaDatabase,
     prismaDatabaseFactory,
 } from '@infrastructure/orm/prisma/prisma-database';
-import { ITrackerRepository } from '@domain/tracker/tracker-repository';
-import { apiControllerFactory } from '@adapters/controllers/api-controller';
+import { ITrackerRepository } from '@domain/tracker/tracker.repository';
+import { apiControllerFactory } from '@adapters/controllers/api.controller';
 import { authenticateUserWithEmailFactory } from '@application/use-cases/authentication/authenticate-user-with-email';
-import { authenticationControllerFactory } from '@adapters/controllers/authentication-controller';
+import { authenticationControllerFactory } from '@adapters/controllers/authentication.controller';
 import { checkBcryptPassword } from '@infrastructure/encryption/check-bcrypt-password';
 import { configurationFactory } from '@configuration/configuration';
 import { createProductFactory } from '@application/use-cases/product/create-product';
@@ -20,17 +20,17 @@ import { deserializeModifyProductKoaRequest } from '@adapters/serializers/routes
 import { getApiStateFactory } from '@application/use-cases/api/get-api-state';
 import { getShopFactory } from '@application/use-cases/shop/get-shop';
 import { getUserPublicProfileFactory } from '@application/use-cases/user/get-user-public-profile';
-import { handleAuthenticatedUserMiddlewareFactory } from '@adapters/middlewares/handle-authenticated-user-middleware';
-import { handleRequestErrorsMiddlewareFactory } from '@adapters/middlewares/handle-request-errors-middleware';
-import { handleRequestTrackerMiddlewareFactory } from '@adapters/middlewares/handle-request-tracker-middleware';
+import { handleAuthenticatedUserMiddlewareFactory } from '@adapters/middlewares/handle-authenticated-user.middleware';
+import { handleRequestErrorsMiddlewareFactory } from '@adapters/middlewares/handle-request-errors.middleware';
+import { handleRequestTrackerMiddlewareFactory } from '@adapters/middlewares/handle-request-tracker.middleware';
 import { initTrackerForRequestFactory } from '@domain/tracker/init-tracker-for-request';
 import { koaServerFactory } from '@infrastructure/webserver/koa-server';
 import { localPassportStrategyFactory } from '@adapters/middlewares/passport/local-passport-strategy';
 import { modifyProductByIdFactory } from '@application/use-cases/product/modify-product-by-id';
 import { passportDeserializerFactory } from '@adapters/serializers/authentication/passport-deserializer';
 import { passportSerializer } from '@adapters/serializers/authentication/passport-serializer';
-import { productControllerFactory } from '@adapters/controllers/product-controller';
-import { productRepositoryPrismaFactory } from '@infrastructure/repositories/product-repository-prisma';
+import { productControllerFactory } from '@adapters/controllers/product.controller';
+import { productRepositoryPrismaFactory } from '@infrastructure/repositories/product.prisma-repository';
 import { serializeCreateProductKoaResponse } from '@adapters/serializers/routes/product/serialize-create-product-koa-response';
 import { serializeCreateShopKoaResponse } from '@adapters/serializers/routes/shop/serialize-create-shop-koa-response';
 import { serializeGetApiStateKoaResponse } from '@adapters/serializers/routes/api/serialize-get-api-state-koa-response';
@@ -39,14 +39,14 @@ import { serializeGetUserKoaResponse } from '@adapters/serializers/routes/user/s
 import { serializeLoginKoaResponse } from '@adapters/serializers/routes/authentication/serialize-login-koa-response';
 import { serializeLogoutKoaResponse } from '@adapters/serializers/routes/authentication/serialize-logout-koa-response';
 import { serializeModifyProductKoaResponse } from '@adapters/serializers/routes/product/serialize-modify-product-koa-response';
-import { setResponseHeadersMiddlewareFactory } from '@adapters/middlewares/set-response-headers-middleware';
+import { setResponseHeadersMiddlewareFactory } from '@adapters/middlewares/set-response-headers.middleware';
 import { setupPassportStrategiesFactory } from '@infrastructure/webserver/setup-passport-strategies';
-import { shopControllerFactory } from '@adapters/controllers/shop-controller';
-import { shopRepositoryPrismaFactory } from '@infrastructure/repositories/shop-repository-prisma';
-import { trackerRepositoryInMemoryFactory } from '@infrastructure/repositories/tracker-repository-in-memory';
-import { trackerRepositoryMixpanelFactory } from '@infrastructure/repositories/tracker-repository-mixpanel';
-import { userControllerFactory } from '@adapters/controllers/user-controller';
-import { userRepositoryPrismaFactory } from '@infrastructure/repositories/user-repository-prisma';
+import { shopControllerFactory } from '@adapters/controllers/shop.controller';
+import { shopRepositoryPrismaFactory } from '@infrastructure/repositories/shop.prisma-repository';
+import { trackerRepositoryInMemoryFactory } from '@infrastructure/repositories/tracker.repository-in-memory';
+import { trackerRepositoryMixpanelFactory } from '@infrastructure/repositories/tracker.repository-mixpanel';
+import { userControllerFactory } from '@adapters/controllers/user.controller';
+import { userRepositoryPrismaFactory } from '@infrastructure/repositories/user.prisma-repository';
 import { winstonLoggerFactory } from '@infrastructure/logger/winston/winston-logger';
 
 export const initDependencies = (): {

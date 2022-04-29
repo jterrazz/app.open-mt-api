@@ -1,6 +1,6 @@
-import { IShopRepository } from '@domain/shop/shop-repository';
+import { IShopRepository } from '@domain/shop/shop.repository';
 import { Image, PrismaClient, Shop } from '@prisma/client';
-import { ShopEntity } from '@domain/shop/shop-entity';
+import { ShopEntity } from '@domain/shop/shop.entity';
 import { mapPrismaErrorToDomain } from '@infrastructure/orm/prisma/map-prisma-error-to-domain';
 
 const mapPersistedShopToShopEntity = (

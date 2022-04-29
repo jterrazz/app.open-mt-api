@@ -1,5 +1,5 @@
 import { Strategy } from 'passport';
-import { UserEntity } from '@domain/user/user-entity';
+import { UserEntity } from '@domain/user/user.entity';
 import passport from 'koa-passport';
 
 export const setupPassportStrategiesFactory = (

@@ -1,4 +1,4 @@
-import { IUserRepository } from '@domain/user/user-repository';
+import { IUserRepository } from '@domain/user/user.repository';
 import { createMockOfUser } from '@domain/user/__tests__/user-entity.mock';
 
 // TODO add jest.mocked partout

@@ -4,7 +4,7 @@ import { DeserializeCreateProductKoaRequest } from '@adapters/serializers/routes
 import { DeserializeModifyProductKoaRequest } from '@adapters/serializers/routes/product/deserialize-modify-product-koa-request';
 import { ForbiddenClientError } from '@domain/error/client/forbidden-client-error';
 import { IInitiatedKoaController } from '@adapters/controllers/koa-controller';
-import { IShopRepository } from '@domain/shop/shop-repository';
+import { IShopRepository } from '@domain/shop/shop.repository';
 import { ModifyProductById } from '@application/use-cases/product/modify-product-by-id';
 import { SerializeCreateProductKoaResponse } from '@adapters/serializers/routes/product/serialize-create-product-koa-response';
 import { SerializeModifyProductKoaResponse } from '@adapters/serializers/routes/product/serialize-modify-product-koa-response';

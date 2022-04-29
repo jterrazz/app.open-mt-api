@@ -1,10 +1,10 @@
-import { CurrencyEntity } from '@domain/currency/currency-entity';
+import { CurrencyEntity } from '@domain/currency/currency.entity';
 import { ForbiddenClientError } from '@domain/error/client/forbidden-client-error';
 import { NotFoundClientError } from '@domain/error/client/not-found-client-error';
-import { createMockOfProductEntity } from '@domain/product/__tests__/product-entity.mock';
-import { createMockOfProductRepository } from '@domain/product/__tests__/product-repository.mock';
-import { createMockOfShopEntity } from '@domain/shop/__tests__/shop-entity.mock';
-import { createMockOfShopRepository } from '@domain/shop/__tests__/shop-repository.mock';
+import { createMockOfProductEntity } from '@domain/product/__tests__/product.entity.mock';
+import { createMockOfProductRepository } from '@domain/product/__tests__/product.repository.mock';
+import { createMockOfShopEntity } from '@domain/shop/__tests__/shop.entity.mock';
+import { createMockOfShopRepository } from '@domain/shop/__tests__/shop.repository.mock';
 import { createMockOfUser } from '@domain/user/__tests__/user-entity.mock';
 import { modifyProductByIdFactory } from '@application/use-cases/product/modify-product-by-id';
 

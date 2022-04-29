@@ -1,4 +1,4 @@
-import { ITrackerRepository } from '@domain/tracker/tracker-repository';
+import { ITrackerRepository } from '@domain/tracker/tracker.repository';
 
 export const createMockOfTrackerRepository = (): ITrackerRepository => {
     return {

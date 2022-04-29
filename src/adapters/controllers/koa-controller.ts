@@ -1,6 +1,6 @@
 import { Context } from 'koa';
-import { ITrackerRepository } from '@domain/tracker/tracker-repository';
-import { UserEntity } from '@domain/user/user-entity';
+import { ITrackerRepository } from '@domain/tracker/tracker.repository';
+import { UserEntity } from '@domain/user/user.entity';
 
 export interface IKoaContext extends Context {
     requestTracker?: ITrackerRepository;

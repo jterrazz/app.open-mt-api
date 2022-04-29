@@ -1,5 +1,5 @@
-import { IShopRepository } from '@domain/shop/shop-repository';
-import { ShopEntity } from '@domain/shop/shop-entity';
+import { IShopRepository } from '@domain/shop/shop.repository';
+import { ShopEntity } from '@domain/shop/shop.entity';
 
 export type GetShop = (
     shopHandle: string,

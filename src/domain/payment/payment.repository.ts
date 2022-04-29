@@ -1,4 +1,4 @@
-import { PaymentEntity } from './payment-entity';
+import { PaymentEntity } from './payment.entity';
 
 export interface IPaymentRepository {
     persist(payment: PaymentEntity): Promise<void>;

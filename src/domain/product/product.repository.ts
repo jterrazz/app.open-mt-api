@@ -1,4 +1,4 @@
-import { ProductEntity } from './product-entity';
+import { ProductEntity } from './product.entity';
 
 export interface IProductRepository {
     persist: (

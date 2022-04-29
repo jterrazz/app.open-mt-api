@@ -1,7 +1,7 @@
 import { DuplicatedFieldServerError } from '@domain/error/server/duplicated-field-server-error';
 import { initDependencies } from '@configuration/dependencies';
 import { seedDatabaseWithUser } from '@tests/seeds/user';
-import { userRepositoryPrismaFactory } from '@infrastructure/repositories/user-repository-prisma';
+import { userRepositoryPrismaFactory } from '@infrastructure/repositories/user.prisma-repository';
 
 const databaseClient = initDependencies().database.client;
 const repository = userRepositoryPrismaFactory(databaseClient);

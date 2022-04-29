@@ -1,5 +1,5 @@
-import { IProductRepository } from '../product-repository';
-import { createMockOfProductEntity } from '@domain/product/__tests__/product-entity.mock';
+import { IProductRepository } from '../product.repository';
+import { createMockOfProductEntity } from '@domain/product/__tests__/product.entity.mock';
 
 export const createMockOfProductRepository = (
     partialProductRepository: Partial<IProductRepository> = {},

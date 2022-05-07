@@ -7,6 +7,7 @@ export const handleRequestTrackerMiddlewareFactory = (
 ): Middleware => {
     return async (ctx: IKoaContext, next) => {
         ctx.requestTracker = initTrackerForRequest(ctx.authenticatedUser?.id);
+        ctx.requestTracker.start();
         await next();
         ctx.requestTracker.stop();
     };

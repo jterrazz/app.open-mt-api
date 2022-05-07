@@ -1,31 +1,51 @@
+import { EventIdentifiers } from '@domain/tracker/events';
 import { IConfiguration } from '@application/contracts';
-import { IStrategy } from '@domain/strategy';
 import { ITrackerRepository } from '@domain/tracker/tracker.repository';
+import Mixpanel from 'mixpanel';
 
-export const trackerRepositoryMixpanelFactory = (): ITrackerRepository &
-    IStrategy => {
-    const repository: ITrackerRepository = {
+export const trackerRepositoryMixpanelFactory = (
+    configuration: IConfiguration,
+): ITrackerRepository => {
+    const secret = configuration.SERVICES.MIXPANEL?.SECRET;
+
+    if (!secret) {
+        throw new Error(
+            'mixpanel tracker repository requires a secret in configuration',
+        );
+    }
+
+    const mixpanel = Mixpanel.init(secret, {
+        protocol: 'https',
+    });
+
+    return {
         exportEvents: () => {},
 
-        requestedCreatePayment: () => {},
+        requestedCreatePayment: () => {
+            mixpanel.track(EventIdentifiers.REQUESTED_CREATE_PAYMENT);
+        },
         requestedCreateProduct: () => {},
         requestedCreateShop: () => {},
         requestedDeleteShop: () => {},
         requestedGetApiState: () => {},
+        requestedGetProduct: () => {},
         requestedGetShop: () => {},
-        requestedGetUser: () => {},
+        requestedGetUserPrivateSettings: () => {},
+        requestedGetUserPublicProfile: () => {},
+        requestedLogIn: () => {},
+        requestedLogOut: () => {},
         requestedModifyProduct: () => {},
         requestedModifyShop: () => {},
         requestedRegisterByMail: () => {},
-        requestedSignInByMail: () => {},
 
-        start: () => {},
+        start: () => {
+            // mixpanel.people.set('billybob', {
+            //     plan: 'premium',
+            //     games_played: 1
+            // }, {
+            //     $ignore_time: true
+            // });
+        },
         stop: () => {},
-    };
-
-    return {
-        ...repository,
-        isApplicable: (environment: IConfiguration['ENVIRONMENT']) =>
-            environment !== 'test',
     };
 };

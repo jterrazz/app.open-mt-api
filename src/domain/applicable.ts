@@ -1,3 +1,3 @@
-export interface IStrategy {
+export interface Applicable {
     isApplicable(any): boolean;
 }

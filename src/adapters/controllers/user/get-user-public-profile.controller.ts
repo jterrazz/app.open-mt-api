@@ -4,13 +4,13 @@ import { IInitiatedKoaController } from '@adapters/controllers/koa-controller';
 import { NotFoundClientError } from '@domain/error/client/not-found-client-error';
 import { SerializeGetUserKoaResponse } from '@adapters/serializers/routes/user/serialize-get-user-koa-response';
 
-export const userControllerFactory = (
+export const getUserPublicProfileControllerFactory = (
     getUserPublicProfile: GetUserPublicProfile,
     deserializeGetUserKoaRequest: DeserializeGetUserKoaRequest,
     serializeGetUserKoaResponse: SerializeGetUserKoaResponse,
-) => {
-    const getPublicProfile: IInitiatedKoaController = async (ctx) => {
-        ctx.requestTracker.requestedGetUser();
+): IInitiatedKoaController => {
+    return async (ctx) => {
+        ctx.requestTracker.requestedGetUserPublicProfile();
 
         const { userId } = deserializeGetUserKoaRequest(ctx);
 
@@ -22,10 +22,8 @@ export const userControllerFactory = (
 
         serializeGetUserKoaResponse(ctx, userPublicProfile);
     };
-
-    // TODO get user private profile
-    // TODO get user private settings
-    // TODO get user private subscriptions
-
-    return { getPublicProfile };
 };
+
+// TODO get user private profile
+// TODO get user private settings
+// TODO get user private subscriptions

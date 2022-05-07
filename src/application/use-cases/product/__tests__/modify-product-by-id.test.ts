@@ -6,7 +6,7 @@ import { createMockOfProductRepository } from '@domain/product/__tests__/product
 import { createMockOfShopEntity } from '@domain/shop/__tests__/shop.entity.mock';
 import { createMockOfShopRepository } from '@domain/shop/__tests__/shop.repository.mock';
 import { createMockOfUser } from '@domain/user/__tests__/user-entity.mock';
-import { modifyProductByIdFactory } from '@application/use-cases/product/modify-product-by-id';
+import { modifyProductFactory } from '@application/use-cases/product/modify-product';
 
 const createMockOfParams = () => {
     const mockOfAuthenticatedUser = createMockOfUser({ id: 0 });
@@ -48,7 +48,7 @@ describe('use-cases / modifyProductByIdFactory()', () => {
         } = createMockOfParams();
 
         // When
-        const result = await modifyProductByIdFactory(
+        const result = await modifyProductFactory(
             mockOfProductRepository,
             mockOfShopRepository,
         )(mockOfAuthenticatedUser, 0, newProductParams);
@@ -76,10 +76,11 @@ describe('use-cases / modifyProductByIdFactory()', () => {
 
         // When
         const ft = () =>
-            modifyProductByIdFactory(
-                mockOfProductRepository,
-                mockOfShopRepository,
-            )(mockOfAuthenticatedUser, 0, newProductParams);
+            modifyProductFactory(mockOfProductRepository, mockOfShopRepository)(
+                mockOfAuthenticatedUser,
+                0,
+                newProductParams,
+            );
 
         // Then
         await expect(ft).rejects.toThrow(NotFoundClientError);
@@ -102,10 +103,11 @@ describe('use-cases / modifyProductByIdFactory()', () => {
 
         // When
         const ft = () =>
-            modifyProductByIdFactory(
-                mockOfProductRepository,
-                mockOfShopRepository,
-            )(mockOfAuthenticatedUser, 0, newProductParams);
+            modifyProductFactory(mockOfProductRepository, mockOfShopRepository)(
+                mockOfAuthenticatedUser,
+                0,
+                newProductParams,
+            );
 
         // Then
         await expect(ft).rejects.toThrow(ForbiddenClientError);

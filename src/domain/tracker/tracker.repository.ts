@@ -7,10 +7,15 @@ export type ITrackerRepository = {
     requestedModifyShop: () => void;
     requestedDeleteShop: () => void;
     requestedGetShop: () => void;
-    requestedGetUser: () => void;
-    requestedSignInByMail: () => void;
+    requestedGetUserPublicProfile: () => void;
+    requestedGetUserPrivateSettings: () => void;
+    requestedGetProduct: () => void;
+    requestedLogIn: () => void;
+    requestedLogOut: () => void;
     requestedRegisterByMail: () => void;
+
     start: () => void;
     stop: () => void;
+
     exportEvents: () => any;
 };

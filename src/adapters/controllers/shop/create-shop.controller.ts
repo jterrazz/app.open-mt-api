@@ -1,22 +1,15 @@
 import { AuthenticationRequiredClientError } from '@domain/error/client/authentication-required-client-error';
 import { CreateShop } from '@application/use-cases/shop/create-shop';
 import { DeserializeCreateShopKoaRequest } from '@adapters/serializers/routes/shop/deserialize-create-shop-koa-request';
-import { DeserializeGetShopKoaRequest } from '@adapters/serializers/routes/shop/deserialize-get-shop-koa-request';
-import { GetShop } from '@application/use-cases/shop/get-shop';
 import { IInitiatedKoaController } from '@adapters/controllers/koa-controller';
-import { NotFoundClientError } from '@domain/error/client/not-found-client-error';
 import { SerializeCreateShopKoaResponse } from '@adapters/serializers/routes/shop/serialize-create-shop-koa-response';
-import { SerializeGetShopKoaResponse } from '@adapters/serializers/routes/shop/serialize-get-shop-koa-response';
 
-export const shopControllerFactory = (
+export const createShopControllerFactory = (
     createShop: CreateShop,
-    getShop: GetShop,
     deserializeCreateShopKoaRequest: DeserializeCreateShopKoaRequest,
-    deserializeGetShopKoaRequest: DeserializeGetShopKoaRequest,
     serializeCreateShopKoaResponse: SerializeCreateShopKoaResponse,
-    serializeGetShopKoaResponse: SerializeGetShopKoaResponse,
-) => {
-    const createShopController: IInitiatedKoaController = async (ctx) => {
+): IInitiatedKoaController => {
+    return async (ctx) => {
         ctx.requestTracker.requestedCreateShop();
 
         const { handle, name } = deserializeCreateShopKoaRequest(ctx);
@@ -42,26 +35,4 @@ export const shopControllerFactory = (
             name: savedShop.name,
         });
     };
-
-    const getShopController: IInitiatedKoaController = async (ctx) => {
-        ctx.requestTracker.requestedGetShop();
-
-        const { shopHandle } = deserializeGetShopKoaRequest(ctx);
-
-        const shopEntity = await getShop(shopHandle);
-
-        if (!shopEntity) {
-            throw new NotFoundClientError(
-                `shop '${shopHandle}' does not exist`,
-            );
-        }
-
-        serializeGetShopKoaResponse(ctx, {
-            description: shopEntity.description,
-            handle: shopEntity.handle,
-            name: shopEntity.name,
-        });
-    };
-
-    return { createShop: createShopController, getShop: getShopController };
 };

@@ -66,6 +66,7 @@
         "koa-router": "^10.1.1",
         "koa-session": "^6.2.0",
         "lodash": "^4.17.21",
+        "mixpanel": "^0.14.0",
         "passport": "^0.5.2",
         "passport-local": "^1.0.0",
         "ts-node": "^10.7.0",

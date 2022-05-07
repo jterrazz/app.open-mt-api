@@ -22,8 +22,10 @@ export interface IAdapterControllers {
     };
     users: {
         getPublicProfile: IKoaController;
+        getPrivateSettings: IKoaController;
     };
     products: {
+        getProduct: IKoaController;
         createProduct: IKoaController;
         modifyProduct: IKoaController;
     };

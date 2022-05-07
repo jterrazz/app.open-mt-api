@@ -6,7 +6,7 @@
 .DS_Store
 
 # Local configuration
-src/configuration/local.yml
+config/local.yml
 
 # Logs
 logs

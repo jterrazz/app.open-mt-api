@@ -1,8 +1,8 @@
 import { ShopEntity } from '@domain/shop/shop.entity';
 
 export const createMockOfShopEntity = (
-    partialShopEntity: Partial<ShopEntity> = {},
-): ShopEntity => ({
+    partialShopEntity: Partial<jest.Mocked<ShopEntity>> = {},
+): jest.Mocked<ShopEntity> => ({
     bannerImageUrl: 'the_banner_image_url',
     countFollowers: 42,
     creationDate: new Date('2020-01-01'),

@@ -5,7 +5,7 @@ import { NotFoundClientError } from '@domain/error/client/not-found-client-error
 import { ProductEntity } from '@domain/product/product.entity';
 import { UserEntity } from '@domain/user/user.entity';
 
-export type ModifyProductById = (
+export type ModifyProduct = (
     authenticatedUser: UserEntity,
     productId: number,
     modifyProductParams: Partial<
@@ -13,10 +13,10 @@ export type ModifyProductById = (
     >,
 ) => Promise<ProductEntity>;
 
-export const modifyProductByIdFactory = (
+export const modifyProductFactory = (
     productRepository: IProductRepository,
     shopRepository: IShopRepository,
-): ModifyProductById => {
+): ModifyProduct => {
     return async (authenticatedUser, productId, modifyProductParams) => {
         const [userShop, productEntity] = await Promise.all([
             shopRepository.findByOwnerId(authenticatedUser.id),

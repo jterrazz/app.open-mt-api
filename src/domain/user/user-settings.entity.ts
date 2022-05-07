@@ -1,4 +1,3 @@
-class UserSettingsEntity {
-    private email: string;
-    private hashedPassword: string;
-}
+export type UserSettingsEntity = {
+    language: string;
+};

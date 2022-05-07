@@ -5,7 +5,7 @@ API:
     PORT: '3000'
 
 DATABASE:
-    URL: 'postgresql://postgres:postgres@127.0.0.1:5432/myopenmarket?pool_timeout=30&connect_timeout=30'
+    URL: 'postgresql://postgres:postgres@127.0.0.1:5432/open_mt?pool_timeout=30&connect_timeout=30'
 
 CLIENT_SESSION:
     SECRET: 'the_development_client_session_secret'

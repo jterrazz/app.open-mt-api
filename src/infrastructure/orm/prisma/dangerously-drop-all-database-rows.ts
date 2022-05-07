@@ -28,6 +28,10 @@ export const dangerouslyDropAllDatabaseRows = async (
     try {
         await dropAllRows();
     } catch (e) {
-        await dropAllRows(); // Retrying rows that couldn't drop first time due to constraints
+        try {
+            await dropAllRows();
+        } catch (e) {
+            await dropAllRows(); // Retrying rows that couldn't drop first time due to constraints
+        }
     }
 };

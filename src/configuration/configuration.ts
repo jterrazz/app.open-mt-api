@@ -14,7 +14,7 @@ const versionFromPackageJson = require('../../package.json').version;
 export const configurationFactory = (
     nodeEnv = process.env.NODE_ENV,
 ): IConfiguration => {
-    return {
+    const configuration: IConfiguration = {
         API: apiConfigSchema.parse({
             ...(config.get('API') as object),
             VERSION: versionFromPackageJson,
@@ -25,6 +25,15 @@ export const configurationFactory = (
         DATABASE: databaseConfigSchema.parse(config.get('DATABASE')),
         ENVIRONMENT: environmentSchema.parse(nodeEnv),
         LOG: logConfigSchema.parse(config.get('LOG')),
-        SERVICES: servicesConfigSchema.parse(config.get('CLIENT_SESSION')),
+        SERVICES: servicesConfigSchema.parse(config.get('SERVICES')),
     };
+
+    if (
+        configuration.ENVIRONMENT === 'production' &&
+        !configuration.SERVICES.MIXPANEL
+    ) {
+        throw new Error('a mixpanel configuration is required for production');
+    }
+
+    return configuration;
 };

@@ -1,17 +1,18 @@
 {
-    "name": "myonewallet-api",
+    "name": "openmt-api",
     "version": "1.0.0",
     "engines": {
         "node": "16.x"
     },
-    "repository": "git@github.com:myonewallet/api.git",
     "author": "Jean-Baptiste TERRAZZONI",
     "license": "MIT",
     "scripts": {
-        "start": "node -r tsconfig-paths/register -r ts-node/register/transpile-only ./src/app.ts",
-        "dev": "nodemon",
-        "test": "NODE_ENV=test jest --silent",
-        "test:debug": "NODE_ENV=test jest --runInBand --detectOpenHandles",
+        "start": "node -r tsconfig-paths/register -r ts-node/register/transpile-only src/start-app.ts",
+        "start:worker": "node -r tsconfig-paths/register -r ts-node/register/transpile-only src/start-worker.ts",
+        "dev": "nodemon --exec \"yarn start\"",
+        "dev:worker": "nodemon --exec \"yarn start:worker\"",
+        "test": "jest --silent",
+        "test:debug": "jest --runInBand --detectOpenHandles",
         "test:coverage": "jest --coverage",
         "docker:dev": "docker compose -f compose/docker-compose.dev.yml up --exit-code-from dev-api",
         "docker:test": "docker compose -f compose/docker-compose.test.yml up postgres tests --exit-code-from tests",

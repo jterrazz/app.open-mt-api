@@ -27,7 +27,10 @@ export const trackerRepositoryMixpanelFactory = (
         requestedCreateProduct: () => {},
         requestedCreateShop: () => {},
         requestedDeleteShop: () => {},
-        requestedGetApiState: () => {},
+        requestedGetApiState: () => {
+            mixpanel.track(EventIdentifiers.REQUESTED_GET_API_STATE);
+            // TODO Add logger on all calls
+        },
         requestedGetProduct: () => {},
         requestedGetShop: () => {},
         requestedGetUserPrivateSettings: () => {},

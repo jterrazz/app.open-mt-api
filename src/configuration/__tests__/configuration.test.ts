@@ -20,4 +20,11 @@ describe('configuration', () => {
         // Then
         expect(result).toBeDefined();
     });
+
+    test('throws if mixpanel variable is not set in production', async () => {
+        // Given
+        // TODO
+        // When
+        // Then
+    });
 });

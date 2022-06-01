@@ -14,15 +14,15 @@ import { createShopFactory } from '@application/use-cases/shop/create-shop';
 import { deserializeCreateProductKoaRequest } from '@adapters/serializers/routes/product/deserialize-create-product-koa-request';
 import { deserializeCreateShopKoaRequest } from '@adapters/serializers/routes/shop/deserialize-create-shop-koa-request';
 import { deserializeGetShopKoaRequest } from '@adapters/serializers/routes/shop/deserialize-get-shop-koa-request';
-import { deserializeGetUserKoaRequest } from '@adapters/serializers/routes/user/deserialize-get-user-koa-request';
+import { deserializeGetUserPublicProfileKoaRequest } from '@adapters/serializers/routes/user/deserialize-get-user-public-profile-koa-request';
 import { deserializeModifyProductKoaRequest } from '@adapters/serializers/routes/product/deserialize-modify-product-koa-request';
 import { getApiStateControllerFactory } from '@adapters/controllers/api/get-api-state.controller';
 import { getApiStateFactory } from '@application/use-cases/api/get-api-state';
 import { getProductControllerFactory } from '@adapters/controllers/product/get-product.controller';
 import { getShopControllerFactory } from '@adapters/controllers/shop/get-shop.controller';
 import { getShopFactory } from '@application/use-cases/shop/get-shop';
+import { getUserDetailsFactory } from '@application/use-cases/user/get-user-details';
 import { getUserPublicProfileControllerFactory } from '@adapters/controllers/user/get-user-public-profile.controller';
-import { getUserPublicProfileFactory } from '@application/use-cases/user/get-user-public-profile';
 import { handleAuthenticatedUserMiddlewareFactory } from '@adapters/middlewares/handle-authenticated-user.middleware';
 import { handleRequestErrorsMiddlewareFactory } from '@adapters/middlewares/handle-request-errors.middleware';
 import { handleRequestTrackerMiddlewareFactory } from '@adapters/middlewares/handle-request-tracker.middleware';
@@ -41,7 +41,7 @@ import { serializeCreateProductKoaResponse } from '@adapters/serializers/routes/
 import { serializeCreateShopKoaResponse } from '@adapters/serializers/routes/shop/serialize-create-shop-koa-response';
 import { serializeGetApiStateKoaResponse } from '@adapters/serializers/routes/api/serialize-get-api-state-koa-response';
 import { serializeGetShopKoaResponse } from '@adapters/serializers/routes/shop/serialize-get-shop-koa-response';
-import { serializeGetUserKoaResponse } from '@adapters/serializers/routes/user/serialize-get-user-koa-response';
+import { serializeGetUserPublicProfileKoaResponse } from '@adapters/serializers/routes/user/serialize-get-user-public-profile-koa-response';
 import { serializeLoginKoaResponse } from '@adapters/serializers/routes/authentication/serialize-login-koa-response';
 import { serializeLogoutKoaResponse } from '@adapters/serializers/routes/authentication/serialize-logout-koa-response';
 import { serializeModifyProductKoaResponse } from '@adapters/serializers/routes/product/serialize-modify-product-koa-response';
@@ -51,7 +51,7 @@ import { shopRepositoryPrismaFactory } from '@infrastructure/repositories/shop.p
 import { userRepositoryPrismaFactory } from '@infrastructure/repositories/user.prisma-repository';
 import { winstonLoggerFactory } from '@infrastructure/logger/winston/winston-logger';
 
-export const initDependencies = (): {
+export const getDependencies = (): {
     webserver: IWebServer;
     logger: ILogger;
     database: IPrismaDatabase;
@@ -66,7 +66,7 @@ export const initDependencies = (): {
     const initTrackerFactory = [
         initTrackerForRequestMixpanelFactory,
         initTrackerForRequestInMemoryFactory,
-    ].find(({ isApplicable }) => isApplicable(configuration.ENVIRONMENT));
+    ].find((strategy) => strategy.isApplicable(configuration));
 
     if (!initTrackerFactory) {
         throw new Error(
@@ -92,10 +92,7 @@ export const initDependencies = (): {
         productRepository,
         shopRepository,
     );
-    const getUserPublicProfile = getUserPublicProfileFactory(
-        logger,
-        userRepository,
-    );
+    const getUserPublicProfile = getUserDetailsFactory(logger, userRepository);
     const authenticateUserWithEmail = authenticateUserWithEmailFactory(
         logger,
         userRepository,
@@ -144,13 +141,13 @@ export const initDependencies = (): {
         users: {
             getPrivateSettings: getUserPublicProfileControllerFactory(
                 getUserPublicProfile,
-                deserializeGetUserKoaRequest,
-                serializeGetUserKoaResponse,
+                deserializeGetUserPublicProfileKoaRequest,
+                serializeGetUserPublicProfileKoaResponse,
             ), // TODO Replace bad controller
             getPublicProfile: getUserPublicProfileControllerFactory(
                 getUserPublicProfile,
-                deserializeGetUserKoaRequest,
-                serializeGetUserKoaResponse,
+                deserializeGetUserPublicProfileKoaRequest,
+                serializeGetUserPublicProfileKoaResponse,
             ),
         },
     };

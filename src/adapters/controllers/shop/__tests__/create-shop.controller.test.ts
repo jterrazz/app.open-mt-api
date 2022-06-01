@@ -1,5 +1,5 @@
 import { AuthenticationRequiredClientError } from '@domain/error/client/authentication-required-client-error';
-import { createMockOfInitiatedKoaContext } from '@adapters/__tests__/initiated-koa-context.mock';
+import { createMockOfInitiatedKoaContext } from '@infrastructure/webserver/__tests__/initiated-koa-context.mock';
 import { createShopControllerFactory } from '@adapters/controllers/shop/create-shop.controller';
 
 const createMockOfArgs = () => {

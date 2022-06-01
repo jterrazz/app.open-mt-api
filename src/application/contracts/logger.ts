@@ -6,10 +6,11 @@ export interface ILogger {
     debug: (message: unknown) => void;
 }
 
-export enum LoggerLevels {
-    error = 'error',
-    warn = 'warn',
-    info = 'info',
-    verbose = 'verbose',
-    debug = 'debug',
+export enum LOG_LEVELS {
+    NONE = 'none',
+    ERROR = 'error',
+    WARN = 'warn',
+    INFO = 'info',
+    VERBOSE = 'verbose',
+    DEBUG = 'debug',
 }

@@ -1,6 +1,6 @@
-import { createMockOfInitiatedKoaContext } from '@adapters/__tests__/initiated-koa-context.mock';
+import { createMockOfInitiatedKoaContext } from '@infrastructure/webserver/__tests__/initiated-koa-context.mock';
 import { serializeGetApiStateKoaResponse } from '@adapters/serializers/routes/api/serialize-get-api-state-koa-response';
-import { useFakeTimers, useRealTimers } from '@application/utils/node/timer';
+import { useFakeTimers, useRealTimers } from '@tests/utils/timer';
 
 beforeAll(() => {
     useFakeTimers();

@@ -6,31 +6,55 @@ export interface IPrismaDatabase extends IDatabase {
     client: PrismaClient;
 }
 
-const buildDatabaseClient = () => {
-    return new PrismaClient({
+const buildDatabaseClient = (logger: ILogger) => {
+    const prismaClient = new PrismaClient({
         log: [
             {
-                emit: 'stdout',
+                emit: 'event',
                 level: 'query',
             },
             {
-                emit: 'stdout',
+                emit: 'event',
                 level: 'error',
             },
             {
-                emit: 'stdout',
+                emit: 'event',
                 level: 'info',
             },
             {
-                emit: 'stdout',
+                emit: 'event',
                 level: 'warn',
             },
         ],
     });
+
+    prismaClient.$on('query', (e) => {
+        logger.debug(
+            `query: ${e.query}, params: ${e.params}, duration: ${e.duration}, target: ${e.target}`,
+        );
+    });
+
+    prismaClient.$on('info', (e) => {
+        logger.info(`message: ${e.message}, target: ${e.target}`);
+    });
+
+    prismaClient.$on('warn', (e) => {
+        logger.warn(`message: ${e.message}, target: ${e.target}`);
+    });
+
+    prismaClient.$on('error', (e) => {
+        logger.error(`message: ${e.message}, target: ${e.target}`);
+    });
+
+    return prismaClient;
 };
 
 export const prismaDatabaseFactory = (
-    { DATABASE: { URL } }: IConfiguration,
+    {
+        SERVICES: {
+            DATABASE: { URL },
+        },
+    }: IConfiguration,
     logger: ILogger,
 ): IPrismaDatabase => {
     // Recreating this object would result in failure due to multiple Prisma clients
@@ -42,7 +66,7 @@ export const prismaDatabaseFactory = (
     // Passing database URL to prisma
     process.env['DATABASE_URL'] = URL;
 
-    const prismaClient = buildDatabaseClient();
+    const prismaClient = buildDatabaseClient(logger);
     const connect = async (remainingTries = 20) => {
         if (remainingTries <= 0) {
             return;

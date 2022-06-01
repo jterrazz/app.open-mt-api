@@ -1,11 +1,11 @@
-import { createAuthenticatedRequestAgent } from '@tests/end-to-end/create-authenticated-request-agent';
-import { createEndToEndApplication } from '@tests/end-to-end/create-end-to-end-application';
-import { initDependencies } from '@configuration/dependencies';
+import { createAuthenticatedRequestAgent } from '@tests/utils/create-authenticated-request-agent';
+import { createEndToEndApplication } from '@tests/utils/create-end-to-end-application';
+import { getDependencies } from '@configuration/dependencies';
 import { seedDatabaseWithShop } from '@tests/seeds/shop';
 import request from 'supertest';
 
 const endToEndApplication = createEndToEndApplication();
-const databaseClient = initDependencies().database.client;
+const databaseClient = getDependencies().database.client;
 
 describe('END TO END - POST /shop', function () {
     test('creates a new shop', async () => {

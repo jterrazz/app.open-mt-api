@@ -28,7 +28,7 @@ export const authenticateUserWithEmailFactory = (
 
         const passwordIsValid = await checkPassword(
             password,
-            userEntity.hashedPassword,
+            userEntity.authentication.hashedPassword,
         );
 
         if (!passwordIsValid) {

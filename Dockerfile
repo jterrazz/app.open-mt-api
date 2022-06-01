@@ -11,3 +11,4 @@ RUN yarn --ci
 ADD . /app
 
 RUN npx prisma generate
+CMD yarn start

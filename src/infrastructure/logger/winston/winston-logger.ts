@@ -8,16 +8,21 @@ export const winstonLoggerFactory = (
     configuration: IConfiguration,
 ): ILogger => {
     const winstonLogger = winston.createLogger({
-        level: configuration.LOG.LEVEL,
+        level: configuration.API.LOG.LEVEL,
+        transports: [
+            new winston.transports.Console({
+                format: ['development', 'test'].includes(
+                    configuration.ENVIRONMENT,
+                )
+                    ? winstonLocalFormat
+                    : winston.format.json(),
+            }),
+        ],
     });
 
-    winstonLogger.add(
-        new winston.transports.Console({
-            format: ['development', 'test'].includes(configuration.ENVIRONMENT)
-                ? winstonLocalFormat
-                : winston.format.json(),
-        }),
-    );
+    if (configuration.API.LOG.LEVEL === 'none') {
+        winstonLogger.transports[0].silent = true;
+    }
 
     const _buildMessage = (message: unknown) => {
         return {

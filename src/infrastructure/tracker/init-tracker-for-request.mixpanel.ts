@@ -14,6 +14,6 @@ export const initTrackerForRequestMixpanelFactory: InitTrackerForRequestInMemory
                 return trackerRepositoryMixpanelFactory(configuration);
             };
         },
-        isApplicable: (environment: IConfiguration['ENVIRONMENT']) =>
-            ['production'].includes(environment),
+        isApplicable: (configuration: IConfiguration) =>
+            !!configuration.SERVICES.MIXPANEL?.SECRET,
     };

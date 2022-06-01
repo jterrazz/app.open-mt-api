@@ -1,6 +1,6 @@
-import { createEndToEndApplication } from '@tests/end-to-end/create-end-to-end-application';
+import { createEndToEndApplication } from '@tests/utils/create-end-to-end-application';
 import { seedDatabaseWithShop } from '@tests/seeds/shop';
-import { useFakeTimers, useRealTimers } from '@application/utils/node/timer';
+import { useFakeTimers, useRealTimers } from '@tests/utils/timer';
 import request from 'supertest';
 
 const {

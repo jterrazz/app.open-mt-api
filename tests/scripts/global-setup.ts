@@ -1,10 +1,10 @@
 require('tsconfig-paths/register');
 
 import { dangerouslyDropAllDatabaseRows } from '@infrastructure/orm/prisma/dangerously-drop-all-database-rows';
-import { initDependencies } from '@configuration/dependencies';
+import { getDependencies } from '@configuration/dependencies';
 
 module.exports = async () => {
-    const { database, logger } = initDependencies();
+    const { database, logger } = getDependencies();
 
     logger.info('connecting to test database');
     await database.connect();

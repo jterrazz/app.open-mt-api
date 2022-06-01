@@ -1,15 +1,22 @@
 import { IUserRepository } from '@domain/user/user.repository';
+import { LANGUAGE } from '@domain/user/language';
 import { PrismaClient, User } from '@prisma/client';
 import { UserEntity } from '@domain/user/user.entity';
 import { mapPrismaErrorToDomain } from '@infrastructure/orm/prisma/map-prisma-error-to-domain';
 
 const mapPersistedUserToUserEntity = (persistedUser: User): UserEntity => ({
-    email: persistedUser.email,
-    firstName: persistedUser.firstName,
-    handle: persistedUser.handle,
-    hashedPassword: persistedUser.hashedPassword,
+    authentication: {
+        email: persistedUser.email,
+        hashedPassword: persistedUser.hashedPassword,
+    },
     id: persistedUser.id,
-    lastName: persistedUser.lastName,
+    profile: {
+        firstName: persistedUser.firstName,
+        lastName: persistedUser.lastName,
+    },
+    settings: {
+        language: persistedUser.language as LANGUAGE,
+    },
 });
 
 export const userRepositoryPrismaFactory = (
@@ -34,17 +41,11 @@ export const userRepositoryPrismaFactory = (
         const persistedUser = await prismaClient.user
             .create({
                 data: {
-                    email: user.email,
-                    firstName: user.firstName,
-                    handle: 'todelllll',
-                    hashedPassword: user.hashedPassword,
-                    lastName: user.lastName,
-                    userSettings: {
-                        create: {
-                            language: 'FR',
-                        },
-                    },
-                    // TODO Created_at and updatedAt
+                    email: user.authentication.email,
+                    firstName: user.profile.firstName,
+                    hashedPassword: user.authentication.hashedPassword,
+                    language: user.settings.language,
+                    lastName: user.profile.lastName,
                 },
             })
             .catch((error) => {

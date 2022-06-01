@@ -4,7 +4,6 @@
     "ignore": ["**/*.spec.ts"],
     "exec": "yarn start",
     "env": {
-        "NODE_ENV": "development",
-        "LOCAL": "true"
+        "NODE_ENV": "development"
     }
 }

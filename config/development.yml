@@ -1,11 +1,10 @@
-LOG:
-    LEVEL: 'verbose'
-
 API:
     PORT: '3000'
+    LOG:
+        LEVEL: 'verbose'
+    CLIENT:
+        SECRET: 'the_development_client_session_secret'
 
-DATABASE:
-    URL: 'postgresql://postgres:postgres@127.0.0.1:5432/open_mt?pool_timeout=30&connect_timeout=30'
-
-CLIENT_SESSION:
-    SECRET: 'the_development_client_session_secret'
+SERVICES:
+    DATABASE:
+        URL: 'postgresql://postgres:postgres@127.0.0.1:5432/open_mt?pool_timeout=30&connect_timeout=30'

@@ -1,5 +1,5 @@
-import { createEndToEndApplication } from '../create-end-to-end-application';
-import { useFakeTimers, useRealTimers } from '@application/utils/node/timer';
+import { createEndToEndApplication } from '../../utils/create-end-to-end-application';
+import { useFakeTimers, useRealTimers } from '@tests/utils/timer';
 import request from 'supertest';
 
 const endToEndApplication = createEndToEndApplication();

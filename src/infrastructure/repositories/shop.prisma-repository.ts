@@ -3,7 +3,7 @@ import { Image, PrismaClient, Shop } from '@prisma/client';
 import { ShopEntity } from '@domain/shop/shop.entity';
 import { mapPrismaErrorToDomain } from '@infrastructure/orm/prisma/map-prisma-error-to-domain';
 
-const mapPersistedShopToShopEntity = (
+export const mapPersistedShopToShopEntity = (
     persistedShop: Shop & { bannerImage?: Image | null },
 ): ShopEntity => ({
     bannerImageUrl: persistedShop.bannerImage?.filename || null, // TODO replace by URL

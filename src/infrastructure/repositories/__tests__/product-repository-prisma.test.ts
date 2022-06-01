@@ -1,10 +1,10 @@
 import { CurrencyEntity } from '@domain/currency/currency.entity';
-import { initDependencies } from '@configuration/dependencies';
+import { getDependencies } from '@configuration/dependencies';
 import { productRepositoryPrismaFactory } from '@infrastructure/repositories/product.prisma-repository';
 import { seedDatabaseWithProduct } from '@tests/seeds/product';
 import { seedDatabaseWithShop } from '@tests/seeds/shop';
 
-const databaseClient = initDependencies().database.client;
+const databaseClient = getDependencies().database.client;
 const repository = productRepositoryPrismaFactory(databaseClient);
 
 describe('productRepositoryPrisma', () => {
@@ -51,6 +51,7 @@ describe('productRepositoryPrisma', () => {
                 priceCurrency: newProductData.priceCurrency,
                 shopId: seededProduct.shopId,
             });
+            // TODO Check in DB too
         });
     });
 
@@ -86,12 +87,14 @@ describe('productRepositoryPrisma', () => {
                     },
                 }),
             ).toEqual({
+                createdAt: expect.any(Date),
                 description: null,
                 id: expect.any(Number),
                 name: 'the_new_product_name',
                 priceCentsAmount: 2,
                 priceCurrency: 'USD',
                 shopId: expect.any(Number),
+                updatedAt: expect.any(Date),
             });
         });
     });

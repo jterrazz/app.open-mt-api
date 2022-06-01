@@ -13,7 +13,7 @@ export const dangerouslyDropAllDatabaseRows = async (
         );
     }
 
-    const dropAllRows = () => {
+    const dropAllRows = async () => {
         const modelNames = Prisma.dmmf.datamodel.models.map(
             (model) => model.name,
         );
@@ -25,13 +25,5 @@ export const dangerouslyDropAllDatabaseRows = async (
         );
     };
 
-    try {
-        await dropAllRows();
-    } catch (e) {
-        try {
-            await dropAllRows();
-        } catch (e) {
-            await dropAllRows(); // Retrying rows that couldn't drop first time due to constraints
-        }
-    }
+    await dropAllRows();
 };

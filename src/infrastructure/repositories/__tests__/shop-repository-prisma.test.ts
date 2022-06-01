@@ -1,12 +1,12 @@
 import { BrokeOneToOneRelationError } from '@infrastructure/orm/prisma/map-prisma-error-to-domain';
 import { DuplicatedFieldServerError } from '@domain/error/server/duplicated-field-server-error';
 import { NotFoundClientError } from '@domain/error/client/not-found-client-error';
-import { initDependencies } from '@configuration/dependencies';
+import { getDependencies } from '@configuration/dependencies';
 import { seedDatabaseWithShop } from '@tests/seeds/shop';
 import { seedDatabaseWithUser } from '@tests/seeds/user';
 import { shopRepositoryPrismaFactory } from '@infrastructure/repositories/shop.prisma-repository';
 
-const databaseClient = initDependencies().database.client;
+const databaseClient = getDependencies().database.client;
 const repository = shopRepositoryPrismaFactory(databaseClient);
 
 let globallySeededShop, globallySeededUser;
@@ -56,11 +56,12 @@ describe('ShopRepositoryPrisma', function () {
             ).toEqual({
                 bannerImageId: null,
                 countOfFollowers: 0,
-                createdAt: expect.any(Date),
+                createdAt: result.creationDate,
                 description: 'the_created_description',
                 handle: 'the_created_handle',
                 id: expect.any(Number),
                 name: 'the_created_name',
+                updatedAt: expect.any(Date),
                 userId: seededUser.id,
             });
         });
@@ -141,6 +142,7 @@ describe('ShopRepositoryPrisma', function () {
                 handle: seededShop.handle,
                 id: seededShop.id,
                 name: 'the_updated_name',
+                updatedAt: expect.any(Date),
                 userId: seededUser.id,
             });
         });

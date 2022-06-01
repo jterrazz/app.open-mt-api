@@ -14,6 +14,5 @@ export const initTrackerForRequestInMemoryFactory: InitTrackerForRequestInMemory
                 return trackerRepositoryInMemoryFactory();
             };
         },
-        isApplicable: (environment: IConfiguration['ENVIRONMENT']) =>
-            !['production'].includes(environment),
+        isApplicable: (configuration: IConfiguration) => true,
     };

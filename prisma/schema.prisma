@@ -22,45 +22,55 @@ enum Currency {
     USD
 }
 
-// Models
+// Common
+
+model Image {
+    id                Int             @id @default(autoincrement())
+    createdAt         DateTime        @default(now())
+    filename           String          @unique
+
+    // External references
+    user              User?
+    shop              Shop?
+}
+
+// Specific entities
 
 model User {
     id                Int             @id @default(autoincrement())
+    createdAt         DateTime        @default(now())
+    updatedAt         DateTime        @updatedAt
     email             String          @unique
     hashedPassword    String
     firstName          String
     lastName          String
-    handle            String          @unique
+    language          Language
 
     // External references
-    avatarImage       Image?          @relation(fields: [avatarImageId], references: [id])
+    avatarImage       Image?          @relation(fields: [avatarImageId], references: [id], onDelete: SetNull)
     avatarImageId     Int?            @unique
-    userSettings      UserSettings    @relation(fields: [userSettingsId], references: [id])
-    userSettingsId    Int             @unique
     shop              Shop?
-}
-
-model UserSettings {
-    id                Int             @id @default(autoincrement())
-    language          Language
-    user              User?
+    followedShops     ShopsFollowedByUsers[]
 }
 
 model Product {
     id                Int             @id @default(autoincrement())
+    createdAt         DateTime        @default(now())
+    updatedAt         DateTime        @updatedAt
     name              String
     description       String?
     priceCentsAmount  Int
     priceCurrency     Currency
 
     // External references
-    shop              Shop            @relation(fields: [shopId], references: [id])
+    shop              Shop            @relation(fields: [shopId], references: [id], onDelete: Cascade)
     shopId            Int
 }
 
 model Shop {
     id                Int             @id @default(autoincrement())
     createdAt         DateTime        @default(now())
+    updatedAt         DateTime        @updatedAt
     handle            String          @unique
     name              String
     description       String?
@@ -68,19 +78,19 @@ model Shop {
 
     // External references
     products          Product[]
-
-    // External references
-    bannerImage       Image?          @relation(fields: [bannerImageId], references: [id])
+    followedByUsers   ShopsFollowedByUsers[]
+    bannerImage       Image?          @relation(fields: [bannerImageId], references: [id], onDelete: SetNull)
     bannerImageId     Int?
-    user              User            @relation(fields: [userId], references: [id])
+    user              User            @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId            Int             @unique
 }
 
-model Image {
-    id                Int             @id @default(autoincrement())
-    filename           String          @unique
+model ShopsFollowedByUsers {
+  createdAt           DateTime        @default(now())
+  shop                Shop            @relation(fields: [shopId], references: [id], onDelete: Cascade)
+  shopId              Int
+  user                User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId              Int
 
-    // External references
-    user              User?
-    shop              Shop?
+  @@id([shopId, userId])
 }

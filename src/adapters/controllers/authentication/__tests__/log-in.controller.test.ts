@@ -1,4 +1,4 @@
-import { createMockOfInitiatedKoaContext } from '@adapters/__tests__/initiated-koa-context.mock';
+import { createMockOfInitiatedKoaContext } from '@infrastructure/webserver/__tests__/initiated-koa-context.mock';
 import { logInControllerFactory } from '@adapters/controllers/authentication/log-in.controller';
 
 describe('logInController()', () => {

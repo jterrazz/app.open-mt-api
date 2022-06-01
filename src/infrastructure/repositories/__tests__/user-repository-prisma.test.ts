@@ -1,18 +1,25 @@
 import { DuplicatedFieldServerError } from '@domain/error/server/duplicated-field-server-error';
-import { initDependencies } from '@configuration/dependencies';
+import { getDependencies } from '@configuration/dependencies';
 import { seedDatabaseWithUser } from '@tests/seeds/user';
 import { userRepositoryPrismaFactory } from '@infrastructure/repositories/user.prisma-repository';
 
-const databaseClient = initDependencies().database.client;
+const databaseClient = getDependencies().database.client;
 const repository = userRepositoryPrismaFactory(databaseClient);
 
 describe('userRepositoryPrisma', () => {
     describe('persist()', () => {
         const createMockOfNewUserData = (args = {}) => ({
-            email: 'the_created_email',
-            firstName: 'the_created_first_name',
-            hashedPassword: 'the_created_hashed_password',
-            lastName: 'the_created_last_name',
+            authentication: {
+                email: 'the_created_email',
+                hashedPassword: 'the_created_hashed_password',
+            },
+            profile: {
+                firstName: 'the_created_first_name',
+                lastName: 'the_created_last_name',
+            },
+            settings: {
+                language: 'FR',
+            },
             ...args,
         });
 
@@ -27,53 +34,27 @@ describe('userRepositoryPrisma', () => {
             expect(result).toEqual({
                 email: 'the_created_email',
                 firstName: 'the_created_first_name',
-                handle: 'todelllll',
                 hashedPassword: 'the_created_hashed_password',
                 id: expect.any(Number),
                 lastName: 'the_created_last_name',
             });
             expect(
                 await databaseClient.user.findFirst({
-                    include: {
-                        userSettings: true,
-                    },
                     where: {
                         id: result.id,
                     },
                 }),
             ).toEqual({
                 avatarImageId: null,
+                createdAt: expect.any(Date),
                 email: 'the_created_email',
                 firstName: 'the_created_first_name',
-                handle: 'todelllll',
                 hashedPassword: 'the_created_hashed_password',
                 id: expect.any(Number),
+                language: 'FR',
                 lastName: 'the_created_last_name',
-                userSettings: {
-                    id: expect.any(Number),
-                    language: 'FR',
-                },
-                userSettingsId: expect.any(Number),
+                updatedAt: expect.any(Date),
             });
-        });
-
-        test('fails when the handle is duplicated', async () => {
-            // Given
-            await seedDatabaseWithUser(databaseClient, {
-                email: 'the_created_email_2',
-            });
-            const newUserData = createMockOfNewUserData({
-                email: 'the_created_email_2',
-            });
-
-            // When
-            const ft = () => repository.persist(newUserData);
-
-            // Then
-            // await expect(ft).rejects.toThrow(DuplicatedFieldError); Not working
-            let error;
-            await ft().catch((err) => (error = err));
-            expect(error).toBeInstanceOf(DuplicatedFieldServerError);
         });
     });
 
@@ -92,7 +73,6 @@ describe('userRepositoryPrisma', () => {
             expect(result).toEqual({
                 email: 'existing_user@mail.com',
                 firstName: 'the_user_first_name',
-                handle: seededUser.handle,
                 hashedPassword: 'the_user_hashed_password',
                 id: seededUser.id,
                 lastName: 'the_user_last_name',

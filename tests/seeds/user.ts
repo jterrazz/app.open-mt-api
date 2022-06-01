@@ -13,12 +13,8 @@ export const seedDatabaseWithUser = async (
             handle: partialUser.handle || randomUUID(),
             hashedPassword:
                 partialUser.hashedPassword || 'the_user_hashed_password',
+            language: 'FR', // TODO
             lastName: partialUser.lastName || 'the_user_last_name',
-            userSettings: {
-                create: {
-                    language: 'FR',
-                },
-            },
         },
     });
 };

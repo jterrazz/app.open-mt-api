@@ -1,4 +1,4 @@
-name: CI Build Pipeline
+name: Build Pipeline
 on:
   push:
     branches:
@@ -6,7 +6,7 @@ on:
       - develop
 jobs:
   test:
-    name: Run project tests
+    name: Test API
     runs-on: ubuntu-latest
     steps:
       - name: Set up repository

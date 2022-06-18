@@ -15,26 +15,30 @@ services:
 
   database_migration:
     container_name: database_migration
-    build: ..
+    build:
+      context: ..
+      args:
+        npm_token: ${NPM_TOKEN}
     image: open_mt/app
     depends_on:
       - database_postgres
     command: sh -c "yarn db:deploy-prod"
     environment:
-      - NPM_TOKEN
       - DATABASE_URL=postgresql://postgres:postgres@database_postgres:5432/open_mt?pool_timeout=120&connect_timeout=120
 
   # NodeJS Application
 
   app_test:
     container_name: app_test
-    build: ..
+    build:
+      context: ..
+      args:
+        npm_token: ${NPM_TOKEN}
     image: open_mt/app
     depends_on:
       - database_postgres
     command: sh -c "yarn db:deploy-prod && yarn test"
     environment:
-      - NPM_TOKEN
       - DATABASE_URL=postgresql://postgres:postgres@database_postgres:5432/open_mt?pool_timeout=120&connect_timeout=120
     volumes:
       - ../src:/app/src
@@ -43,13 +47,15 @@ services:
 
   app_dev:
     container_name: app_dev
-    build: ..
+    build:
+      context: ..
+      args:
+        npm_token: ${NPM_TOKEN}
     image: open_mt/app
     depends_on:
       - database_postgres
     command: sh -c "yarn db:deploy-prod && yarn dev"
     environment:
-      - NPM_TOKEN
       - DATABASE_URL=postgresql://postgres:postgres@database_postgres:5432/open_mt?pool_timeout=120&connect_timeout=120
     volumes:
       - ../src:/app/src
@@ -58,7 +64,10 @@ services:
 
   app_start:
     container_name: app_start
-    build: ..
+    build:
+      context: ..
+      args:
+        npm_token: ${NPM_TOKEN}
     image: open_mt/app
     depends_on:
       - database_postgres

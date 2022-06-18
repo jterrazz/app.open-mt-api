@@ -22,10 +22,10 @@
     "docker:down": "docker compose -f compose/docker-compose.yml down",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx .",
     "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx .",
-    "db:migrate": "DATABASE_URL=postgresql://postgres:postgres@localhost:5432/open_mt npx prisma migrate dev --name",
-    "db:deploy": "DATABASE_URL=postgresql://postgres:postgres@localhost:5432/open_mt npx prisma migrate deploy",
+    "db:migrate": "npx prisma migrate dev --name",
+    "db:deploy": "npx prisma migrate deploy",
     "db:revert": "#todo",
-    "db:studio": "DATABASE_URL=postgresql://postgres:postgres@localhost:5432/open_mt npx prisma studio"
+    "db:studio": "npx prisma studio"
   },
   "devDependencies": {
     "@jterrazz/eslint-config-common": "1.4.1",

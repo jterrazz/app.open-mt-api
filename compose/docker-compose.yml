@@ -22,7 +22,7 @@ services:
     image: open_mt/app
     depends_on:
       - database_postgres
-    command: sh -c "yarn db:deploy-prod"
+    command: sh -c "yarn db:deploy"
     environment:
       - NPM_TOKEN
       - DATABASE_URL=postgresql://postgres:postgres@database_postgres:5432/open_mt?pool_timeout=120&connect_timeout=120
@@ -38,7 +38,7 @@ services:
     image: open_mt/app
     depends_on:
       - database_postgres
-    command: sh -c "yarn db:deploy-prod && yarn test"
+    command: sh -c "yarn db:deploy && yarn test"
     environment:
       - NPM_TOKEN
       - DATABASE_URL=postgresql://postgres:postgres@database_postgres:5432/open_mt?pool_timeout=120&connect_timeout=120
@@ -56,7 +56,7 @@ services:
     image: open_mt/app
     depends_on:
       - database_postgres
-    command: sh -c "yarn db:deploy-prod && yarn dev"
+    command: sh -c "yarn db:deploy && yarn dev"
     environment:
       - NPM_TOKEN
       - DATABASE_URL=postgresql://postgres:postgres@database_postgres:5432/open_mt?pool_timeout=120&connect_timeout=120
@@ -74,7 +74,7 @@ services:
     image: open_mt/app
     depends_on:
       - database_postgres
-    command: sh -c "yarn db:deploy-prod && yarn start"
+    command: sh -c "yarn db:deploy && yarn start"
     environment:
       - NPM_TOKEN
       - DATABASE_URL=postgresql://postgres:postgres@database_postgres:5432/open_mt?pool_timeout=120&connect_timeout=120

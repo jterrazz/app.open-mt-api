@@ -28,6 +28,7 @@
     "db:studio": "DATABASE_URL=postgresql://postgres:postgres@localhost:5432/open_mt npx prisma studio"
   },
   "devDependencies": {
+    "@jterrazz/eslint-config-common": "1.4.1",
     "@shopify/jest-koa-mocks": "^3.1.5",
     "@types/config": "^0.0.41",
     "@types/jest": "^27.0.2",
@@ -41,17 +42,10 @@
     "@types/passport": "^1.0.7",
     "@types/passport-local": "^1.0.34",
     "@types/supertest": "^2.0.12",
-    "@typescript-eslint/eslint-plugin": "^5.21.0",
-    "@typescript-eslint/parser": "^5.21.0",
     "eslint": "^8.14.0",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-sort-imports-es6-autofix": "^0.6.0",
-    "eslint-plugin-sort-keys-fix": "^1.1.2",
     "jest": "^27",
     "nodemon": "^2.0.16",
     "pgtools": "^0.3.2",
-    "prettier": "^2.6.1",
     "prisma": "^3.13.0",
     "supertest": "^6.2.3",
     "ts-jest": "^27.1.4"

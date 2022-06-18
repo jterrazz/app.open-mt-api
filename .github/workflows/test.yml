@@ -13,4 +13,4 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Run tests with docker
-        run: NPM_TOKEN=${{ secrets.GITHUB_TOKEN }} yarn docker:test
+        run: yarn docker:test

@@ -9,7 +9,7 @@ COPY ./.npmrc .
 RUN NPM_TOKEN=$npm_token yarn --ci
 
 # Adds the application
-ADD . /app
+COPY . .
 
 RUN npx prisma generate
 CMD yarn start

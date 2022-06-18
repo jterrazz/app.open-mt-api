@@ -13,6 +13,20 @@ services:
     volumes:
       - ./postgres:/docker-entrypoint-initdb.d
 
+#  api:
+#    container_name: open
+#    build:
+#      context: ..
+#      args:
+#        npm_token: ${NPM_TOKEN}
+#    image: open_mt/app
+#    depends_on:
+#      - database_postgres
+#    command: sh -c "yarn db:deploy"
+#    environment:
+#      - NPM_TOKEN
+#      - DATABASE_URL=postgresql://postgres:postgres@database_postgres:5432/open_mt?pool_timeout=120&connect_timeout=120
+
   database_migration:
     container_name: database_migration
     build:

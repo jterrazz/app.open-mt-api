@@ -40,6 +40,7 @@ services:
       - database_postgres
     command: sh -c "yarn db:deploy-prod && yarn test"
     environment:
+      - NPM_TOKEN
       - DATABASE_URL=postgresql://postgres:postgres@database_postgres:5432/open_mt?pool_timeout=120&connect_timeout=120
     volumes:
       - ../src:/app/src
@@ -57,6 +58,7 @@ services:
       - database_postgres
     command: sh -c "yarn db:deploy-prod && yarn dev"
     environment:
+      - NPM_TOKEN
       - DATABASE_URL=postgresql://postgres:postgres@database_postgres:5432/open_mt?pool_timeout=120&connect_timeout=120
     volumes:
       - ../src:/app/src
@@ -74,6 +76,7 @@ services:
       - database_postgres
     command: sh -c "yarn db:deploy-prod && yarn start"
     environment:
+      - NPM_TOKEN
       - DATABASE_URL=postgresql://postgres:postgres@database_postgres:5432/open_mt?pool_timeout=120&connect_timeout=120
       - NODE_ENV=production
     volumes:

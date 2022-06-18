@@ -14,3 +14,5 @@ jobs:
 
       - name: Run tests with docker
         run: yarn docker:test
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

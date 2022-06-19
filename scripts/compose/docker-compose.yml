@@ -1,0 +1,54 @@
+version: "3.9"
+
+services:
+  open-market-database:
+    container_name: open-market-database
+    image: postgres:13-alpine
+    restart: always
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_DB=open_market
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./postgres:/docker-entrypoint-initdb.d
+
+  open-market-api:
+    <<: &default
+      build:
+        context: ../..
+        args:
+          npm_token: ${NPM_TOKEN}
+      image: open-market-api
+      depends_on:
+        - open-market-database
+      environment:
+        - NPM_TOKEN
+        - DATABASE_URL=postgresql://postgres:postgres@open-market-database:5432/open_market?pool_timeout=120&connect_timeout=120
+      volumes:
+        - ../../src:/app/src
+        - ../../tests:/app/tests
+        - ../../config:/app/config
+
+  open-market-api--migrate-database:
+    <<: *default
+    container_name: open-market-api--migrate-database
+    command: sh -c "npx prisma migrate deploy"
+
+  open-market-api--test:
+    <<: *default
+    container_name: open-market-api--test
+    command: sh -c "npx prisma migrate deploy && yarn test"
+
+  open-market-api--dev:
+    <<: *default
+    container_name: open-market-api--dev
+    command: sh -c "npx prisma migrate deploy && yarn dev"
+    ports:
+      - '8080:8080'
+
+  open-market-api--start:
+    <<: *default
+    container_name: open-market-api--start
+    command: sh -c "npx prisma migrate deploy && yarn start"

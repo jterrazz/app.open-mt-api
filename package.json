@@ -1,5 +1,5 @@
 {
-  "name": "openmt-api",
+  "name": "open-market-api",
   "version": "1.0.0",
   "engines": {
     "node": "16.x"
@@ -7,25 +7,12 @@
   "author": "Jean-Baptiste TERRAZZONI",
   "private": true,
   "scripts": {
-    "start": "node -r tsconfig-paths/register -r ts-node/register/transpile-only src/start-app.ts",
-    "start:worker": "node -r tsconfig-paths/register -r ts-node/register/transpile-only src/start-worker.ts",
+    "start": "NODE_ENV=production node -r tsconfig-paths/register -r ts-node/register/transpile-only src/start-app.ts",
     "dev": "nodemon --exec \"yarn start\"",
-    "dev:worker": "nodemon --exec \"yarn start:worker\"",
-    "test": "LOG_LEVEL=none jest --silent",
-    "test:debug": "LOG_LEVEL=none jest --runInBand --detectOpenHandles",
-    "test:coverage": "LOG_LEVEL=none jest --coverage",
+    "test": "jest --silent",
+    "test:debug": "jest --runInBand --detectOpenHandles",
     "build": "yarn && npx prisma migrate deploy",
-    "docker:start": "docker compose -f compose/docker-compose.yml up database_postgres app_start --exit-code-from app_start",
-    "docker:dev": "docker compose -f compose/docker-compose.yml up database_postgres app_dev --exit-code-from app_dev",
-    "docker:test": "docker compose -f compose/docker-compose.yml up database_postgres app_test --exit-code-from app_test",
-    "docker:up": "docker compose -f compose/docker-compose.yml up -d database_postgres database_migration",
-    "docker:down": "docker compose -f compose/docker-compose.yml down",
-    "lint": "eslint --ext .js,.jsx,.ts,.tsx .",
-    "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx .",
-    "db:migrate": "npx prisma migrate dev --name",
-    "db:deploy": "npx prisma migrate deploy",
-    "db:revert": "#todo",
-    "db:studio": "npx prisma studio"
+    "lint": "eslint --ext .js,.jsx,.ts,.tsx ."
   },
   "devDependencies": {
     "@jterrazz/eslint-config-common": "1.4.1",

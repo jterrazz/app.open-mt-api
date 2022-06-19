@@ -13,6 +13,6 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Run tests with docker
-        run: yarn docker:test
+        run: sh scripts/docker-test.sh
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

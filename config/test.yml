@@ -1,10 +1,10 @@
 API:
-    PORT: '9099'
-    LOG:
-        LEVEL: 'debug'
-    CLIENT:
-        SECRET: 'the_test_client_session_secret'
+  PORT: '9099'
+  LOG:
+    LEVEL: 'debug'
+  CLIENT:
+    SECRET: 'the_test_client_session_secret'
 
 SERVICES:
-    DATABASE:
-        URL: 'postgresql://postgres:postgres@127.0.0.1:5432/open_mt?pool_timeout=30&connect_timeout=30'
+  DATABASE:
+    URL: 'postgresql://postgres:postgres@127.0.0.1:5432/open_market?pool_timeout=30&connect_timeout=30'

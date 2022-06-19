@@ -1,28 +1,27 @@
 {
-    "compilerOptions": {
-        "lib": ["es2020", "esnext"],
-        "outDir": "dist",
-        "module": "commonjs",
-        "target": "es2020",
-        "types" : ["node", "jest"],
-        "baseUrl": ".",
-        "esModuleInterop": true,
-        "sourceMap": true,
-        "paths": {
-            "~/*": ["./src/*"],
-            "@adapters": ["./src/adapters"],
-            "@adapters/*": ["./src/adapters/*"],
-            "@application/*": ["./src/application/*"],
-            "@configuration/*": ["./src/configuration/*"],
-            "@domain/*": ["./src/domain/*"],
-            "@infrastructure/*": ["./src/infrastructure/*"],
-            "@tests/*": ["./tests/*"]
-        },
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "strictNullChecks": true
+  "compilerOptions": {
+    "lib": ["es2020", "esnext"],
+    "outDir": "dist",
+    "module": "commonjs",
+    "target": "es2020",
+    "types" : ["node", "jest"],
+    "baseUrl": ".",
+    "esModuleInterop": true,
+    "sourceMap": true,
+    "paths": {
+      "~/*": ["./src/*"],
+      "@adapters/*": ["./src/adapters/*"],
+      "@application/*": ["./src/application/*"],
+      "@configuration/*": ["./src/configuration/*"],
+      "@domain/*": ["./src/domain/*"],
+      "@infrastructure/*": ["./src/infrastructure/*"],
+      "@tests/*": ["./tests/*"]
     },
-    "exclude": [
-        "node_modules"
-    ]
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "strictNullChecks": true
+  },
+  "exclude": [
+      "node_modules"
+  ]
 }

@@ -1,4 +1,4 @@
-import { BrokeOneToOneRelationError } from '@infrastructure/orm/prisma/map-prisma-error-to-domain';
+import { BrokenOneToOneRelationServerError } from '@domain/error/server/broken-one-to-one-relation-server-error';
 import { DuplicatedFieldServerError } from '@domain/error/server/duplicated-field-server-error';
 import { ForbiddenClientError } from '@domain/error/client/forbidden-client-error';
 import { IShopRepository } from '@domain/shop/shop.repository';
@@ -43,7 +43,7 @@ export const createShopFactory = (
                     throw new UnprocessableEntityClientError(['handle']);
                 }
 
-                if (error instanceof BrokeOneToOneRelationError) {
+                if (error instanceof BrokenOneToOneRelationServerError) {
                     // TODO Test unit
                     throw new ForbiddenClientError(
                         'a user cannot create 2 shops',

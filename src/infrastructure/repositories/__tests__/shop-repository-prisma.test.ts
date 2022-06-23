@@ -1,4 +1,4 @@
-import { BrokeOneToOneRelationError } from '@infrastructure/orm/prisma/map-prisma-error-to-domain';
+import { BrokenOneToOneRelationError } from '@infrastructure/orm/prisma/map-prisma-error-to-domain';
 import { DuplicatedFieldServerError } from '@domain/error/server/duplicated-field-server-error';
 import { NotFoundClientError } from '@domain/error/client/not-found-client-error';
 import { getDependencies } from '@configuration/dependencies';
@@ -77,7 +77,9 @@ describe('ShopRepositoryPrisma', function () {
                 repository.persist(newShopData, globallySeededUser.id);
 
             // Then
-            await expect(ft).rejects.toBeInstanceOf(BrokeOneToOneRelationError);
+            await expect(ft).rejects.toBeInstanceOf(
+                BrokenOneToOneRelationError,
+            );
             await expect(ft).rejects.toEqual({ relationName: 'ShopToUser' });
         });
 

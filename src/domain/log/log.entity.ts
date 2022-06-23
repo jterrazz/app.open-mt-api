@@ -1,1 +1,5 @@
-// TODO Implement log per activity
+export type ActivityLog = {
+    activity: string;
+    userId: string;
+    timestamp: Date;
+};

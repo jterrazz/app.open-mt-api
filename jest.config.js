@@ -1,7 +1,5 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const { pathsToModuleNameMapper } = require('ts-jest');
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const { compilerOptions } = require('./tsconfig.json');
+const { pathsToModuleNameMapper } = require('ts-jest'); // eslint-disable-line
+const { compilerOptions } = require('./tsconfig.json'); // eslint-disable-line
 
 delete compilerOptions.paths['*'];
 

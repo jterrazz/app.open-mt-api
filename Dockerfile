@@ -2,13 +2,14 @@ FROM node:16
 
 ARG npm_token
 
-# Installs dependencies and cache it based on these files
+# Step 1: Install dependencies only
 COPY ./package.json .
 COPY ./yarn.lock .
 COPY ./.npmrc .
 RUN NPM_TOKEN=$npm_token yarn --ci
 
-# Adds the application
+# Step 2: Copy application files
 COPY . .
 
+# Step 3: Generate prisma client
 RUN npx prisma generate

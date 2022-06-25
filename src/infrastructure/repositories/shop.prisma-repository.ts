@@ -3,7 +3,7 @@ import { Image, PrismaClient, Shop } from '@prisma/client';
 import { ShopEntity } from '@domain/shop/shop.entity';
 import { mapPrismaErrorToDomain } from '@infrastructure/orm/prisma/map-prisma-error-to-domain';
 
-export const mapPersistedShopToShopEntity = (
+const mapPersistedShopToShopEntity = (
     persistedShop: Shop & { bannerImage?: Image | null },
 ): ShopEntity => ({
     bannerImageUrl: persistedShop.bannerImage?.filename || null, // TODO replace by URL
@@ -18,6 +18,27 @@ export const mapPersistedShopToShopEntity = (
 export const shopRepositoryPrismaFactory = (
     prismaClient: PrismaClient,
 ): IShopRepository => ({
+    add: async (entity, ownerUserId) => {
+        const persistedShop = await prismaClient.shop
+            .create({
+                data: {
+                    countOfFollowers: 0,
+                    description: entity.description,
+                    handle: entity.handle,
+                    name: entity.name,
+                    user: {
+                        connect: {
+                            id: ownerUserId,
+                        },
+                    },
+                },
+            })
+            .catch((error) => {
+                throw mapPrismaErrorToDomain(error);
+            });
+
+        return mapPersistedShopToShopEntity(persistedShop);
+    },
     findByHandle: async (handle) => {
         const persistedShop = await prismaClient.shop.findFirst({
             include: {
@@ -42,7 +63,24 @@ export const shopRepositoryPrismaFactory = (
 
         return persistedShop && mapPersistedShopToShopEntity(persistedShop);
     },
-    merge: async (entity, shopId) => {
+    findManyByFollowerUserId: async (followerUserId) => {
+        // TODO Test
+        const persistedShops = await prismaClient.shopsFollowedByUsers.findMany(
+            {
+                include: {
+                    shop: true,
+                },
+                where: {
+                    userId: followerUserId,
+                },
+            },
+        );
+
+        return persistedShops
+            .map((persistedShop) => persistedShop.shop)
+            .map(mapPersistedShopToShopEntity);
+    },
+    update: async (entity, shopId) => {
         const persistedShop = await prismaClient.shop
             .update({
                 data: {
@@ -51,27 +89,6 @@ export const shopRepositoryPrismaFactory = (
                 },
                 where: {
                     id: shopId,
-                },
-            })
-            .catch((error) => {
-                throw mapPrismaErrorToDomain(error);
-            });
-
-        return mapPersistedShopToShopEntity(persistedShop);
-    },
-    persist: async (entity, ownerUserId) => {
-        const persistedShop = await prismaClient.shop
-            .create({
-                data: {
-                    countOfFollowers: 0,
-                    description: entity.description,
-                    handle: entity.handle,
-                    name: entity.name,
-                    user: {
-                        connect: {
-                            id: ownerUserId,
-                        },
-                    },
                 },
             })
             .catch((error) => {

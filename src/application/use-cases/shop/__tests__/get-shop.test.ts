@@ -1,4 +1,4 @@
-import { createMockOfShopRepository } from '@domain/shop/__tests__/shop.repository.mock';
+import { createMockOfShopRepository } from '@domain/shop/__mocks__/shop.repository.mock';
 import { getShopFactory } from '@application/use-cases/shop/get-shop';
 
 describe('use-cases / getShop()', () => {

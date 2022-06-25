@@ -10,10 +10,9 @@ export const seedDatabaseWithUser = async (
         data: {
             email: partialUser.email || `${randomUUID()}@mail.com`,
             firstName: partialUser.firstName || 'the_user_first_name',
-            handle: partialUser.handle || randomUUID(),
             hashedPassword:
                 partialUser.hashedPassword || 'the_user_hashed_password',
-            language: 'FR', // TODO
+            language: 'FR', // TODO test with other languages
             lastName: partialUser.lastName || 'the_user_last_name',
         },
     });

@@ -27,7 +27,7 @@ describe('productRepositoryPrisma', () => {
         });
     });
 
-    describe('merge()', () => {
+    describe('update()', () => {
         test('updates the data of a product', async () => {
             // Given
             const seededProduct = await seedDatabaseWithProduct(databaseClient);
@@ -38,7 +38,7 @@ describe('productRepositoryPrisma', () => {
             };
 
             // When
-            const result = await repository.merge(
+            const result = await repository.update(
                 seededProduct.id,
                 newProductData,
             );
@@ -55,8 +55,8 @@ describe('productRepositoryPrisma', () => {
         });
     });
 
-    describe('persist()', () => {
-        test('persists a product to database', async () => {
+    describe('add()', () => {
+        test('adds a product to database', async () => {
             const { shop: seededShop } = await seedDatabaseWithShop(
                 databaseClient,
             );
@@ -67,10 +67,7 @@ describe('productRepositoryPrisma', () => {
             };
 
             // When
-            const result = await repository.persist(
-                newProductData,
-                seededShop.id,
-            );
+            const result = await repository.add(newProductData, seededShop.id);
 
             // Then
             expect(result).toEqual({

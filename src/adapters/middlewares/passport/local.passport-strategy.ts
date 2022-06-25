@@ -2,7 +2,7 @@ import { AuthenticateUserWithEmail } from '@application/use-cases/authentication
 import { AuthenticationRequiredClientError } from '@domain/error/client/authentication-required-client-error';
 import { Strategy } from 'passport-local';
 
-// Call it with passport.authenticate('local');
+// Call this strategy with passport.authenticate('local');
 
 export const localPassportStrategyFactory = (
     authenticateUserWithEmail: AuthenticateUserWithEmail,
@@ -18,10 +18,10 @@ export const localPassportStrategyFactory = (
                     return done(null, false);
                 }
 
-                done(error);
+                return done(error);
             });
 
-            done(null, userEntity);
+            return done(null, userEntity);
         },
     );
 };

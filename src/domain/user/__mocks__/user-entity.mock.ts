@@ -1,6 +1,7 @@
+import { LANGUAGE } from '@domain/user/language';
 import { UserEntity } from '../user.entity';
 
-export const createMockOfUser = (
+export const createMockOfUserEntity = (
     partialUser: Partial<jest.Mocked<UserEntity>> = {},
 ): jest.Mocked<UserEntity> => ({
     authentication: {
@@ -13,7 +14,7 @@ export const createMockOfUser = (
         lastName: 'string',
     },
     settings: {
-        language: 'FR',
+        language: LANGUAGE.FR,
     },
     ...partialUser,
 });

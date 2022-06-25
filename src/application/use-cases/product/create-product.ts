@@ -10,6 +10,6 @@ export const createProductFactory = (
     productRepository: IProductRepository,
 ): CreateProduct => {
     return async (product, shopId) => {
-        return productRepository.persist(product, shopId);
+        return productRepository.add(product, shopId);
     };
 };

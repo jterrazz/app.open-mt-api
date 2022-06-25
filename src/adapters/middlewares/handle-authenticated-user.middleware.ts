@@ -6,11 +6,13 @@ export const handleAuthenticatedUserMiddlewareFactory = (
 ): Middleware => {
     return async (ctx, next) => {
         if (ctx.state.user) {
-            ctx.authenticatedUser = ctx.state.user; // TODO Test
+            ctx.authenticatedUser = ctx.state.user;
         } else {
-            ctx.authenticatedUser = null; // TODO Test
+            ctx.authenticatedUser = null;
         }
+
         logger.debug('added authenticated user to context');
+
         await next();
     };
 };

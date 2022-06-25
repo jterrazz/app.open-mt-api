@@ -1,4 +1,4 @@
-import { Applicable } from '@domain/applicable';
+import { Applicable } from '@application/utils/applicable';
 import { EventIdentifiers } from '@domain/tracker/events';
 import { IConfiguration } from '@application/contracts';
 import { ITrackerRepository } from '@domain/tracker/tracker.repository';

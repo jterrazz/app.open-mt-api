@@ -1,14 +1,15 @@
 import { ProductEntity } from './product.entity';
 
+// TODO Rename all properties
 export interface IProductRepository {
-    persist: (
+    add: (
         product: Pick<
             ProductEntity,
             'priceCentsAmount' | 'priceCurrency' | 'name'
         >,
         shopId: number,
     ) => Promise<ProductEntity>;
-    merge: (
+    update: (
         productId: number,
         product: Pick<
             ProductEntity,

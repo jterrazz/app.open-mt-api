@@ -39,8 +39,7 @@ describe('END TO END - GET /api', function () {
         // Then
         expect(response.headers).toEqual(
             expect.objectContaining({
-                // eslint-disable-next-line @typescript-eslint/no-var-requires
-                'api-version': require('../../../package.json').version,
+                'api-version': expect.any(String),
             }),
         );
     });

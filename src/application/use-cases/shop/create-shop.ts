@@ -32,7 +32,7 @@ export const createShopFactory = (
         };
 
         const persistedShop = await shopRepository
-            .persist(newShop, authenticatedUser.id)
+            .add(newShop, authenticatedUser.id)
             .catch((error) => {
                 console.log(error);
                 // TODO Wrap in method

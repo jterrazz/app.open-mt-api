@@ -1,4 +1,4 @@
-import { Applicable } from '@domain/applicable';
+import { Applicable } from '@application/utils/applicable';
 import { IConfiguration } from '@application/contracts';
 import { InitTrackerForRequest } from '@domain/tracker/init-tracker-for-request';
 import { trackerRepositoryMixpanelFactory } from '@infrastructure/repositories/tracker.repository-mixpanel';

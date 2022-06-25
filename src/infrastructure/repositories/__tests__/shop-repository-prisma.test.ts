@@ -1,6 +1,6 @@
-import { BrokenOneToOneRelationError } from '@infrastructure/orm/prisma/map-prisma-error-to-domain';
+import { BrokenOneToOneRelationServerError } from '@domain/error/server/broken-one-to-one-relation-server-error';
 import { DuplicatedFieldServerError } from '@domain/error/server/duplicated-field-server-error';
-import { NotFoundClientError } from '@domain/error/client/not-found-client-error';
+import { NotFoundServerError } from '@domain/error/server/not-found-server-error';
 import { getDependencies } from '@configuration/dependencies';
 import { seedDatabaseWithShop } from '@tests/seeds/shop';
 import { seedDatabaseWithUser } from '@tests/seeds/user';
@@ -21,7 +21,7 @@ beforeAll(async () => {
 });
 
 describe('ShopRepositoryPrisma', function () {
-    describe('persist()', function () {
+    describe('add()', function () {
         const createMockOfNewShopData = (data = {}) => ({
             description: 'the_created_description',
             handle: 'the_created_handle',
@@ -29,13 +29,13 @@ describe('ShopRepositoryPrisma', function () {
             ...data,
         });
 
-        test('persists a shop to database', async () => {
+        test('adds a shop to database', async () => {
             // Given
             const seededUser = await seedDatabaseWithUser(databaseClient);
             const newShopData = createMockOfNewShopData();
 
             // When
-            const result = await repository.persist(newShopData, seededUser.id);
+            const result = await repository.add(newShopData, seededUser.id);
 
             // Then
             expect(result).toEqual({
@@ -73,12 +73,11 @@ describe('ShopRepositoryPrisma', function () {
             });
 
             // When
-            const ft = () =>
-                repository.persist(newShopData, globallySeededUser.id);
+            const ft = () => repository.add(newShopData, globallySeededUser.id);
 
             // Then
             await expect(ft).rejects.toBeInstanceOf(
-                BrokenOneToOneRelationError,
+                BrokenOneToOneRelationServerError,
             );
             await expect(ft).rejects.toEqual({ relationName: 'ShopToUser' });
         });
@@ -91,7 +90,7 @@ describe('ShopRepositoryPrisma', function () {
             });
 
             // When
-            const ft = () => repository.persist(newShopData, seededUser.id);
+            const ft = () => repository.add(newShopData, seededUser.id);
 
             // Then
             await expect(ft).rejects.toBeInstanceOf(DuplicatedFieldServerError);
@@ -101,7 +100,7 @@ describe('ShopRepositoryPrisma', function () {
         });
     });
 
-    describe('merge()', function () {
+    describe('update()', function () {
         const createMockOfUpdatedShopData = (data = {}) => ({
             description: 'the_updated_description',
             name: 'the_updated_name',
@@ -115,7 +114,7 @@ describe('ShopRepositoryPrisma', function () {
             const updatedShopData = createMockOfUpdatedShopData();
 
             // When
-            const result = await repository.merge(
+            const result = await repository.update(
                 updatedShopData,
                 seededShop.id,
             );
@@ -154,10 +153,10 @@ describe('ShopRepositoryPrisma', function () {
             const updatedShopData = createMockOfUpdatedShopData();
 
             // When
-            const ft = () => repository.merge(updatedShopData, -1);
+            const ft = () => repository.update(updatedShopData, -1);
 
             // Then
-            await expect(ft).rejects.toThrow(NotFoundClientError);
+            await expect(ft).rejects.toThrow(NotFoundServerError);
         });
     });
 

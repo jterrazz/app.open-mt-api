@@ -1,4 +1,5 @@
 import { DuplicatedFieldServerError } from '@domain/error/server/duplicated-field-server-error';
+import { LANGUAGE } from '@domain/user/language';
 import { getDependencies } from '@configuration/dependencies';
 import { seedDatabaseWithUser } from '@tests/seeds/user';
 import { userRepositoryPrismaFactory } from '@infrastructure/repositories/user.prisma-repository';
@@ -7,7 +8,7 @@ const databaseClient = getDependencies().database.client;
 const repository = userRepositoryPrismaFactory(databaseClient);
 
 describe('userRepositoryPrisma', () => {
-    describe('persist()', () => {
+    describe('dd()', () => {
         const createMockOfNewUserData = (args = {}) => ({
             authentication: {
                 email: 'the_created_email',
@@ -18,25 +19,32 @@ describe('userRepositoryPrisma', () => {
                 lastName: 'the_created_last_name',
             },
             settings: {
-                language: 'FR',
+                language: LANGUAGE.FR,
             },
             ...args,
         });
 
-        test('persists a user to database', async () => {
+        test('adds a user to database', async () => {
             // Given
             const newUserData = createMockOfNewUserData();
 
             // When
-            const result = await repository.persist(newUserData);
+            const result = await repository.add(newUserData);
 
             // Then
             expect(result).toEqual({
-                email: 'the_created_email',
-                firstName: 'the_created_first_name',
-                hashedPassword: 'the_created_hashed_password',
+                authentication: {
+                    email: newUserData.authentication.email,
+                    hashedPassword: newUserData.authentication.hashedPassword,
+                },
                 id: expect.any(Number),
-                lastName: 'the_created_last_name',
+                profile: {
+                    firstName: newUserData.profile.firstName,
+                    lastName: newUserData.profile.lastName,
+                },
+                settings: {
+                    language: newUserData.settings.language,
+                },
             });
             expect(
                 await databaseClient.user.findFirst({
@@ -71,11 +79,18 @@ describe('userRepositoryPrisma', () => {
 
             // Then
             expect(result).toEqual({
-                email: 'existing_user@mail.com',
-                firstName: 'the_user_first_name',
-                hashedPassword: 'the_user_hashed_password',
+                authentication: {
+                    email,
+                    hashedPassword: seededUser.hashedPassword,
+                },
                 id: seededUser.id,
-                lastName: 'the_user_last_name',
+                profile: {
+                    firstName: seededUser.firstName,
+                    lastName: seededUser.lastName,
+                },
+                settings: {
+                    language: seededUser.language,
+                },
             });
         });
 

@@ -22,7 +22,7 @@ export const deserializeCreateProductKoaRequest: DeserializeCreateProductKoaRequ
             z
                 .object({
                     name: z.string(),
-                    priceCentsAmount: z.number().int(), // TODO Test no cents is sent and check for it every call
+                    priceCentsAmount: z.number().int(),
                     priceCurrency: currencyEntitySchema,
                 })
                 .parse(ctx.request.body),

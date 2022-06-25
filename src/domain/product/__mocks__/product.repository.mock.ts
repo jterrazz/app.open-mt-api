@@ -1,15 +1,15 @@
 import { IProductRepository } from '../product.repository';
-import { createMockOfProductEntity } from '@domain/product/__tests__/product.entity.mock';
+import { createMockOfProductEntity } from '@domain/product/__mocks__/product.entity.mock';
 
 export const createMockOfProductRepository = (
     partialProductRepository: Partial<jest.Mocked<IProductRepository>> = {},
 ): jest.Mocked<IProductRepository> => {
     return {
+        add: jest.fn().mockImplementation(async (input) => input),
         findByProductId: jest
             .fn()
             .mockResolvedValue(createMockOfProductEntity()),
-        merge: jest.fn().mockImplementation(async (_, input) => input),
-        persist: jest.fn().mockImplementation(async (input) => input),
+        update: jest.fn().mockImplementation(async (_, input) => input),
         ...partialProductRepository,
     };
 };

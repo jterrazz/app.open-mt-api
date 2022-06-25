@@ -1,5 +1,5 @@
-import { createMockOfShopRepository } from '@domain/shop/__tests__/shop.repository.mock';
-import { createMockOfUser } from '@domain/user/__tests__/user-entity.mock';
+import { createMockOfShopRepository } from '@domain/shop/__mocks__/shop.repository.mock';
+import { createMockOfUserEntity } from '@domain/user/__mocks__/user-entity.mock';
 import { createShopFactory } from '@application/use-cases/shop/create-shop';
 import { useFakeTimers, useRealTimers } from '@tests/utils/timer';
 
@@ -18,7 +18,7 @@ const createMockOfArgs = () => {
         handle: 'the_new_shop_handle',
         name: 'the_new_shop_name',
     };
-    const mockOfAuthenticatedUser = createMockOfUser({
+    const mockOfAuthenticatedUser = createMockOfUserEntity({
         id: 0,
     });
     const mockOfShopRepository = createMockOfShopRepository();
@@ -46,7 +46,7 @@ describe('use-cases / createShop()', function () {
         );
 
         // Then
-        expect(mockOfShopRepository.persist).toHaveBeenCalledWith(
+        expect(mockOfShopRepository.add).toHaveBeenCalledWith(
             {
                 bannerImageUrl: 'the_new_banner_image_url',
                 countFollowers: 0,
@@ -69,7 +69,7 @@ describe('use-cases / createShop()', function () {
         const { mockOfAuthenticatedUser, mockOfCreateShopParams } =
             createMockOfArgs();
         const mockOfShopRepository = createMockOfShopRepository({
-            persist: jest.fn().mockRejectedValue(new Error('persist-error')),
+            add: jest.fn().mockRejectedValue(new Error('persist-error')),
         });
 
         // When

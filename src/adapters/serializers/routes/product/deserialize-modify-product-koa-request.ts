@@ -11,6 +11,7 @@ export type DeserializeModifyProductKoaRequest = IKoaDeserializer<{
     };
 }>;
 
+// TODO Move check of authentication here
 export const deserializeModifyProductKoaRequest: DeserializeModifyProductKoaRequest =
     (ctx) => {
         const parsedData = zodErrorToUnprocessableEntityErrorWrapper(() =>

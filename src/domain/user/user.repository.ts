@@ -3,7 +3,7 @@ import { UserEntity } from './user.entity';
 export interface IUserRepository {
     findById: (id: number) => Promise<UserEntity | null>;
     findByEmail: (handle: string) => Promise<UserEntity | null>;
-    persist: (user: {
+    add: (user: {
         authentication: Pick<
             UserEntity['authentication'],
             'email' | 'hashedPassword'

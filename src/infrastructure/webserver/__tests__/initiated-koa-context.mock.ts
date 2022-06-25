@@ -1,7 +1,7 @@
 import { IInitiatedKoaContext } from '@adapters/controllers/koa-controller';
 import { createMockContext } from '@shopify/jest-koa-mocks';
-import { createMockOfTrackerRepository } from '@domain/tracker/__tests__/tracker-repository.mock';
-import { createMockOfUser } from '@domain/user/__tests__/user-entity.mock';
+import { createMockOfTrackerRepository } from '@domain/tracker/__mocks__/tracker-repository.mock';
+import { createMockOfUserEntity } from '@domain/user/__mocks__/user-entity.mock';
 
 export const createMockOfInitiatedKoaContext = (
     overrideParams?:
@@ -13,7 +13,7 @@ export const createMockOfInitiatedKoaContext = (
     return {
         ...createMockContext(),
         authenticatedUser: withAuthenticatedUser
-            ? createMockOfUser()
+            ? createMockOfUserEntity()
             : undefined,
         logout: jest.fn(),
         requestTracker: createMockOfTrackerRepository(),

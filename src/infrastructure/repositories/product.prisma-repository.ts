@@ -12,9 +12,23 @@ const mapPersistedProductToProductEntity = (
     shopId: persistedProduct.shopId,
 });
 
+// TODO Rename repositories to add(), update(), delete()
+
 export const productRepositoryPrismaFactory = (
     prismaClient: PrismaClient,
 ): IProductRepository => ({
+    add: async (productParams, shopId) => {
+        const persistedProduct = await prismaClient.product.create({
+            data: {
+                name: productParams.name,
+                priceCentsAmount: productParams.priceCentsAmount,
+                priceCurrency: productParams.priceCurrency,
+                shopId,
+            },
+        });
+
+        return mapPersistedProductToProductEntity(persistedProduct);
+    },
     findByProductId: async (id) => {
         const persistedProduct = await prismaClient.product.findFirst({
             where: {
@@ -27,7 +41,7 @@ export const productRepositoryPrismaFactory = (
             mapPersistedProductToProductEntity(persistedProduct)
         );
     },
-    merge: async (productId, productParams) => {
+    update: async (productId, productParams) => {
         // TODO Reverse params
         const persistedProduct = await prismaClient.product.update({
             data: {
@@ -37,18 +51,6 @@ export const productRepositoryPrismaFactory = (
             },
             where: {
                 id: productId,
-            },
-        });
-
-        return mapPersistedProductToProductEntity(persistedProduct);
-    },
-    persist: async (productParams, shopId) => {
-        const persistedProduct = await prismaClient.product.create({
-            data: {
-                name: productParams.name,
-                priceCentsAmount: productParams.priceCentsAmount,
-                priceCurrency: productParams.priceCurrency,
-                shopId,
             },
         });
 

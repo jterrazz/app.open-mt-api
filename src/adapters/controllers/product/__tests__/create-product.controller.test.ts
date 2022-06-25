@@ -1,15 +1,15 @@
 import { AuthenticationRequiredClientError } from '@domain/error/client/authentication-required-client-error';
 import { ForbiddenClientError } from '@domain/error/client/forbidden-client-error';
 import { createMockOfInitiatedKoaContext } from '@infrastructure/webserver/__tests__/initiated-koa-context.mock';
-import { createMockOfShopRepository } from '@domain/shop/__tests__/shop.repository.mock';
-import { createMockOfUser } from '@domain/user/__tests__/user-entity.mock';
+import { createMockOfShopRepository } from '@domain/shop/__mocks__/shop.repository.mock';
+import { createMockOfUserEntity } from '@domain/user/__mocks__/user-entity.mock';
 import { createProductControllerFactory } from '@adapters/controllers/product/create-product.controller';
 
 const createMockOfArguments = () => {
     return {
         mockOfCreateProduct: jest.fn(),
         mockOfDeserializer: jest.fn().mockReturnValue({
-            authenticatedUser: createMockOfUser(),
+            authenticatedUser: createMockOfUserEntity(),
             productParams: {},
         }),
         mockOfSerializer: jest.fn(),

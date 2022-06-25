@@ -1,8 +1,8 @@
 import { AuthenticationRequiredClientError } from '@domain/error/client/authentication-required-client-error';
 import { authenticateUserWithEmailFactory } from '@application/use-cases/authentication/authenticate-user-with-email';
-import { createMockOfLogger } from '@application/contracts/__tests__/logger.mock';
-import { createMockOfUser } from '@domain/user/__tests__/user-entity.mock';
-import { createMockOfUserRepository } from '@domain/user/__tests__/user-repository.mock';
+import { createMockOfLogger } from '@application/contracts/__mocks__/logger.mock';
+import { createMockOfUserEntity } from '@domain/user/__mocks__/user-entity.mock';
+import { createMockOfUserRepository } from '@domain/user/__mocks__/user-repository.mock';
 
 const createMockOfArgs = () => {
     const mockOfLogger = createMockOfLogger();
@@ -30,7 +30,7 @@ describe('use-cases / authenticateUserWithEmail()', () => {
         )('', '');
 
         // Then
-        expect(result).toEqual(createMockOfUser());
+        expect(result).toEqual(createMockOfUserEntity());
     });
 
     test('rejects a bad email with an unauthorized error', async () => {

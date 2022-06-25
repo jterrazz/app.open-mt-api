@@ -22,22 +22,7 @@ const mapPersistedUserToUserEntity = (persistedUser: User): UserEntity => ({
 export const userRepositoryPrismaFactory = (
     prismaClient: PrismaClient,
 ): IUserRepository => ({
-    async findByEmail(email) {
-        const persistedUser = await prismaClient.user.findFirst({
-            where: { email },
-        });
-
-        return persistedUser && mapPersistedUserToUserEntity(persistedUser);
-    },
-    async findById(id) {
-        // TODO To test
-        const persistedUser = await prismaClient.user.findFirst({
-            where: { id },
-        });
-
-        return persistedUser && mapPersistedUserToUserEntity(persistedUser);
-    },
-    async persist(user) {
+    async add(user) {
         const persistedUser = await prismaClient.user
             .create({
                 data: {
@@ -51,6 +36,21 @@ export const userRepositoryPrismaFactory = (
             .catch((error) => {
                 throw mapPrismaErrorToDomain(error);
             });
+
+        return persistedUser && mapPersistedUserToUserEntity(persistedUser);
+    },
+    async findByEmail(email) {
+        const persistedUser = await prismaClient.user.findFirst({
+            where: { email },
+        });
+
+        return persistedUser && mapPersistedUserToUserEntity(persistedUser);
+    },
+    async findById(id) {
+        // TODO To test
+        const persistedUser = await prismaClient.user.findFirst({
+            where: { id },
+        });
 
         return persistedUser && mapPersistedUserToUserEntity(persistedUser);
     },

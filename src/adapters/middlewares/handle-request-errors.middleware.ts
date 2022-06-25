@@ -10,6 +10,7 @@ export const handleRequestErrorsMiddlewareFactory = (
             await next();
         } catch (error) {
             if (error instanceof ClientError) {
+                // TODO Console . debug ici
                 ctx.response.status = error.httpCode;
                 ctx.response.body = {
                     message: error.publicMessage,

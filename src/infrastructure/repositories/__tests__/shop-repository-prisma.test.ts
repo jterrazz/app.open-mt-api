@@ -2,8 +2,8 @@ import { BrokenOneToOneRelationServerError } from '@domain/error/server/broken-o
 import { DuplicatedFieldServerError } from '@domain/error/server/duplicated-field-server-error';
 import { NotFoundServerError } from '@domain/error/server/not-found-server-error';
 import { getDependencies } from '@configuration/dependencies';
-import { seedDatabaseWithShop } from '@tests/seeds/shop';
-import { seedDatabaseWithUser } from '@tests/seeds/user';
+import { seedDatabaseWithShop } from '@tests/seeds/seed-database-with-shop';
+import { seedDatabaseWithUser } from '@tests/seeds/seed-database-with-user';
 import { shopRepositoryPrismaFactory } from '@infrastructure/repositories/shop.prisma-repository';
 
 const databaseClient = getDependencies().database.client;
@@ -144,7 +144,7 @@ describe('ShopRepositoryPrisma', function () {
                 id: seededShop.id,
                 name: 'the_updated_name',
                 updatedAt: expect.any(Date),
-                userId: seededUser.id,
+                userId: seededUser?.id,
             });
         });
 

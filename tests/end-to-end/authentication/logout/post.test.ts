@@ -1,20 +1,17 @@
-import { createAuthenticatedRequestAgent } from '@tests/utils/create-authenticated-request-agent';
-import { createEndToEndApplication } from '../../../utils/create-end-to-end-application';
-import { getDependencies } from '@configuration/dependencies';
+import { createEndToEndApplication } from '@tests/utils/create-end-to-end-application';
 
-const endToEndApplication = createEndToEndApplication();
-const databaseClient = getDependencies().database.client;
+const { createAuthenticatedRequestAgent } = createEndToEndApplication();
 
-describe('END TO END - POST /auth/login', () => {
+describe('END TO END - POST /authentication/logout', () => {
     test('log out a user', async () => {
         // Given
-        const requestAgent = await createAuthenticatedRequestAgent(
-            databaseClient,
-            endToEndApplication,
-        );
+        const { authenticatedRequestAgent } =
+            await createAuthenticatedRequestAgent();
 
         // When
-        const response = await requestAgent.post('/auth/logout');
+        const response = await authenticatedRequestAgent.post(
+            '/authentication/logout',
+        );
 
         // Then
         expect(response.status).toEqual(200);

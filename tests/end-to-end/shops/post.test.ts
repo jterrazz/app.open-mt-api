@@ -1,19 +1,14 @@
-import { createAuthenticatedRequestAgent } from '@tests/utils/create-authenticated-request-agent';
 import { createEndToEndApplication } from '@tests/utils/create-end-to-end-application';
-import { getDependencies } from '@configuration/dependencies';
-import { seedDatabaseWithShop } from '@tests/seeds/shop';
-import request from 'supertest';
+import { seedDatabaseWithShop } from '@tests/seeds/seed-database-with-shop';
 
-const endToEndApplication = createEndToEndApplication();
-const databaseClient = getDependencies().database.client;
+const { requestAgent, createAuthenticatedRequestAgent, database } =
+    createEndToEndApplication();
 
-describe('END TO END - POST /shop', function () {
+describe('END TO END - POST /shops', function () {
     test('creates a new shop', async () => {
         // Given
-        const authenticatedRequestAgent = await createAuthenticatedRequestAgent(
-            databaseClient,
-            endToEndApplication,
-        );
+        const { authenticatedRequestAgent } =
+            await createAuthenticatedRequestAgent();
         const params = {
             handle: 'the_new_shop_handle',
             name: 'the_new_shop_name',
@@ -21,7 +16,7 @@ describe('END TO END - POST /shop', function () {
 
         // When
         const response = await authenticatedRequestAgent
-            .post('/shop')
+            .post('/shops')
             .send(params);
 
         // Then
@@ -41,21 +36,19 @@ describe('END TO END - POST /shop', function () {
         };
 
         // When
-        const response = await request(endToEndApplication.app.callback())
-            .post('/shop')
-            .send(params);
+        const response = await requestAgent.post('/shops').send(params);
 
         // Then
-        expect(response.status).toEqual(403);
+        expect(response.status).toEqual(401);
     });
 
     test('does not create a shop with an handle already existing', async () => {
         // Given
-        const { shop: seededShop } = await seedDatabaseWithShop(databaseClient);
-        const authenticatedRequestAgent = await createAuthenticatedRequestAgent(
-            databaseClient,
-            endToEndApplication,
+        const { shop: seededShop } = await seedDatabaseWithShop(
+            database.client,
         );
+        const { authenticatedRequestAgent } =
+            await createAuthenticatedRequestAgent();
         const params = {
             handle: seededShop.handle,
             name: 'the_duplicated_shop_name',
@@ -63,7 +56,7 @@ describe('END TO END - POST /shop', function () {
 
         // When
         const response = await authenticatedRequestAgent
-            .post('/shop')
+            .post('/shops')
             .send(params);
 
         // Then
@@ -78,10 +71,8 @@ describe('END TO END - POST /shop', function () {
 
     test('does not create 2 shops for the same user', async () => {
         // Given
-        const authenticatedRequestAgent = await createAuthenticatedRequestAgent(
-            databaseClient,
-            endToEndApplication,
-        );
+        const { authenticatedRequestAgent } =
+            await createAuthenticatedRequestAgent();
         const params = {
             handle: 'the_duplicated_shop_handle',
             name: 'the_duplicated_shop_name',
@@ -89,10 +80,10 @@ describe('END TO END - POST /shop', function () {
 
         // When
         const firstResponse = await authenticatedRequestAgent
-            .post('/shop')
+            .post('/shops')
             .send(params);
         const secondResponse = await authenticatedRequestAgent
-            .post('/shop')
+            .post('/shops')
             .send(params);
 
         // Then
@@ -106,20 +97,15 @@ describe('END TO END - POST /shop', function () {
     test('does not create a shop that is missing required information', async () => {
         // Given
         const params = {
-            handle: 'the_shop_handle_missing_name',
+            handle: 'the_shop_handle_with_missing_name',
         };
 
         // When
-        await request(endToEndApplication.app.callback())
-            .post('/shop')
-            .send(params);
-        const secondResponse = await request(endToEndApplication.app.callback())
-            .post('/shop')
-            .send(params);
+        const response = await requestAgent.post('/shops').send(params);
 
         // Then
-        expect(secondResponse.status).toEqual(422);
-        expect(secondResponse.body).toEqual({
+        expect(response.status).toEqual(422);
+        expect(response.body).toEqual({
             message: "bad fields [ 'name' ]",
             meta: {
                 fields: ['name'],

@@ -39,6 +39,6 @@ export const modifyProductFactory = (
             productEntity.priceCentsAmount =
                 modifyProductParams.priceCentsAmount;
 
-        return productRepository.update(productEntity.shopId, productEntity);
+        return productRepository.update(productEntity.id, productEntity);
     };
 };

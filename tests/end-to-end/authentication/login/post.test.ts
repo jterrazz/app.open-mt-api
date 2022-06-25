@@ -1,22 +1,19 @@
 import { createEndToEndApplication } from '../../../utils/create-end-to-end-application';
-import { getDependencies } from '@configuration/dependencies';
 import {
     seedDatabaseWithUser,
     seedExampleOfValidPassword,
-} from '@tests/seeds/user';
-import request from 'supertest';
+} from '@tests/seeds/seed-database-with-user';
 
-const endToEndApplication = createEndToEndApplication();
-const databaseClient = getDependencies().database.client;
+const { requestAgent, database } = createEndToEndApplication();
 
 beforeAll(async () => {
-    await seedDatabaseWithUser(databaseClient, {
+    await seedDatabaseWithUser(database.client, {
         email: 'login-email@test.com',
         hashedPassword: seedExampleOfValidPassword.hashedPassword,
     });
 });
 
-describe('END TO END - POST /auth/login', () => {
+describe('END TO END - POST /authentication/login', () => {
     test('log in a user', async () => {
         // Given
         const body = {
@@ -25,8 +22,8 @@ describe('END TO END - POST /auth/login', () => {
         };
 
         // When
-        const response = await request(endToEndApplication.app.callback())
-            .post('/auth/login')
+        const response = await requestAgent
+            .post('/authentication/login')
             .send(body);
 
         // Then
@@ -48,8 +45,8 @@ describe('END TO END - POST /auth/login', () => {
         };
 
         // When
-        const response = await request(endToEndApplication.app.callback())
-            .post('/auth/login')
+        const response = await requestAgent
+            .post('/authentication/login')
             .send(body);
 
         // Then
@@ -65,8 +62,8 @@ describe('END TO END - POST /auth/login', () => {
         };
 
         // When
-        const response = await request(endToEndApplication.app.callback())
-            .post('/auth/login')
+        const response = await requestAgent
+            .post('/authentication/login')
             .send(body);
 
         // Then

@@ -1,4 +1,4 @@
-import { createMockOfConfiguration } from '@configuration/__tests__/configuration.mock';
+import { createMockOfConfiguration } from '@configuration/__mocks__/configuration.mock';
 import { createMockOfInitiatedKoaContext } from '@infrastructure/webserver/__tests__/initiated-koa-context.mock';
 import { setResponseHeadersMiddlewareFactory } from '@adapters/middlewares/set-response-headers.middleware';
 

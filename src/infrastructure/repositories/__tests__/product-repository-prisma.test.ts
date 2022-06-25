@@ -1,8 +1,8 @@
 import { CurrencyEntity } from '@domain/currency/currency.entity';
 import { getDependencies } from '@configuration/dependencies';
 import { productRepositoryPrismaFactory } from '@infrastructure/repositories/product.prisma-repository';
-import { seedDatabaseWithProduct } from '@tests/seeds/product';
-import { seedDatabaseWithShop } from '@tests/seeds/shop';
+import { seedDatabaseWithProduct } from '@tests/seeds/seed-database-with-product';
+import { seedDatabaseWithShop } from '@tests/seeds/seed-database-with-shop';
 
 const databaseClient = getDependencies().database.client;
 const repository = productRepositoryPrismaFactory(databaseClient);
@@ -11,7 +11,9 @@ describe('productRepositoryPrisma', () => {
     describe('findByProductId()', () => {
         test('returns data of a product', async () => {
             // Given
-            const seededProduct = await seedDatabaseWithProduct(databaseClient);
+            const { product: seededProduct } = await seedDatabaseWithProduct(
+                databaseClient,
+            );
 
             // When
             const result = await repository.findByProductId(seededProduct.id);
@@ -30,7 +32,9 @@ describe('productRepositoryPrisma', () => {
     describe('update()', () => {
         test('updates the data of a product', async () => {
             // Given
-            const seededProduct = await seedDatabaseWithProduct(databaseClient);
+            const { product: seededProduct } = await seedDatabaseWithProduct(
+                databaseClient,
+            );
             const newProductData = {
                 name: 'the_new_product_name',
                 priceCentsAmount: 2,

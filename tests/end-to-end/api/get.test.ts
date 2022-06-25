@@ -1,8 +1,7 @@
 import { createEndToEndApplication } from '../../utils/create-end-to-end-application';
 import { useFakeTimers, useRealTimers } from '@tests/utils/timer';
-import request from 'supertest';
 
-const endToEndApplication = createEndToEndApplication();
+const { requestAgent } = createEndToEndApplication();
 
 beforeAll(() => {
     useFakeTimers();
@@ -15,9 +14,7 @@ afterAll(() => {
 describe('END TO END - GET /api', function () {
     test('returns the API status', async () => {
         // When
-        const response = await request(endToEndApplication.app.callback()).get(
-            '/',
-        );
+        const response = await requestAgent.get('/');
 
         // Then
         expect(response.status).toEqual(200);
@@ -32,9 +29,7 @@ describe('END TO END - GET /api', function () {
 
     test('returns global API headers', async () => {
         // When
-        const response = await request(endToEndApplication.app.callback()).get(
-            '/',
-        );
+        const response = await requestAgent.get('/');
 
         // Then
         expect(response.headers).toEqual(

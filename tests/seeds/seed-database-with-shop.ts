@@ -1,14 +1,23 @@
 import { IPrismaDatabase } from '@infrastructure/orm/prisma/prisma-database';
+import { User } from '@prisma/client';
 import { generateRandomId } from '@application/utils/math';
 import { randomUUID } from 'crypto';
-import { seedDatabaseWithUser } from '@tests/seeds/user';
+import { seedDatabaseWithUser } from '@tests/seeds/seed-database-with-user';
 import type { Shop } from '@prisma/client';
 
 export const seedDatabaseWithShop = async (
     databaseClient: IPrismaDatabase['client'],
     partialShop: Partial<Shop> = {},
+    ownerId?: number,
 ) => {
-    const user = await seedDatabaseWithUser(databaseClient);
+    let user: User | undefined;
+
+    if (!ownerId) {
+        const seededUser = await seedDatabaseWithUser(databaseClient);
+        ownerId = seededUser.id;
+        user = seededUser;
+    }
+
     const shop = await databaseClient.shop.create({
         data: {
             bannerImageId: null,
@@ -18,12 +27,13 @@ export const seedDatabaseWithShop = async (
             handle: randomUUID(),
             id: Math.floor(generateRandomId()),
             name: 'the_shop_name',
-            userId: user.id,
+            userId: ownerId,
             ...partialShop,
         },
     });
 
     return {
+        ownerId,
         shop,
         user,
     };

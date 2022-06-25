@@ -10,21 +10,26 @@ export const routerFactory = (controllers: IAdapterControllers): Router => {
 
     // Authentication
     router.post(
-        '/auth/login',
+        '/authentication/login',
         passport.authenticate('local'),
         controllers.authentication.logIn,
     );
-    router.post('/auth/logout', controllers.authentication.logOut);
+    router.post('/authentication/logout', controllers.authentication.logOut);
+
+    // Me
+    router.get('/me/followed-shops', controllers.me.getUserListOfFollowedShops);
 
     // Shop
-    router.post('/shop', controllers.shops.createShop);
-    router.get('/shop/:shopHandle', controllers.shops.getShop);
+    router.post('/shops', controllers.shops.createShop);
+    router.get('/shops/:shopHandle', controllers.shops.getShop);
 
     // Product
-    router.post('/product', controllers.products.createProduct);
+    router.post('/products', controllers.products.createProduct);
+    router.get('/products/:productId', controllers.products.getProduct);
+    router.patch('/products/:productId', controllers.products.modifyProduct);
 
     // User
-    router.get('/user/:userId', controllers.users.getPublicProfile);
+    router.get('/users/:userId', controllers.users.getPublicProfile);
 
     return router;
 };

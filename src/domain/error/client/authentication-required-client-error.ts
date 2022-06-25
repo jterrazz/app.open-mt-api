@@ -5,6 +5,6 @@ export class AuthenticationRequiredClientError extends ClientError {
     constructor(publicMessage?: string) {
         publicMessage ||= 'authentication required';
 
-        super(StatusCodes.FORBIDDEN, publicMessage);
+        super(StatusCodes.UNAUTHORIZED, publicMessage);
     }
 }

@@ -22,6 +22,8 @@ import { getProductControllerFactory } from '@adapters/controllers/product/get-p
 import { getShopControllerFactory } from '@adapters/controllers/shop/get-shop.controller';
 import { getShopFactory } from '@application/use-cases/shop/get-shop';
 import { getUserDetailsFactory } from '@application/use-cases/user/get-user-details';
+import { getUserListOfFollowedShopsControllerFactory } from '@adapters/controllers/me/get-user-followed-shops.controller';
+import { getUserListOfFollowedShopsFactory } from '@application/use-cases/user/get-user-list-of-followed-shops';
 import { getUserPublicProfileControllerFactory } from '@adapters/controllers/user/get-user-public-profile.controller';
 import { handleAuthenticatedUserMiddlewareFactory } from '@adapters/middlewares/handle-authenticated-user.middleware';
 import { handleRequestErrorsMiddlewareFactory } from '@adapters/middlewares/handle-request-errors.middleware';
@@ -98,6 +100,8 @@ export const getDependencies = (): {
         userRepository,
         checkBcryptPassword,
     );
+    const getUserListOfFollowedShops =
+        getUserListOfFollowedShopsFactory(shopRepository);
 
     // Adapters - Controllers and middlewares
 
@@ -111,6 +115,17 @@ export const getDependencies = (): {
         authentication: {
             logIn: logInControllerFactory(serializeLoginKoaResponse),
             logOut: logOutControllerFactory(serializeLogoutKoaResponse),
+        },
+        me: {
+            getPrivateSettings: getUserPublicProfileControllerFactory(
+                getUserPublicProfile,
+                deserializeGetUserPublicProfileKoaRequest,
+                serializeGetUserPublicProfileKoaResponse,
+            ), // TODO Replace bad controller
+            getUserListOfFollowedShops:
+                getUserListOfFollowedShopsControllerFactory(
+                    getUserListOfFollowedShops,
+                ),
         },
         products: {
             createProduct: createProductControllerFactory(
@@ -139,11 +154,6 @@ export const getDependencies = (): {
             ),
         },
         users: {
-            getPrivateSettings: getUserPublicProfileControllerFactory(
-                getUserPublicProfile,
-                deserializeGetUserPublicProfileKoaRequest,
-                serializeGetUserPublicProfileKoaResponse,
-            ), // TODO Replace bad controller
             getPublicProfile: getUserPublicProfileControllerFactory(
                 getUserPublicProfile,
                 deserializeGetUserPublicProfileKoaRequest,

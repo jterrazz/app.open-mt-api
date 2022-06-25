@@ -1,4 +1,4 @@
-import { createMockOfConfiguration } from '@configuration/__tests__/configuration.mock';
+import { createMockOfConfiguration } from '@configuration/__mocks__/configuration.mock';
 import { getApiStateFactory } from '@application/use-cases/api/get-api-state';
 import { useFakeTimers, useRealTimers } from '@tests/utils/timer';
 

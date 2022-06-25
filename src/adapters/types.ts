@@ -22,11 +22,14 @@ export interface IAdapterControllers {
     };
     users: {
         getPublicProfile: IKoaController;
-        getPrivateSettings: IKoaController;
     };
     products: {
         getProduct: IKoaController;
         createProduct: IKoaController;
         modifyProduct: IKoaController;
+    };
+    me: {
+        getUserListOfFollowedShops: IKoaController;
+        getPrivateSettings: IKoaController; // TODO Remove private notion
     };
 }

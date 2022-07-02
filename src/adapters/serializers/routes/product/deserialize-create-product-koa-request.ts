@@ -1,8 +1,5 @@
 import * as z from 'zod';
-import {
-    CurrencyEntity,
-    currencyEntitySchema,
-} from '@domain/currency/currency.entity';
+import { Currency, currencySchema } from '@domain/price/currency';
 import { IKoaDeserializer } from '@adapters/serializers/routes/koa-serializer';
 import { UserEntity } from '@domain/user/user.entity';
 import { zodErrorToUnprocessableEntityErrorWrapper } from '@application/utils/zod/zod-error-to-unprocessable-entity-error-wrapper';
@@ -12,7 +9,7 @@ export type DeserializeCreateProductKoaRequest = IKoaDeserializer<{
     productParams: {
         name: string;
         priceCentsAmount: number;
-        priceCurrency: CurrencyEntity;
+        priceCurrency: Currency;
     };
 }>;
 
@@ -23,7 +20,7 @@ export const deserializeCreateProductKoaRequest: DeserializeCreateProductKoaRequ
                 .object({
                     name: z.string(),
                     priceCentsAmount: z.number().int(),
-                    priceCurrency: currencyEntitySchema,
+                    priceCurrency: currencySchema,
                 })
                 .parse(ctx.request.body),
         );

@@ -1,9 +1,4 @@
-enum PaymentStatus {
-    validated,
-    initiated,
-    failed,
-    unknown,
-}
+import { PaymentStatus } from '@domain/payment/payment-status';
 
 export type PaymentEntity = {
     senderIban: string;

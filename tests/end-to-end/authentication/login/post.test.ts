@@ -1,4 +1,4 @@
-import { createEndToEndApplication } from '../../../utils/create-end-to-end-application';
+import { createEndToEndApplication } from '@tests/utils/create-end-to-end-application';
 import {
     seedDatabaseWithUser,
     seedExampleOfValidPassword,

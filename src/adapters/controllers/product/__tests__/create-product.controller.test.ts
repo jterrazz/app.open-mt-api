@@ -1,13 +1,16 @@
 import { AuthenticationRequiredClientError } from '@domain/error/client/authentication-required-client-error';
 import { ForbiddenClientError } from '@domain/error/client/forbidden-client-error';
 import { createMockOfInitiatedKoaContext } from '@infrastructure/webserver/__tests__/initiated-koa-context.mock';
+import { createMockOfProductEntity } from '@domain/product/__mocks__/product.entity.mock';
 import { createMockOfShopRepository } from '@domain/shop/__mocks__/shop.repository.mock';
 import { createMockOfUserEntity } from '@domain/user/__mocks__/user-entity.mock';
 import { createProductControllerFactory } from '@adapters/controllers/product/create-product.controller';
 
 const createMockOfArguments = () => {
     return {
-        mockOfCreateProduct: jest.fn(),
+        mockOfCreateProduct: jest
+            .fn()
+            .mockResolvedValue(createMockOfProductEntity()),
         mockOfDeserializer: jest.fn().mockReturnValue({
             authenticatedUser: createMockOfUserEntity(),
             productParams: {},
@@ -99,6 +102,7 @@ describe('createProductController()', () => {
             mockOfSerializer,
         } = createMockOfArguments();
         const mockOfCtx = createMockOfInitiatedKoaContext();
+        mockOfCreateProduct.mockResolvedValue(createMockOfProductEntity());
 
         // When
         await createProductControllerFactory(
@@ -109,6 +113,12 @@ describe('createProductController()', () => {
         )(mockOfCtx);
 
         // Then
-        expect(mockOfSerializer).toHaveBeenCalled();
+        // expect(mockOfSerializer).toHaveBeenCalled();
+        expect(mockOfCtx.status).toEqual(201);
+        expect(mockOfCtx.body).toEqual(
+            expect.objectContaining({
+                id: 0,
+            }),
+        );
     });
 });

@@ -134,7 +134,7 @@ export const getDependencies = (): {
                 deserializeCreateProductKoaRequest,
                 serializeCreateProductKoaResponse,
             ),
-            getProduct: getProductControllerFactory(),
+            getProduct: getProductControllerFactory(productRepository),
             modifyProduct: modifyProductControllerFactory(
                 modifyProductById,
                 deserializeModifyProductKoaRequest,

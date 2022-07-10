@@ -19,12 +19,13 @@ describe('END TO END - GET /products/:productId', () => {
         expect(response.status).toEqual(200);
 
         // FIXME
-        // expect(response.body).toEqual({
-        //     currency: seededProduct.priceCurrency,
-        //     description: seededProduct.description,
-        //     // imageUrl: seededProduct, // TODO
-        //     name: seededProduct.name,
-        //     price: seededProduct.priceCentsAmount,
-        // });
+        expect(response.body).toEqual({
+            // description: seededProduct.description,
+            id: seededProduct.id,
+            // imageUrl: seededProduct, // TODO
+            name: seededProduct.name,
+            priceCentsAmount: seededProduct.priceCentsAmount,
+            priceCurrency: seededProduct.priceCurrency,
+        });
     });
 });

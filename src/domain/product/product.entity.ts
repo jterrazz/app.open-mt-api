@@ -7,5 +7,5 @@ export interface ProductEntity {
     priceCentsAmount: number;
     priceCurrency: Currency;
     shop?: ShopEntity;
-    shopId: number;
+    shopId: number; // Make optional or even other typescript type
 }

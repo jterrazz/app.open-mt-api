@@ -5,6 +5,8 @@ import { ForbiddenClientError } from '@domain/error/client/forbidden-client-erro
 import { IInitiatedKoaController } from '@adapters/controllers/koa-controller';
 import { IShopRepository } from '@domain/shop/shop.repository';
 import { SerializeCreateProductKoaResponse } from '@adapters/serializers/routes/product/serialize-create-product-koa-response';
+import { StatusCodes } from 'http-status-codes';
+import { serializeProductForPublic } from '@adapters/serializers/routes/product/serialize-product-for-public';
 
 export const createProductControllerFactory = (
     createProduct: CreateProduct,
@@ -41,6 +43,10 @@ export const createProductControllerFactory = (
             shopEntity.id,
         );
 
-        serializeCreateProductKoaResponse(ctx, createdProduct);
+        // TODO Delete serializer, move tests to controller tests
+        // serializeCreateProductKoaResponse(ctx, createdProduct);
+
+        ctx.status = StatusCodes.CREATED;
+        ctx.body = serializeProductForPublic(createdProduct);
     };
 };
